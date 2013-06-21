@@ -1,20 +1,8 @@
 // ----------------------------------------------------------------------------
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-//
 
-#import "MSTableURLBuilder.h"
+#import "MSURLBuilder.h"
 #import "MSPredicateTranslator.h"
 
 
@@ -31,23 +19,23 @@ NSString *const filterParameter = @"$filter";
 NSString *const inlineCountParameter = @"$inlinecount";
 NSString *const inlineCountAllPage = @"allpages";
 NSString *const inlineCountNone = @"none";
-#pragma mark * MSTableURLBuilder Implementation
+#pragma mark * MSURLBuilder Implementation
 
 
-@implementation MSTableURLBuilder
+@implementation MSURLBuilder
 
 
 #pragma mark * Public URL Builder Methods
 
 
 +(NSURL *) URLForTable:(MSTable *)table
-        withParameters:(NSDictionary *)parameters
+        parameters:(NSDictionary *)parameters
                orError:(NSError **)error
 {
     NSURL *url = nil;
     
     // Ensure that the user parameters are valid if there are any
-    if ([MSTableURLBuilder userParametersAreValid:parameters orError:error]) {
+    if ([MSURLBuilder userParametersAreValid:parameters orError:error]) {
         
         // Create the table path
         NSString *tablePath = [NSString stringWithFormat:@"tables/%@", table.name];
@@ -57,7 +45,7 @@ NSString *const inlineCountNone = @"none";
         url = [table.client.applicationURL URLByAppendingPathComponent:tablePath];
         
         // Add the query parameters if any
-        url = [MSTableURLBuilder URLByAppendingQueryParameters:parameters
+        url = [MSURLBuilder URLByAppendingQueryParameters:parameters
                                                          toURL:url];
     }
     
@@ -65,13 +53,13 @@ NSString *const inlineCountNone = @"none";
 }
 
 +(NSURL *) URLForTable:(MSTable *)table
-      withItemIdString:(NSString *)itemId
-        withParameters:(NSDictionary *)parameters
+      itemIdString:(NSString *)itemId
+        parameters:(NSDictionary *)parameters
                orError:(NSError **)error
 {        
     // Get the URL for the table
     NSURL *url = [self URLForTable:table
-                    withParameters:parameters
+                    parameters:parameters
                            orError:error];
     
     // Add the itemId; NSURL will do the right thing and account for the
@@ -83,13 +71,57 @@ NSString *const inlineCountNone = @"none";
     return url;
 }
 
-+(NSURL *) URLForTable:(MSTable *)table withQuery:(NSString *)query
++(NSURL *) URLForTable:(MSTable *)table query:(NSString *)query
 {
     // Get the URL for the table; no need to pass in the error parameter because
     // only user-parameters can cause an error
-    NSURL *url = [self URLForTable:table withParameters:nil orError:nil];
+    NSURL *url = [self URLForTable:table parameters:nil orError:nil];
     
-    return [MSTableURLBuilder URLByAppendingQueryString:query toURL:url];
+    return [MSURLBuilder URLByAppendingQueryString:query toURL:url];
+}
+
++(NSURL *)URLForApi:(MSClient *)client
+            APIName:(NSString *)APIName
+            parameters:(NSDictionary *)parameters
+               orError:(NSError **)error
+{
+    NSURL *url = nil;
+    
+    // Ensure that the user parameters are valid if there are any
+    if ([MSURLBuilder userParametersAreValid:parameters orError:error]) {
+        
+        // Treat nil APIName as an empty string
+        if (!APIName) {
+            APIName = @"";
+        }
+        
+        // Create the API path
+        NSString *apiPath = [NSString stringWithFormat:@"api/%@", APIName];
+        
+        // Check for a query string in the APIName
+        NSString *apiQuery = nil;
+        NSUInteger queryStringStart = [apiPath rangeOfString:@"?"].location;
+        if (queryStringStart != NSNotFound) {
+            apiQuery = [apiPath substringFromIndex:queryStringStart + 1];
+            apiPath = [apiPath substringToIndex:queryStringStart];
+        }
+        
+        // Append it to the application URL; Don't percent encode the apiPath
+        // because URLByAppending will percent encode for us
+        url = [client.applicationURL URLByAppendingPathComponent:apiPath];
+        
+        // If there was a query on the APIName, add it back to the url
+        // we are building
+        if (apiQuery) {
+            url = [MSURLBuilder URLByAppendingQueryString:apiQuery toURL:url];
+        }
+        
+        // Add the query parameters if any
+        url = [MSURLBuilder URLByAppendingQueryParameters:parameters
+                                                    toURL:url];
+    }
+    
+    return url;
 }
 
 +(NSString *) queryStringFromQuery:(MSQuery *)query
@@ -99,7 +131,7 @@ NSString *const inlineCountNone = @"none";
     NSString *filterValue = nil;
     
     // Ensure that the user parameters are valid if there are any
-    if ([MSTableURLBuilder userParametersAreValid:[query parameters] orError:error]) {
+    if ([MSURLBuilder userParametersAreValid:[query parameters] orError:error]) {
         
         if (query.predicate) {
             // Translate the predicate into the filter first since it might error
@@ -119,14 +151,14 @@ NSString *const inlineCountNone = @"none";
             }
             
             // Add the $top parameter
-            if (query.fetchLimit > 0) {
+            if (query.fetchLimit >= 0) {
                 NSString *topValue = [NSString stringWithFormat:@"%u",
                                       query.fetchLimit];
                 [queryParameters setValue:topValue forKey:topParameter];
             }
             
             // Add the $skip parameter
-            if (query.fetchOffset > 0) {
+            if (query.fetchOffset >= 0) {
                 NSString *skipValue = [NSString stringWithFormat:@"%u",
                                        query.fetchOffset];
                 [queryParameters setValue:skipValue forKey:skipParameter];
@@ -166,7 +198,7 @@ NSString *const inlineCountNone = @"none";
                 [queryParameters addEntriesFromDictionary:query.parameters];
             }
             
-            queryString = [MSTableURLBuilder queryStringFromParameters:queryParameters];
+            queryString = [MSURLBuilder queryStringFromParameters:queryParameters];
         }
     }
     
@@ -222,8 +254,8 @@ NSString* encodeToPercentEscapeString(NSString *string) {
     if (queryParameters && queryParameters.count > 0) {
         
         NSString *queryString =
-            [MSTableURLBuilder queryStringFromParameters:queryParameters];
-        newUrl = [MSTableURLBuilder URLByAppendingQueryString:queryString
+            [MSURLBuilder queryStringFromParameters:queryParameters];
+        newUrl = [MSURLBuilder URLByAppendingQueryString:queryString
                                                         toURL:newUrl];
     }
     
@@ -268,7 +300,7 @@ NSString* encodeToPercentEscapeString(NSString *string) {
             // Ensure none of the user parameters start with the '$', as this
             // is reserved for system-defined query parameters
             if ([key length] > 0 && [key characterAtIndex:0] == '$') {
-                localError = [MSTableURLBuilder errorWithUserParameter:key];
+                localError = [MSURLBuilder errorWithUserParameter:key];
                 areValid = NO;
                 break;
             }

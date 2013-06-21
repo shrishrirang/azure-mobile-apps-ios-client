@@ -1,28 +1,16 @@
 // ----------------------------------------------------------------------------
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-//
 
 #import <SenTestingKit/SenTestingKit.h>
 #import "MSTable.h"
-#import "MSTableURLBuilder.h"
+#import "MSURLBuilder.h"
 
-@interface MSTableURLBuilderTests : SenTestCase
+@interface MSURLBuilderTests : SenTestCase
 
 @end
 
-@implementation MSTableURLBuilderTests
+@implementation MSURLBuilderTests
 
 
 #pragma mark * Setup and TearDown
@@ -79,8 +67,8 @@
         MSClient *client = [MSClient clientWithApplicationURLString:appURL];
         MSTable *table = [client tableWithName:tableName];
         
-        NSURL *url = [MSTableURLBuilder URLForTable:table
-                                     withParameters:nil
+        NSURL *url = [MSURLBuilder URLForTable:table
+                                     parameters:nil
                                             orError:nil];
         
         STAssertNotNil(url, @"url should not be nil");
@@ -131,8 +119,8 @@
         MSClient *client = [MSClient clientWithApplicationURLString:appURL];
         MSTable *table = [client tableWithName:tableName];
         
-        NSURL *url = [MSTableURLBuilder URLForTable:table
-                                     withParameters:parameters
+        NSURL *url = [MSURLBuilder URLForTable:table
+                                     parameters:parameters
                                             orError:nil];
         
         STAssertNotNil(url, @"url should not be nil");
@@ -152,8 +140,8 @@
     MSTable *table = [client tableWithName:tableName];
     
     
-    NSURL *url = [MSTableURLBuilder URLForTable:table
-                                 withParameters:parameters
+    NSURL *url = [MSURLBuilder URLForTable:table
+                                 parameters:parameters
                                         orError:&error];
     
     STAssertNil(url, @"url should be nil");
@@ -204,9 +192,9 @@
         MSClient *client = [MSClient clientWithApplicationURLString:appURL];
         MSTable *table = [client tableWithName:tableName];
         
-        NSURL *url = [MSTableURLBuilder URLForTable:table
-                                   withItemIdString:itemId
-                                     withParameters:nil
+        NSURL *url = [MSURLBuilder URLForTable:table
+                                   itemIdString:itemId
+                                     parameters:nil
                                             orError:nil];
         
         STAssertNotNil(url, @"url should not be nil");
@@ -256,9 +244,9 @@
         MSClient *client = [MSClient clientWithApplicationURLString:appURL];
         MSTable *table = [client tableWithName:tableName];
         
-        NSURL *url = [MSTableURLBuilder URLForTable:table
-                                   withItemIdString:itemId
-                                     withParameters:parameters
+        NSURL *url = [MSURLBuilder URLForTable:table
+                                   itemIdString:itemId
+                                     parameters:parameters
                                             orError:nil];
         
         STAssertNotNil(url, @"url should not be nil");
@@ -279,9 +267,9 @@
     MSTable *table = [client tableWithName:tableName];
     
     
-    NSURL *url = [MSTableURLBuilder URLForTable:table
-                               withItemIdString:itemId 
-                                 withParameters:parameters
+    NSURL *url = [MSURLBuilder URLForTable:table
+                               itemIdString:itemId 
+                                 parameters:parameters
                                         orError:&error];
     
     STAssertNil(url, @"url should be nil");
@@ -332,14 +320,114 @@
         MSClient *client = [MSClient clientWithApplicationURLString:appURL];
         MSTable *table = [client tableWithName:tableName];
         
-        NSURL *url = [MSTableURLBuilder URLForTable:table
-                                          withQuery:query];
+        NSURL *url = [MSURLBuilder URLForTable:table
+                                          query:query];
         
         STAssertNotNil(url, @"url should not be nil");
         STAssertTrue([[url absoluteString] isEqualToString:expectedURL],
                      @"the url was: %@", [url absoluteString]);
     }
 }
+
+-(void) testURLForApi
+{
+    // For each test case: the first element is the expected  URL;
+    // the second element is the app format URL; and third element is
+    // the table name
+    NSArray *testCases = @[
+    
+      // Vanilla test case
+      @[ @"http://someApp.com/api/someApi",
+         @"http://someApp.com",
+         @"someApi"],
+    
+      // App URL with extra slashes
+      @[ @"http://someApp.com/api/someApi/with/a/path",
+         @"http://someApp.com/",
+         @"someApi/with/a/path"],
+    
+      // App URL with query string
+      @[ @"http://someApp.com/api/someApi/with/a/path/and?x=y&some=query&string=yeah!",
+         @"http://someApp.com?x=y",
+         @"someApi/with/a/path/and?some=query&string=yeah!"],
+    
+      // Whitespace and path in App URL
+      @[ @"http://someApp.com/some%20path/api/some%20api",
+         @"http://someApp.com/some path",
+         @"some api"]
+    ];
+    
+    for (id testCase in testCases) {
+        
+        NSString *expectedURL = [testCase objectAtIndex:0];
+        NSString *appURL = [testCase objectAtIndex:1];
+        NSString *APIName = [testCase objectAtIndex:2];
+        
+        MSClient *client = [MSClient clientWithApplicationURLString:appURL];
+        
+        NSURL *url = [MSURLBuilder URLForApi:client
+                                     APIName:APIName
+                                  parameters:nil
+                                     orError:nil];
+        
+        STAssertNotNil(url, @"url should not be nil");
+        STAssertTrue([[url absoluteString] isEqualToString:expectedURL],
+                     @"the url was: %@", [url absoluteString]);
+    }
+}
+
+-(void) testURLForApiWithParameters
+{
+    // For each test case: the first element is the expected  URL;
+    // the second element is the app format URL; and third element is
+    // the table name and the forth element is the parameters
+    NSArray *testCases = @[
+    
+      // Vanilla test case
+      @[ @"http://someApp.com/api/someApi?x=5",
+         @"http://someApp.com",
+         @"someApi",
+         @{@"x" : @5}],
+    
+      // Parameters that should be URL encoded
+      @[ @"http://someApp.com/api/some/api/with/a/path?x=%23%3F%26$'%20encode%20me%21",
+         @"http://someApp.com/",
+         @"some/api/with/a/path",
+         @{@"x" : @"#?&$' encode me!"}],
+    
+      // App URL with query string
+      @[ @"http://someApp.com/api/someApi/with/a/path/and?x=y&some=query&string=yeah!&x=5",
+         @"http://someApp.com?x=y",
+         @"someApi/with/a/path/and?some=query&string=yeah!",
+         @{@"x" : @5}],
+    
+      // Whitespace and path in App URL
+      @[ @"http://someApp.com/some%20path/api/some%20api?%26encode=5",
+         @"http://someApp.com/some path",
+         @"some api",
+         @{@"&encode" : @5}]
+    ];
+    
+    for (id testCase in testCases) {
+        
+        NSString *expectedURL = [testCase objectAtIndex:0];
+        NSString *appURL = [testCase objectAtIndex:1];
+        NSString *APIName = [testCase objectAtIndex:2];
+        NSDictionary *parameters = [testCase objectAtIndex:3];
+        
+        MSClient *client = [MSClient clientWithApplicationURLString:appURL];
+        
+        NSURL *url = [MSURLBuilder URLForApi:client
+                                     APIName:APIName
+                                  parameters:parameters
+                                     orError:nil];
+        
+        STAssertNotNil(url, @"url should not be nil");
+        STAssertTrue([[url absoluteString] isEqualToString:expectedURL],
+                     @"the url was: %@", [url absoluteString]);
+    }
+}
+
 
 -(void) testQueryStringFromQueryEscapesPredicateConstants
 {
@@ -355,7 +443,7 @@
     
     MSQuery *query = [[MSQuery alloc] initWithTable:table predicate:predicate];
     
-    NSString *queryString = [MSTableURLBuilder queryStringFromQuery:query
+    NSString *queryString = [MSURLBuilder queryStringFromQuery:query
                                                             orError:nil];
     
     STAssertNotNil(queryString, @"queryString should not be nil");
@@ -382,7 +470,7 @@
         @"$key2": @"14",
     };
 
-    NSString *queryString = [MSTableURLBuilder queryStringFromQuery:query
+    NSString *queryString = [MSURLBuilder queryStringFromQuery:query
                                                             orError:&error];
     
     STAssertNil(queryString, @"queryString should be nil");
