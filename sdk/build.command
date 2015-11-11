@@ -31,7 +31,7 @@ if [ "$SET_BUILD_VERSION" == "YES" ]; then
 fi
 
 # Copy the framework into this directory and add the license
-rsync -rlK ../../sdk/iOS/Build/Release-iphoneos/WindowsAzureMobileServices.framework .
+rsync -rlK ../sdk/Build/Release-iphoneos/WindowsAzureMobileServices.framework .
 cp license.rtf WindowsAzureMobileServices.framework
 
 # Zip the framework
