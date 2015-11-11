@@ -7,7 +7,7 @@ mkdir Results
 
 DIR="$( pwd )"
 
-if [ $# -lt 6 ]
+if [ $# -lt 5 ]
 then
   #           $0 $1                  $2         $3                        $4           $5             $6 (optional)
   echo Usage: $0 \<Application URL\> \<device\> \<zumotestuser password\> \<Blob URL\> \<Blob Token\> \<iOSsdkZip\>
@@ -34,16 +34,18 @@ echo Device: $DEVICE_CMD_ARG
 # Build current app to test with
 pushd ZumoE2ETestApp
 
+rm -Rf $DIR/ZumoE2ETestApp/WindowsAzureMobileServices.framework
 if [ $6 ]
 then
+  rm -f sdk.zip
   # Copy specified framework
-  cp -f $6 sdk.zip
+  curl --location --output sdk.zip $6
+  unzip -o sdk.zip
 else
   # Copy in current version of the framework
-  curl --location --output sdk.zip https://zumo.blob.core.windows.net/sdk/azuresdk-iOS-v3.0.0-beta3.zip
+  bash $DIR/sdk/build.command
+  cp -R ../sdk/WindowsAzureMobileServices.framework .
 fi
-
-unzip -o sdk.zip
 
 xcodebuild -sdk iphonesimulator9.1 || exit 1
 
@@ -141,12 +143,12 @@ fi
 
 echo DEVICE_ARG: $DEVICE_ARG
 echo APP_NAME: $APP_NAME
-EscapedToken=${6//&/\\&}
+EscapedToken=${5//&/\\&}
 
 sed -e "s|--APPLICATION_URL--|$1|g" ZumoAutomationTemplate.js > ZumoAutomationWithData.js
-sed -e "s|--BLOB_URL--|$5|g" -i "" ZumoAutomationWithData.js
+sed -e "s|--BLOB_URL--|$4|g" -i "" ZumoAutomationWithData.js
 sed -e "s|--BLOB_TOKEN--|$EscapedToken|g" -i "" ZumoAutomationWithData.js
-sed -e "s|--AUTH_PASSWORD--|$4|g" -i "" ZumoAutomationWithData.js
+sed -e "s|--AUTH_PASSWORD--|$3|g" -i "" ZumoAutomationWithData.js
 
 echo Replaced data on template - now running instruments
 echo Args: DEVICE_ARG = $DEVICE_ARG
