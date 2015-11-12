@@ -347,11 +347,8 @@ static NSString *pushClientKey = @"PushClientKey";
                 return;
             }
         
-            NSDictionary *token = result[@"token"];
-            NSString *uid = token[@"payload"][@"uid"];
-            
-            client.currentUser = [[MSUser alloc] initWithUserId:uid];
-            client.currentUser.mobileServiceAuthenticationToken = token[@"rawData"];
+            client.currentUser = [[MSUser alloc] initWithUserId:result[@"userId"]];
+            client.currentUser.mobileServiceAuthenticationToken = result[@"authenticationToken"];
             
             [client.push registerDeviceToken:deviceToken completion:verifyRegister];
         };
