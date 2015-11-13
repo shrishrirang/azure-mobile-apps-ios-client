@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Azure Mobile Apps iOS SDK by Azure</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Azure Mobile Apps iOS SDK</h1>
+        <p>iOS Client SDK for Azure Mobile Apps</p>
+
+        <p class="view"><a href="https://github.com/Azure/azure-mobile-apps-ios-client">View the Project on GitHub <small>Azure/azure-mobile-apps-ios-client</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/Azure/azure-mobile-apps-ios-client/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Azure/azure-mobile-apps-ios-client/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/Azure/azure-mobile-apps-ios-client">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="microsoft-azure-mobile-apps" class="anchor" href="#microsoft-azure-mobile-apps" aria-hidden="true"><span class="octicon octicon-link"></span></a>Microsoft Azure Mobile Apps</h1>
+
+<p>With Microsoft Azure Mobile Apps you can add a scalable backend to your connected client applications in minutes. To learn more, visit our <a href="http://azure.microsoft.com/en-us/develop/mobile">Developer Center</a>.</p>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<p>If you are new to Mobile Apps, you can get started by following our tutorials for connecting your Mobile
+Apps cloud backend to <a href="http://azure.microsoft.com/en-us/documentation/articles/mobile-services-ios-get-started/">iOS apps</a>.</p>
+
+<h2>
+<a id="download-source-code" class="anchor" href="#download-source-code" aria-hidden="true"><span class="octicon octicon-link"></span></a>Download Source Code</h2>
+
+<p>To get the source code of our SDKs and samples via <strong>git</strong> just type:</p>
+
+<pre><code>git clone https://github.com/Azure/azure-mobile-apps-iOS-client.git
+cd ./azure-mobile-apps-iOS-client/
+</code></pre>
+
+<h2>
+<a id="reference-documentation" class="anchor" href="#reference-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reference Documentation</h2>
+
+<ul>
+<li><a href="http://azure.github.io/azure-mobile-apps-ios-client/v3">iOS</a></li>
+</ul>
+
+<h2>
+<a id="change-log" class="anchor" href="#change-log" aria-hidden="true"><span class="octicon octicon-link"></span></a>Change log</h2>
+
+<ul>
+<li><a href="CHANGELOG.md">iOS SDK</a></li>
+</ul>
+
+<h2>
+<a id="ios-client-sdk" class="anchor" href="#ios-client-sdk" aria-hidden="true"><span class="octicon octicon-link"></span></a>iOS Client SDK</h2>
+
+<p>Add a cloud backend to your iOS application in minutes with our iOS client SDK. You can <a href="https://go.microsoft.com/fwLink/?LinkID=266533&amp;clcid=0x409">download the iOS SDK</a> directly or you can download the source code using the instructions above.  </p>
+
+<h3>
+<a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span class="octicon octicon-link"></span></a>Prerequisites</h3>
+
+<p>The SDK requires XCode 7.0 or greater.</p>
+
+<h3>
+<a id="building-and-referencing-the-sdk" class="anchor" href="#building-and-referencing-the-sdk" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building and Referencing the SDK</h3>
+
+<ol>
+<li>Open the <code>sdk\WindowsAzureMobileServices.xcodeproj</code> file in XCode.</li>
+<li>Set the active scheme option to <code>Framework\iOS Device</code>.</li>
+<li>Build the project using Command-B. The <code>WindowsAzureMobileServices.framework</code> folder should be found in the build output folder under <code>Products\&lt;build configuration&gt;-iphoneos</code>.</li>
+<li>Drag and drop the <code>WindowsAzureMobileServices.framework</code> from a Finder window into the Frameworks folder of the Project Navigator panel of your iOS application XCode project.</li>
+</ol>
+
+<h3>
+<a id="running-the-unit-tests" class="anchor" href="#running-the-unit-tests" aria-hidden="true"><span class="octicon octicon-link"></span></a>Running the Unit Tests</h3>
+
+<ol>
+<li>Open the <code>sdk\WindowsAzureMobileServices.xcodeproj</code> file in XCode.</li>
+<li>Set the active scheme option to <code>WindowsAzureMobileServices\* Simulator</code>.</li>
+<li>Open the <code>Test\WindowsAzureMobileServicesFunctionalTests.m</code> file in the Project Navigator panel of XCode.</li>
+<li>In the <code>settings.plist</code> file, set <code>TestAppUrl</code> and <code>TestAppApplicationKey</code> to a valid URL and Application Key for a working Mobile Service.</li>
+<li>Run the tests using Command-U.</li>
+</ol>
+
+<h3>
+<a id="running-the-e2e-tests" class="anchor" href="#running-the-e2e-tests" aria-hidden="true"><span class="octicon octicon-link"></span></a>Running the E2E Tests</h3>
+
+<ol>
+<li>Create a test server to test against, see: <a href="https://github.com/Azure/azure-mobile-services-test">E2E Test Suite</a>
+</li>
+<li>Open the <code>ZumoE2ETestApp\ZumoE2ETestApp.xcodeproj</code> file in XCode.</li>
+<li>Drag a copy of the <code>WindowsAzureMobileServices.framework</code> into the project</li>
+<li>Pick the device to test and run the project</li>
+</ol>
+
+<h2>
+<a id="useful-resources" class="anchor" href="#useful-resources" aria-hidden="true"><span class="octicon octicon-link"></span></a>Useful Resources</h2>
+
+<ul>
+<li><a href="https://github.com/Azure/azure-mobile-services-quickstarts">Quickstarts</a></li>
+<li><a href="https://github.com/Azure/azure-mobile-services-test">E2E Test Suite</a></li>
+<li><a href="https://github.com/Azure/mobile-services-samples">Samples</a></li>
+<li>Tutorials and product overview are available at <a href="http://azure.microsoft.com/en-us/develop/mobile">Microsoft Azure Mobile Services Developer Center</a>.</li>
+<li>Our product team actively monitors the <a href="http://social.msdn.microsoft.com/Forums/en-US/azuremobile/">Mobile Services Developer Forum</a> to assist you with any troubles.</li>
+</ul>
+
+<h2>
+<a id="contribute-code-or-provide-feedback" class="anchor" href="#contribute-code-or-provide-feedback" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contribute Code or Provide Feedback</h2>
+
+<p>If you would like to become an active contributor to this project please follow the instructions provided in <a href="http://azure.github.com/guidelines.html">Microsoft Azure Projects Contribution Guidelines</a>.</p>
+
+<p>If you encounter any bugs with the library please file an issue in the <a href="https://github.com/Azure/azure-mobile-services/issues">Issues</a> section of the project.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/Azure">Azure</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
