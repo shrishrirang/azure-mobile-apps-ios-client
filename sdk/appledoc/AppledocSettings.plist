@@ -48,7 +48,7 @@
 	<key>--project-company</key>
 	<string>Microsoft</string>
 	<key>--project-name</key>
-	<string>Azure Mobile Services</string>
+	<string>Azure Mobile Apps</string>
 	<key>--keep-undocumented-objects</key>
 	<true/>
 	<key>--keep-undocumented-members</key>
