@@ -70,6 +70,9 @@
 -(BOOL) deleteItemsWithIds:(nonnull NSArray<NSString *> *)items table:(nonnull NSString *)table orError:(NSError * __nullable * __nullable)error;
 
 /// Should remove all entries from the specified table in the local store
+/// @param query query that should be used to find records to be removed
+/// @param error error object to be set in the event an error occurs
+/// @returns Boolean indicating whether the delete was successful
 -(BOOL) deleteUsingQuery:(nonnull MSQuery *)query orError:(NSError * __nullable * __nullable)error;
 
 /// @}
@@ -79,8 +82,9 @@
 
 @optional
 
-/// Returns the MSSystemProperties that should be stored locally (example: __createdAt, __updatedAt)
-/// If not implemented, the default of __version will be asked for from the server
+/// Returns the MSSystemProperties that have columns in the local database (example: createdAt, updatedAt)
+/// If not implemented, a default of version may be assumed
+/// @param table name of the table to get system properties for
 -(NSUInteger) systemPropertiesForTable:(nonnull NSString *)table;
 
 /// @}

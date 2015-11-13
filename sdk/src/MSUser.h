@@ -18,6 +18,7 @@
 ///@{
 
 /// Initializes an *MSUser* instance with the given user id.
+/// @param userId Unique identifier for the user
 -(nonnull instancetype)initWithUserId:(nullable NSString *)userId;
 
 ///@}
@@ -27,7 +28,6 @@
 ///@{
 
 #pragma mark * Public Readonly Properties
-
 
 /// The user id of the end user.
 @property (nonatomic, copy, readonly, nullable)   NSString *userId;
