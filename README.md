@@ -18,15 +18,12 @@ To get the source code of our SDKs and samples via **git** just type:
 
 ## Reference Documentation
 
-#### Azure App Service Mobile Apps
-* [iOS](http://azure.github.io/azure-mobile-services/iOS/v3)
+* [Client SDK](http://azure.github.io/azure-mobile-services/iOS/v3)
 
-## Change log
-
-- [iOS SDK](CHANGELOG.md)
+* [Change log](CHANGELOG.md)
 
 ## iOS Client SDK
-Add a cloud backend to your iOS application in minutes with our iOS client SDK. You can [download the iOS SDK](https://go.microsoft.com/fwLink/?LinkID=266533&clcid=0x409) directly or you can download the source code using the instructions above.  
+Add a cloud backend to your iOS application in minutes with our iOS client SDK. You can [download the iOS SDK](https://go.microsoft.com/fwLink/?LinkID=529823&clcid=0x409) directly or you can download the source code using the instructions above.  
 
 ### Prerequisites
 
