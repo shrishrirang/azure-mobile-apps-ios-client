@@ -32,7 +32,7 @@ export DEVICE_CMD_ARG=$2
 echo Device: $DEVICE_CMD_ARG
 
 # Build current app to test with
-pushd ZumoE2ETestApp
+pushd e2etest
 
 rm -Rf $DIR/ZumoE2ETestApp/WindowsAzureMobileServices.framework
 if [ $6 ]
@@ -54,25 +54,25 @@ popd
 if [ "$DEVICE_CMD_ARG" == "iPad2Sim" ]; then
   echo Using iPad 2 Simulator
   export DEVICE_ARG=iPad\ 2\ \(9.1\)
-  APP_NAME=$DIR/ZumoE2ETestApp/build/Release-iphonesimulator/ZumoE2ETestApp.app
+  APP_NAME=$DIR/e2etest/build/Release-iphonesimulator/ZumoE2ETestApp.app
 fi
 
 if [ "$DEVICE_CMD_ARG" == "iPadSimAir" ]; then
   echo Using iPad Air Simulator
   export DEVICE_ARG=iPad\ Air\ \(9.1\)
-  APP_NAME=$DIR/ZumoE2ETestApp/build/Release-iphonesimulator/ZumoE2ETestApp.app
+  APP_NAME=$DIR/e2etest/build/Release-iphonesimulator/ZumoE2ETestApp.app
 fi
 
 if [ "$DEVICE_CMD_ARG" == "iPadSimAir2" ]; then
   echo Using iPad Air 2 Simulator
   export DEVICE_ARG=iPad\ Air\ 2\ \(9.1\)
-  APP_NAME=$DIR/ZumoE2ETestApp/build/Release-iphonesimulator/ZumoE2ETestApp.app
+  APP_NAME=$DIR/e2etest/build/Release-iphonesimulator/ZumoE2ETestApp.app
 fi
 
 if [ "$DEVICE_CMD_ARG" == "iPadSimPro" ]; then
   echo Using iPad Pro Simulator
   export DEVICE_ARG=iPad\ Pro\ \(9.1\)
-  APP_NAME=$DIR/ZumoE2ETestApp/build/Release-iphonesimulator/ZumoE2ETestApp.app
+  APP_NAME=$DIR/e2etest/build/Release-iphonesimulator/ZumoE2ETestApp.app
 fi
 
 if [ "$DEVICE_CMD_ARG" == "iPadSimRetina" ]; then
@@ -90,25 +90,25 @@ fi
 if [ "$DEVICE_CMD_ARG" == "iPhoneSim5" ]; then
   echo Using iPhone 5 Simulator
   export DEVICE_ARG=iPhone\ 5\ \(9.1\)
-  APP_NAME=$DIR/ZumoE2ETestApp/build/Release-iphonesimulator/ZumoE2ETestApp.app
+  APP_NAME=$DIR/e2etest/build/Release-iphonesimulator/ZumoE2ETestApp.app
 fi
 
 if [ "$DEVICE_CMD_ARG" == "iPhoneSim5s" ]; then
   echo Using iPhone 5s Simulator
   export DEVICE_ARG=iPhone\ 5s\ \(9.1\)
-  APP_NAME=$DIR/ZumoE2ETestApp/build/Release-iphonesimulator/ZumoE2ETestApp.app
+  APP_NAME=$DIR/e2etest/build/Release-iphonesimulator/ZumoE2ETestApp.app
 fi
 
 if [ "$DEVICE_CMD_ARG" == "iPhoneSim6" ]; then
   echo Using iPhone 6 Simulator
   export DEVICE_ARG=iPhone\ 6\ \(9.1\)
-  APP_NAME=$DIR/ZumoE2ETestApp/build/Release-iphonesimulator/ZumoE2ETestApp.app
+  APP_NAME=$DIR/e2etest/build/Release-iphonesimulator/ZumoE2ETestApp.app
 fi
 
 if [ "$DEVICE_CMD_ARG" == "iPhoneSim6Plus" ]; then
   echo Using iPhone 6 Plus Simulator
   export DEVICE_ARG=iPhone\ 6\ Plus\ \(9.1\)
-  APP_NAME=$DIR/ZumoE2ETestApp/build/Release-iphonesimulator/ZumoE2ETestApp.app
+  APP_NAME=$DIR/e2etest/build/Release-iphonesimulator/ZumoE2ETestApp.app
 fi
 
 if [ "$DEVICE_CMD_ARG" == "iPhoneSim6s" ]; then
@@ -126,13 +126,13 @@ fi
 if [ "$DEVICE_CMD_ARG" == "iPhoneSim6sPlus" ]; then
   echo Using iPhone 6s Plus Simulator
   export DEVICE_ARG=iPhone\ 6s\ \(9.1\)
-  APP_NAME=$DIR/ZumoE2ETestApp/build/Release-iphonesimulator/ZumoE2ETestApp.app
+  APP_NAME=$DIR/e2etest/build/Release-iphonesimulator/ZumoE2ETestApp.app
 fi
 
 if [ "$DEVICE_CMD_ARG" == "iPhoneSim6sPlusWatch" ]; then
   echo Using iPhone 6s Plus Simulator + Apple Watch
   export DEVICE_ARG=iPhone\ 6s\ Plus\ \(9.1\)\ +\ Apple\ Watch\ -\ 42mm\ \(2.0\)
-  APP_NAME=$DIR/ZumoE2ETestApp/build/Release-iphonesimulator/ZumoE2ETestApp.app
+  APP_NAME=$DIR/e2etest/build/Release-iphonesimulator/ZumoE2ETestApp.app
 fi
 
 if [ "$APP_NAME" == "" ]
