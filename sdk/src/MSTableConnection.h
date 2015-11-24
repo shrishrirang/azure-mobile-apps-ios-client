@@ -4,7 +4,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MSClientConnection.h"
-#import "BlockDefinitions.h"
+#import "MSBlockDefinitions.h"
 
 @class MSTable;
 @class MSTableItemRequest;

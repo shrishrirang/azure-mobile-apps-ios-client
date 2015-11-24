@@ -2,8 +2,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
 
-#ifndef WindowsAzureMobileServices_MSError_h
-#define WindowsAzureMobileServices_MSError_h
+#ifndef MicrosoftAzureMobile_MSError_h
+#define MicrosoftAzureMobile_MSError_h
 
 #import <Foundation/Foundation.h>
 
@@ -132,47 +132,47 @@ extern NSString *const MSErrorPushResultKey;
 /// server) for an unknown reason.
 #define MSPullAbortedUnknown                    -1190
 
-/// Indicates that the response from the Windows Azure Mobile Service did not
+/// Indicates that the response from the Microsoft Azure Mobile App did not
 /// include an item as expected.
 #define MSExpectedItemWithResponse              -1201
 
-/// Indicates that the response from the Microsoft Azure Mobile Service did not
+/// Indicates that the response from the Microsoft Azure Mobile App did not
 /// include an array of items as expected.
 #define MSExpectedItemsWithResponse             -1202
 
-/// Indicates that the response from the Microsoft Azure Mobile Service did not
+/// Indicates that the response from the Microsoft Azure Mobile App did not
 /// include a total count as expected.
 #define MSExpectedTotalCountWithResponse        -1203
 
-/// Indicates that the response from the Microsoft Azure Mobile Service did not
+/// Indicates that the response from the Microsoft Azure Mobile App did not
 /// have body content as expected.
 #define MSExpectedBodyWithResponse              -1204
 
-/// Indicates that the response from the Microsoft Azure Mobile Service indicated
+/// Indicates that the response from the Microsoft Azure Mobile App indicated
 /// there was an error but that an error message was not provided.
 #define MSErrorNoMessageErrorCode               -1301
 
-/// Indicates that the response from the Microsoft Azure Mobile Service indicated
+/// Indicates that the response from the Microsoft Azure Mobile App indicated
 /// there was an error and an error message was provided.
 #define MSErrorMessageErrorCode                 -1302
 
-/// Indicates that the response from the Microsoft Azure Mobile Service indicated
+/// Indicates that the response from the Microsoft Azure Mobile App indicated
 /// there was an error
 #define MSErrorPreconditionFailed               -1303
 
-/// Indicates that a request to the Microsoft Azure Mobile Service failed because
+/// Indicates that a request to the Microsoft Azure Mobile App failed because
 /// the *NSPredicate* used in the query could not be translated into a query
 /// string supported by the Microsoft Azure Mobile Service.
 #define MSPredicateNotSupported                 -1400
 
-/// Indicates that a request to the Windows Azure Mobile Service failed because
+/// Indicates that a request to the Microsoft Azure Mobile App failed because
 /// a invalid parameter was passed to the function
 #define MSInvalidParameter                      -1401
 
 /// Indicates that the login operation has failed.
 #define MSLoginFailed                           -1501
 
-/// Indicates that the Microsoft Azure Mobile Service returned a login response
+/// Indicates that the Microsoft Azure Mobile App returned a login response
 /// with invalid syntax.
 #define MSLoginInvalidResponseSyntax            -1502
 

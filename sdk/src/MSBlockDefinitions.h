@@ -2,8 +2,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
 
-#ifndef WindowsAzureMobileServices_BlockDefinitions_h
-#define WindowsAzureMobileServices_BlockDefinitions_h
+#ifndef MicrosoftAzureMobile_BlockDefinitions_h
+#define MicrosoftAzureMobile_BlockDefinitions_h
 
 #import <Foundation/Foundation.h>
 

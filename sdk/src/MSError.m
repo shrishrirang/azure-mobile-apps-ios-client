@@ -8,13 +8,13 @@
 #pragma mark * MSErrorDomain
 
 
-NSString *const MSErrorDomain = @"com.Microsoft.WindowsAzureMobileServices.ErrorDomain";
+NSString *const MSErrorDomain = @"com.Microsoft.MicrosoftAzureMobile.ErrorDomain";
 
 
 #pragma mark * UserInfo Request and Response Keys
 
 
-NSString *const MSErrorRequestKey = @"com.Microsoft.WindowsAzureMobileServices.ErrorRequestKey";
-NSString *const MSErrorResponseKey = @"com.Microsoft.WindowsAzureMobileServices.ErrorResponseKey";
-NSString *const MSErrorServerItemKey = @"com.Microsoft.WindowsAzureMobileServices.ErrorServerItemKey";
-NSString *const MSErrorPushResultKey = @"com.Microsoft.WindowsAzureMobileServices.ErrorPushResultKey";
+NSString *const MSErrorRequestKey = @"com.Microsoft.MicrosoftAzureMobile.ErrorRequestKey";
+NSString *const MSErrorResponseKey = @"com.Microsoft.MicrosoftAzureMobile.ErrorResponseKey";
+NSString *const MSErrorServerItemKey = @"com.Microsoft.MicrosoftAzureMobile.ErrorServerItemKey";
+NSString *const MSErrorPushResultKey = @"com.Microsoft.MicrosoftAzureMobile.ErrorPushResultKey";

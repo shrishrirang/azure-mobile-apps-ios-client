@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
 
-#import <WindowsAzureMobileServices/WindowsAzureMobileServices.h>
+#import "MicrosoftAzureMobile.h"
 
 @interface MSTable (MSTableTestUtilities)
 -(void) deleteAllItemsWithCompletion:(void (^)(NSError *error))completion;

@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name         = "AzureMobileApps"
+  s.name         = "MicrosoftAzureMobile"
   s.version      = "3.0.0"
   s.summary      = "Client SDK for working with Azure Mobile Apps."
   s.homepage     = "http://azure.github.io/azure-mobile-apps-ios-client"
@@ -14,8 +14,8 @@ Pod::Spec.new do |s|
   s.source_files  = "sdk/src"
   s.exclude_files = "Classes/Exclude"
   s.public_header_files = [
-    "sdk/src/WindowsAzureMobileServices.h",
-    "sdk/src/BlockDefinitions.h",
+    "sdk/src/MicrosoftAzureMobile.h",
+    "sdk/src/MSBlockDefinitions.h",
     "sdk/src/MSClient.h",
     "sdk/src/MSCoreDataStore.h",
     "sdk/src/MSDateOffset.h",

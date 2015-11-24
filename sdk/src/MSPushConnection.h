@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
 
-#import "BlockDefinitions.h"
+#import "MSBlockDefinitions.h"
 #import "MSClientConnection.h"
 
 @class MSPushConnection;

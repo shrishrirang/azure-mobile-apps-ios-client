@@ -5,7 +5,7 @@
 #import "ZumoMiscTests.h"
 #import "ZumoTest.h"
 #import "ZumoTestGlobals.h"
-#import <WindowsAzureMobileServices/WindowsAzureMobileServices.h>
+#import <MicrosoftAzureMobile/MicrosoftAzureMobile.h>
 
 // Private classes
 
@@ -41,7 +41,7 @@
     _requestHeaders = [NSMutableDictionary new];
     [_requestHeaders setValuesForKeysWithDictionary:headers];
     userAgent = request.allHTTPHeaderFields[@"User-Agent"];
-    NSString *clientVersion = [NSString stringWithFormat:@"%d.%d.%d.0", WindowsAzureMobileServicesSdkMajorVersion, WindowsAzureMobileServicesSdkMinorVersion, WindowsAzureMobileServicesSdkBuildVersion];
+    NSString *clientVersion = [NSString stringWithFormat:@"%d.%d.%d.0", MicrosoftAzureMobileSdkMajorVersion, MicrosoftAzureMobileSdkMinorVersion, MicrosoftAzureMobileSdkBuildVersion];
     [[[ZumoTestGlobals sharedInstance] globalTestParameters] setObject:clientVersion forKey:CLIENT_VERSION_KEY];
     onNext(request, ^(NSHTTPURLResponse *response, NSData *data, NSError *error) {
         NSDictionary *respHeaders = [response allHeaderFields];

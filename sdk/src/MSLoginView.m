@@ -9,13 +9,13 @@
 #pragma mark * MSLoginViewErrorDomain
 
 
-NSString *const MSLoginViewErrorDomain = @"com.Microsoft.WindowsAzureMobileServices.LoginViewErrorDomain";
+NSString *const MSLoginViewErrorDomain = @"com.Microsoft.MicrosoftAzureMobile.LoginViewErrorDomain";
 
 
 #pragma mark * UserInfo Request and Response Keys
 
 
-NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.WindowsAzureMobileServices.LoginViewErrorResponseData";
+NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMobile.LoginViewErrorResponseData";
 
 
 #pragma mark * MSLoginController Private Interface

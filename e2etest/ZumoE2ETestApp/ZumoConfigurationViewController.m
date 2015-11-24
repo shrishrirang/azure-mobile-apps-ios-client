@@ -6,6 +6,7 @@
 #import "ZumoMainTableViewController.h"
 #import "ZumoTestStore.h"
 #import "ZumoTestGlobals.h"
+#import <MicrosoftAzureMobile/MicrosoftAzureMobile.h>
 
 @interface ZumoConfigurationViewController () <UITextFieldDelegate>
 

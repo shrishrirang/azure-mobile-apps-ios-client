@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------------------
 
 #import <Foundation/Foundation.h>
-#import "BlockDefinitions.h"
+#import "MSBlockDefinitions.h"
 #import "MSSDKFeatures.h"
 
 @class MSTableItemRequest;

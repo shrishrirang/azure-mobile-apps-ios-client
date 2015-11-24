@@ -34,7 +34,7 @@ echo Device: $DEVICE_CMD_ARG
 # Build current app to test with
 pushd e2etest
 
-rm -Rf $DIR/ZumoE2ETestApp/WindowsAzureMobileServices.framework
+rm -Rf $DIR/ZumoE2ETestApp/MicrosoftAzureMobile.framework
 if [ $6 ]
 then
   rm -f sdk.zip
@@ -44,7 +44,7 @@ then
 else
   # Copy in current version of the framework
   bash $DIR/sdk/build.command
-  cp -R ../sdk/WindowsAzureMobileServices.framework .
+  cp -R ../sdk/MicrosoftAzureMobile.framework .
 fi
 
 xcodebuild -sdk iphonesimulator9.1 || exit 1

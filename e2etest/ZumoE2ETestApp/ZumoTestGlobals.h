@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------------------
 
 #import <Foundation/Foundation.h>
-#import <WindowsAzureMobileServices/WindowsAzureMobileServices.h>
+#import <MicrosoftAzureMobile/MicrosoftAzureMobile.h>
 
 typedef void (^ZumoHttpRequestCompletion)(NSHTTPURLResponse *response, NSData *responseBody, NSError *error);
 
