@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------------------
 
 #import <Foundation/Foundation.h>
-#import <WindowsAzureMobileServices/WindowsAzureMobileServices.h>
+#import <MicrosoftAzureMobile/MicrosoftAzureMobile.h>
 
 // Useful for debugging - dumps HTTP requests and responses to the output console.
 @interface TestLoggingFilter : NSObject<MSFilter>

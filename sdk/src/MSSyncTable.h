@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------------------
 
 #import <Foundation/Foundation.h>
-#import "BlockDefinitions.h"
+#import "MSBlockDefinitions.h"
 
 @class MSClient;
 @class MSQuery;
@@ -13,7 +13,7 @@
 @class MSQueuePullOperation;
 @class MSQueuePurgeOperation;
 
-/// The *MSSyncTable* class represents a table of a Windows Azure Mobile Service.
+/// The *MSSyncTable* class represents a table of a Microsoft Azure Mobile App.
 /// Items can be inserted, updated, deleted and read from the table. The table
 /// can also be queried to retrieve an array of items that meet the given query
 /// conditions. All table operations result in a request to the local store
@@ -67,16 +67,16 @@
 ///@name Retreiving Local Items
 ///@{
 
-/// Sends a request to the Windows Azure Mobile Service to return the item
+/// Sends a request to the Microsoft Azure Mobile App to return the item
 /// with the given id from the table.
 -(void)readWithId:(nonnull NSString *)itemId completion:(nullable MSItemBlock)completion;
 
-/// Sends a request to the Windows Azure Mobile Service to return all items
-/// from the table. The Windows Azure Mobile Service will apply a default
+/// Sends a request to the Microsoft Azure Mobile App to return all items
+/// from the table. The Microsoft Azure Mobile App will apply a default
 /// limit to the number of items returned.
 -(void)readWithCompletion:(nullable MSReadQueryBlock)completion;
 
-/// Sends a request to the Windows Azure Mobile Service to return all items
+/// Sends a request to the Microsoft Azure Mobile App to return all items
 /// from the table that meet the conditions of the given predicate.
 -(void)readWithPredicate:(nullable NSPredicate *)predicate
               completion:(nullable MSReadQueryBlock)completion;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "0710"
-   version = "1.3">
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
@@ -14,24 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5A4FAC5C1B050A870027011D"
-               BuildableName = "WindowsAzureMobileServices.framework"
-               BlueprintName = "WindowsAzureMobileServicesFramework"
-               ReferencedContainer = "container:WindowsAzureMobileServices.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5A4FAC661B050A880027011D"
-               BuildableName = "WindowsAzureMobileServicesFrameworkTests.xctest"
-               BlueprintName = "WindowsAzureMobileServicesFrameworkTests"
-               ReferencedContainer = "container:WindowsAzureMobileServices.xcodeproj">
+               BlueprintIdentifier = "E8F33ADA1616659C002DD7C6"
+               BuildableName = "libMicrosoftAzureMobile.a"
+               BlueprintName = "MicrosoftAzureMobile"
+               ReferencedContainer = "container:MicrosoftAzureMobile.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,19 +33,31 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E8F33AEB1616659C002DD7C6"
-               BuildableName = "WindowsAzureMobileServicesTests.xctest"
-               BlueprintName = "WindowsAzureMobileServicesTests"
-               ReferencedContainer = "container:WindowsAzureMobileServices.xcodeproj">
+               BuildableName = "MicrosoftAzureMobile.xctest"
+               BlueprintName = "MicrosoftAzureMobileTests"
+               ReferencedContainer = "container:MicrosoftAzureMobile.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "MSTableFuncTests">
+               </Test>
+               <Test
+                  Identifier = "WindowsAzureMobileServicesFunctionalTests">
+               </Test>
+            </SkippedTests>
+            <LocationScenarioReference
+               identifier = "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
+               referenceType = "1">
+            </LocationScenarioReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5A4FAC5C1B050A870027011D"
-            BuildableName = "WindowsAzureMobileServices.framework"
-            BlueprintName = "WindowsAzureMobileServicesFramework"
-            ReferencedContainer = "container:WindowsAzureMobileServices.xcodeproj">
+            BlueprintIdentifier = "E8F33ADA1616659C002DD7C6"
+            BuildableName = "libMicrosoftAzureMobile.a"
+            BlueprintName = "MicrosoftAzureMobile"
+            ReferencedContainer = "container:MicrosoftAzureMobile.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -78,10 +76,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5A4FAC5C1B050A870027011D"
-            BuildableName = "WindowsAzureMobileServices.framework"
-            BlueprintName = "WindowsAzureMobileServicesFramework"
-            ReferencedContainer = "container:WindowsAzureMobileServices.xcodeproj">
+            BlueprintIdentifier = "E8F33ADA1616659C002DD7C6"
+            BuildableName = "libMicrosoftAzureMobile.a"
+            BlueprintName = "MicrosoftAzureMobile"
+            ReferencedContainer = "container:MicrosoftAzureMobile.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -93,15 +91,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5A4FAC5C1B050A870027011D"
-            BuildableName = "WindowsAzureMobileServices.framework"
-            BlueprintName = "WindowsAzureMobileServicesFramework"
-            ReferencedContainer = "container:WindowsAzureMobileServices.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

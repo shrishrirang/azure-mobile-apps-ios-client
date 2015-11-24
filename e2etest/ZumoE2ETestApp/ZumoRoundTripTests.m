@@ -5,7 +5,6 @@
 #import "ZumoRoundTripTests.h"
 #import "ZumoTest.h"
 #import "ZumoTestGlobals.h"
-#import <WindowsAzureMobileServices/WindowsAzureMobileServices.h>
 
 @implementation ZumoRoundTripTests
 

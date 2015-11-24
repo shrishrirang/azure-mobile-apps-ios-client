@@ -7,7 +7,7 @@
 #import <UIKit/UIKit.h>
 #endif
 #import "MSError.h"
-#import "BlockDefinitions.h"
+#import "MSBlockDefinitions.h"
 
 @class MSTable;
 @class MSUser;

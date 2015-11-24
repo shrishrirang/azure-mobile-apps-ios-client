@@ -3,7 +3,6 @@
 // ----------------------------------------------------------------------------
 
 #import "ZumoQueryTests.h"
-#import <WindowsAzureMobileServices/WindowsAzureMobileServices.h>
 #import "ZumoTestGlobals.h"
 #import "ZumoTest.h"
 #import "ZumoQueryTestData.h"

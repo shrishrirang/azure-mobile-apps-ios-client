@@ -5,7 +5,7 @@
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
 #endif
-#import "BlockDefinitions.h"
+#import "MSBlockDefinitions.h"
 
 @class MSClient;
 @class MSLoginController;

@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------------------
 
 #import <UIKit/UIKit.h>
-#import "BlockDefinitions.h"
+#import "MSBlockDefinitions.h"
 
 @class MSClient;
 @class MSUser;

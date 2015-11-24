@@ -5,7 +5,6 @@
 #import "ZumoLoginTests.h"
 #import "ZumoTest.h"
 #import "ZumoTestGlobals.h"
-#import <WindowsAzureMobileServices/WindowsAzureMobileServices.h>
 
 @interface TimerTarget : NSObject
 {

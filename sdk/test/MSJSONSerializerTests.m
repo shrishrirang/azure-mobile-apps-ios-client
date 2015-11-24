@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------------------
 
 #import <XCTest/XCTest.h>
-#import "WindowsAzureMobileServices.h"
+#import "MicrosoftAzureMobile.h"
 #import "MSJSONSerializer.h"
 #import "MSClientConnection.h"
 #import "MSTable+MSTableTestUtilities.h"
