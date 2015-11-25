@@ -94,6 +94,9 @@ extern NSString *const MSErrorPushResultKey;
 /// Indicates a sync table operation could not be canceled
 #define MSSyncTableCancelError                  -1156
 
+/// Indicates a sync table operation could not be updated/removed as it no longer exists
+#define MSSyncTableOperationNotFound            -1157
+
 /// Indicates a mobile service sync operation (such as a syncTable insert) failed
 /// because the sync context object was not properly initialized
 #define MSSyncContextInvalid                    -1160

@@ -120,11 +120,14 @@
     if (error) {
         NSString *errorMessage = [NSString stringWithFormat:@"Unable to read item '%@' from table '%@'", operation.itemId, operation.tableName];
         self.error = [self errorWithDescription:errorMessage code:MSPushAbortedDataSource internalError:error];
+        [self.syncContext.operationQueue unlockOperation:operation];
+        
         [self pushComplete];
         return;
     }
     
     if ([self checkIsCanceled]) {
+        [self.syncContext.operationQueue unlockOperation:operation];
         return;
     }
     
@@ -162,6 +165,7 @@
 {
     // Check if we were cancelled while we awaited our results
     if ([self checkIsCanceled]) {
+        [self.syncContext.operationQueue unlockOperation:operation];
         return;
     }
 
@@ -229,8 +233,11 @@
             }
         }
         
+        // our processing on the server response is complete, we can let others use it
+        [self.syncContext.operationQueue unlockOperation:operation];
+        
+        // Check if any error we received requires aborting the push (Self.error will be set)
         if (self.error) {
-            [self.syncContext.operationQueue unlockOperation:operation];
             [self pushComplete];
             return;
         }

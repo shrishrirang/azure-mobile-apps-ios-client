@@ -88,26 +88,71 @@
                         orError:error];
 }
 
--(void) removeOperation:(MSTableOperation *)operation orError:(NSError **)error
+-(void) updateOperation:(MSTableOperation *)operation orError:(NSError **)error
 {
-    // Find all errors for this operation and delete them first
-    MSSyncTable *errorsTable = [[MSSyncTable alloc] initWithName:self.dataSource.errorTableName client:self.client];
-    MSQuery *errorsQuery = [[MSQuery alloc] initWithSyncTable:errorsTable];
-    errorsQuery.predicate = [NSPredicate predicateWithFormat:@"operationId == %ld", operation.operationId];
-    [self.dataSource deleteUsingQuery:errorsQuery
-                              orError:error];
+    // Since we are going to modify the operation, all pending errors can be
+    // considered void
+    if (![self cleanupErrorsForOperation:operation orError:error]) {
+        return;
+    }
+    
+    // Look up the operation to verify it still exists
+    MSSyncTable *syncTable = [[MSSyncTable alloc] initWithName:self.dataSource.operationTableName client:self.client];
+    MSQuery *query = [[MSQuery alloc] initWithSyncTable:syncTable];
+    query.predicate = [NSPredicate predicateWithFormat:@"id == %ld", operation.operationId];
+    
+    MSSyncContextReadResult *result = [self.dataSource readWithQuery:query orError:error];
     if (error && *error) {
         return;
     }
+    
+    if (result.items.count == 0) {
+        if (error) {
+            NSDictionary *userInfo = @{
+                NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Operation for table '%@' and item '%@' not found",
+                                            operation.tableName,
+                                            operation.itemId]
+            };
+            
+            *error = [NSError errorWithDomain:MSErrorDomain
+                                         code:MSSyncTableOperationNotFound
+                                     userInfo:userInfo];
+        }
+        return;
+    }
 
+    [self.dataSource upsertItems:@[[operation serialize]]
+                           table:self.dataSource.operationTableName
+                         orError:error];
+}
+
+-(void) removeOperation:(MSTableOperation *)operation orError:(NSError **)error
+{
+    if (![self cleanupErrorsForOperation:operation orError:error]) {
+        return;
+    }
+    
     [self.dataSource deleteItemsWithIds:[NSArray arrayWithObject:[NSNumber numberWithInteger:operation.operationId]]
                                   table:[self.dataSource operationTableName]
                                 orError:error];
     if (error && *error) {
         return;
     }
+    
     // Make sure to clean up any lock if one existed
     [self unlockOperation:operation];
+}
+
+-(BOOL) cleanupErrorsForOperation:(MSTableOperation *)operation orError:(NSError **)error
+{
+    // Find all errors for this operation and delete them first
+    MSSyncTable *errorsTable = [[MSSyncTable alloc] initWithName:self.dataSource.errorTableName client:self.client];
+    MSQuery *errorsQuery = [[MSQuery alloc] initWithSyncTable:errorsTable];
+    errorsQuery.predicate = [NSPredicate predicateWithFormat:@"operationId == %ld", operation.operationId];
+
+    return [self.dataSource deleteUsingQuery:errorsQuery
+                                     orError:error];
+    
 }
 
 - (id) peek
