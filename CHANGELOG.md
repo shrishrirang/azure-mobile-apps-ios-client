@@ -1,5 +1,9 @@
 # Azure Mobile Services iOS SDK Change Log
 
+### Version 3.0.0-rc
+- Changed framework naming to MicrosoftAzureMobile (from WindowsAzureMobileServices)
+- Added base podspec for use by Cocoapods
+
 ### Version 3.0.0-beta4
 - Authentication logic redone to support Easy Auth
 - Client constructors now take only the application URL, the gateway is no longer used for login
