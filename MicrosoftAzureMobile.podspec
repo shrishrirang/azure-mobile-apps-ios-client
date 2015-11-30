@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "8.0"
   s.source       = {
     :git => "https://github.com/Azure/azure-mobile-apps-ios-client.git",
-    :tag => "3.0.0-beta4"
+    :tag => "3.0.0"
   }
   s.source_files  = "sdk/src"
   s.exclude_files = "Classes/Exclude"
