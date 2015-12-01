@@ -42,4 +42,6 @@
 +(NSString *)queryStringFromQuery:(MSQuery *)query
                           orError:(NSError **)error;
 
++(NSURL *) URLByAppendingQueryParameters:(NSDictionary *)queryParameters
+                                   toURL:(NSURL *)url;
 @end

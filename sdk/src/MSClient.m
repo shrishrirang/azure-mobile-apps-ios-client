@@ -190,7 +190,21 @@
                completion:(MSClientLoginBlock)completion
 {
     return [self.login loginWithProvider:provider
-                            controller:controller
+                              parameters:nil
+                              controller:controller
+                                animated:animated
+                              completion:completion];
+}
+
+-(void)loginWithProvider:(nonnull NSString *)provider
+              parameters:(nullable NSDictionary *)parameters
+              controller:(nonnull UIViewController *)controller
+                animated:(BOOL)animated
+              completion:(nullable MSClientLoginBlock)completion
+{
+    return [self.login loginWithProvider:provider
+                              parameters:parameters
+                              controller:controller
                                 animated:animated
                               completion:completion];
 }

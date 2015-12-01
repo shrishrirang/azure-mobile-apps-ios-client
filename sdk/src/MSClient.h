@@ -115,6 +115,14 @@
                 animated:(BOOL)animated
               completion:(nullable MSClientLoginBlock)completion;
 
+/// Logs in the current end user with the given provider by presenting the
+/// MSLoginController with the given controller.
+-(void)loginWithProvider:(nonnull NSString *)provider
+              parameters:(nullable NSDictionary *)parameters
+              controller:(nonnull UIViewController *)controller
+                animated:(BOOL)animated
+              completion:(nullable MSClientLoginBlock)completion;
+
 /// Returns an MSLoginController that can be used to log in the current
 /// end user with the given provider.
 -(nonnull MSLoginController *)loginViewControllerWithProvider:(nonnull NSString *)provider
