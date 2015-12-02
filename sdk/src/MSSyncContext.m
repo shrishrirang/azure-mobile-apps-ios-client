@@ -354,6 +354,34 @@ static NSOperationQueue *pushQueue_;
     });
 }
 
+-(void) updateOperation:(MSTableOperation *)operation updateItem:(NSDictionary *)item completion:(MSSyncBlock)completion
+{
+    // updating an operation requires write access to the queue
+    dispatch_async(writeOperationQueue, ^{
+        NSError *error;
+        
+        if (operation.type == MSTableOperationDelete) {
+            [self.dataSource deleteItemsWithIds:@[operation.itemId]
+                                          table:operation.tableName
+                                        orError:&error];
+            operation.item = item;
+        } else {
+            [self.dataSource upsertItems:@[item] table:operation.tableName orError:&error];
+            operation.item = nil;
+        }
+        
+        if (!error) {
+            [self.operationQueue updateOperation:operation orError:&error];
+        }
+        
+        if (completion) {
+            [self.callbackQueue addOperationWithBlock:^{
+                completion(error);
+            }];
+        }
+    });
+}
+
 /// Verify our input is valid and try to pull our data down from the server
 - (NSOperation *) pullWithQuery:(MSQuery *)query queryId:(NSString *)queryId settings:(MSPullSettings *)pullSettings completion:(MSSyncBlock)completion;
 {

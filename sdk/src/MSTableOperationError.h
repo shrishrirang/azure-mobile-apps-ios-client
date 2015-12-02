@@ -69,6 +69,14 @@
 /// removes the item associated with the operation from the local store
 - (void) cancelOperationAndDiscardItemWithCompletion:(nullable MSSyncBlock)completion;
 
+/// Adjusts the specified operation and saves the given item back into the store depending on the state of the
+/// new operation
+- (void) keepOperationAndUpdateItem:(nonnull NSDictionary *)item completion:(nullable MSSyncBlock)completion;
+
+- (void) modifyOperationType:(MSTableOperationTypes)type completion:(nullable MSSyncBlock)completion;
+
+- (void) modifyOperationType:(MSTableOperationTypes)type AndUpdateItem:(nonnull NSDictionary *)item completion:(nullable MSSyncBlock)completion;
+
 
 /// @name Initializing the MSTableOperationError Object
 /// @{

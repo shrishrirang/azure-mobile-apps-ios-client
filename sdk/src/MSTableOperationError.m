@@ -177,7 +177,13 @@
     op.operationId = self.operationId;
     op.item = item;
     
-    [self.syncContext cancelOperation:op updateItem:item completion:completion];
+    [self.syncContext cancelOperation:op updateItem:item completion:^(NSError * _Nullable error) {
+        self.handled = !error;
+        
+        if (completion) {
+            completion(error);
+        }
+    }];
 }
 
 - (void) cancelOperationAndDiscardItemWithCompletion:(MSSyncBlock)completion
@@ -187,7 +193,53 @@
                                                             itemId:self.itemId];
     op.operationId = self.operationId;
     
-    [self.syncContext cancelOperation:op discardItemWithCompletion:completion];
+    [self.syncContext cancelOperation:op discardItemWithCompletion:^(NSError * _Nullable error) {
+        self.handled = !error;
+        
+        if (completion) {
+            completion(error);
+        }
+    }];
 }
+
+- (void) keepOperationAndUpdateItem:(nonnull NSDictionary *)item
+                         completion:(nullable MSSyncBlock)completion
+{
+    [self modifyOperationType:self.operation AndUpdateItem:item completion:completion];
+}
+
+- (void) modifyOperationType:(MSTableOperationTypes)type completion:(nullable MSSyncBlock)completion
+{
+    [self modifyOperationType:type AndUpdateItem:self.item completion:completion];
+}
+
+- (void) modifyOperationType:(MSTableOperationTypes)type AndUpdateItem:(nonnull NSDictionary *)item completion:(nullable MSSyncBlock)completion
+{
+    if (!item) {
+        if (completion) {
+            NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: @"Item is required" };
+            NSError *error = [NSError errorWithDomain:MSErrorDomain
+                                                 code:MSSyncTableCancelError
+                                             userInfo:userInfo];
+            completion(error);
+            return;
+        }
+    }
+    
+    MSTableOperation *op = [[MSTableOperation alloc] initWithTable:self.table
+                                                              type:type
+                                                            itemId:self.itemId];
+    
+    op.operationId = self.operationId;
+    op.item = item;
+    
+    [self.syncContext updateOperation:op updateItem:item completion:^(NSError * _Nullable error) {
+        self.handled = !error;
+        if (completion) {
+            completion(error);
+        }
+    }];
+}
+
 
 @end

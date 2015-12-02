@@ -21,6 +21,9 @@
 /// Removes a given operation from the queue
 -(void) removeOperation:(MSTableOperation *)operation orError:(NSError **)error;
 
+/// Checks that an operation is present, and if so, updates it in place
+-(void) updateOperation:(MSTableOperation *)operation orError:(NSError **)error;
+
 /// Analyzes the given operation and condenses it with any already in the queue
 /// Letting the last table-item operation win in the queue
 -(BOOL) condenseOperation:(MSTableOperation *)operation orError:(NSError **)error;
