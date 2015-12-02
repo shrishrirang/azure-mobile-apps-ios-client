@@ -12,15 +12,17 @@ then
   #           $0 $1                  $2         $3                        $4           $5             $6 (optional)
   echo Usage: $0 \<Application URL\> \<device\> \<zumotestuser password\> \<Blob URL\> \<Blob Token\> \<iOSsdkZip\>
   echo Where
-  echo   \<Application URL\> is the URL of the Mobile Service
+  echo   \<Application URL\> - the URL of the Mobile Service
   echo   \<device\> is one of the following:
   echo       - iPad2Sim             - iPadSimAir          - iPadSimAir2
   echo       - iPadSimPro           - iPadSimRetina       - iPhoneSim4s
   echo       - iPhoneSim5           - iPhoneSim5s         - iPhoneSim6
   echo       - iPhoneSim6Plus       - iPhoneSim6s         - iPhoneSim6sWatch
   echo       - iPhone6sPlus         - iPhone6sPlusWatch
-  echo   \<loginPassword\> - the password to use for log in operations \(for zumotestuser account\)
-  echo   \<iOSsdkZip\> is the zip file location of the framework to test against \(optional\)
+  echo   \<zumotestuser password\> - the password to use for log in operations \(for zumotestuser account\)
+  echo   \<Blob URL\> - storage url
+  echo   \<Blob Token\> - storage token
+  echo   \<iOSsdkZip\> - the zip file location of the framework to test against \(optional\)
   exit 1
 fi
 
