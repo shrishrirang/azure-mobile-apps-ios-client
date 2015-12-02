@@ -166,6 +166,32 @@
     XCTAssertNotNil(op);
 }
 
+-(void) testKeepOperationAndUpdateItem_Insert {
+    MSTableOperationError *opError = [self createErrorAndPendingOpForDefaultItemOfType:MSTableOperationInsert];
+    
+    // keep our pending operation and update the stored value
+    NSDictionary *newItem = @{ @"id": @"ABC", @"text": @"value two" };
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"KeepOperationAndUpdate"];
+    [opError keepOperationAndUpdateItem:newItem completion:^(NSError *error) {
+        XCTAssertNil(error);
+        [expectation fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:1000 handler:nil];
+    
+    // Check that the item is updated
+    NSDictionary *item = [self defaultItemFromStore];
+    XCTAssertNotNil(item);
+    XCTAssertEqualObjects(@"value two", item[@"text"]);
+    
+    // Check that the operation is still in the queue
+    MSTableOperation *op = [self getOperationFromStore];
+    
+    XCTAssertNotNil(op);
+    XCTAssertEqual(op.type, MSTableOperationInsert);
+    XCTAssertNil(op.item);
+}
+
 -(void) testKeepOperationAndUpdateItem_Update {
     MSTableOperationError *opError = [self createErrorAndPendingOpForDefaultItemOfType:MSTableOperationUpdate];
 
@@ -188,6 +214,8 @@
     // Check that the operation is still in the queue
     MSTableOperation *op = [self getOperationFromStore];
     XCTAssertNotNil(op);
+    XCTAssertEqual(op.type, MSTableOperationUpdate);
+    XCTAssertNil(op.item);
 }
 
 -(void) testKeepOperationAndUpdateItem_Delete {
@@ -212,11 +240,36 @@
     XCTAssertNotNil(op);
     XCTAssertNotNil(op.item);
     XCTAssertEqualObjects(@"value two", op.item[@"text"]);
+    XCTAssertEqual(op.type, MSTableOperationDelete);
 }
 
 -(void) testModifyOperationType_InsertToUpdate
 {
     MSTableOperationError *opError = [self createErrorAndPendingOpForDefaultItemOfType:MSTableOperationInsert];
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"ModifyOperation"];
+    
+    [opError modifyOperationType:MSTableOperationUpdate completion:^(NSError *error) {
+        XCTAssertNil(error);
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectationsWithTimeout:1000 handler:nil];
+    
+    // Check that the operation is still in the queue
+    MSTableOperation *op = [self getOperationFromStore];
+    XCTAssertNotNil(op);
+    XCTAssertEqual(MSTableOperationUpdate, op.type);
+    
+    // Check that the item is still there
+    NSDictionary *item = [self defaultItemFromStore];
+    XCTAssertNotNil(item);
+    XCTAssertEqualObjects(@"initial value", item[@"text"]);
+}
+
+-(void) testModifyOperationType_UpdateToUpdate
+{
+    MSTableOperationError *opError = [self createErrorAndPendingOpForDefaultItemOfType:MSTableOperationUpdate];
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"ModifyOperation"];
     
