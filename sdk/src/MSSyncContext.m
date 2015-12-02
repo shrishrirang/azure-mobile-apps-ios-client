@@ -89,7 +89,6 @@ static NSOperationQueue *pushQueue_;
 /// to the caller at once.
 -(NSOperation *) pushWithCompletion:(MSSyncBlock)completion
 {
-    // TODO: Allow users to cancel operations
     MSQueuePushOperation *push = [[MSQueuePushOperation alloc] initWithSyncContext:self
                                                                      dispatchQueue:writeOperationQueue
                                                                      callbackQueue:self.callbackQueue
@@ -186,9 +185,6 @@ static NSOperationQueue *pushQueue_;
                     
                 case MSTableOperationDelete:
                     [self.dataSource deleteItemsWithIds:@[itemId] table:table orError:&error];
-                    
-                    // Capture the deleted item in case the user wants to cancel it or a conflict occur
-                    operation.item = item;
                     break;
                     
                 default:
@@ -205,6 +201,12 @@ static NSOperationQueue *pushQueue_;
             }
             return;
         }
+
+        // Capture the deleted item in case the user wants to cancel it or a conflict occured
+        if (action == MSTableOperationDelete) {
+            // We want the deleted item, regardless of whether we are handling the actual item changes
+            operation.item = item;
+        }
         
         // Update the operation queue now
         if (condenseAction == MSCondenseAddNew) {
@@ -213,7 +215,7 @@ static NSOperationQueue *pushQueue_;
         else if (condenseAction == MSCondenseToDelete) {
             operation.type = MSTableOperationDelete;
             
-            // FUTURE: Look at moving this upserts into the operation queue object
+            // TODO: Look at moving this upsert into the operation queue object
             [self.dataSource upsertItems:@[operation.serialize]
                                    table:self.dataSource.operationTableName
                                  orError:&error];
@@ -222,7 +224,7 @@ static NSOperationQueue *pushQueue_;
             [self.operationQueue removeOperation:operation orError:&error];
         }
         
-        // FUTURE: If an error occurs in updating the operation queue, we really should undo changes
+        // TODO: If an error occurs in updating the operation queue, we really should undo changes
         // to the local store if possible
         
         if (completion) {
