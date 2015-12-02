@@ -14,6 +14,9 @@
 
 @interface MSSyncContext()
 
+@property (nonatomic, strong) dispatch_queue_t writeOperationQueue;
+@property (nonatomic, strong) dispatch_queue_t readOperationQueue;
+
 @property (nonatomic, weak)             MSClient *client;
 @property (nonatomic, strong, readonly) MSOperationQueue *operationQueue;
 @property (nonatomic, strong)           NSOperationQueue *callbackQueue;

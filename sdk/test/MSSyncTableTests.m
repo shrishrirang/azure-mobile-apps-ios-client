@@ -22,6 +22,7 @@
 #import "MSQueryResult.h"
 #import "MSPullSettingsInternal.h"
 #import "MSClientInternal.h"
+#import "MSSyncContextInternal.h"
 
 static NSString *const TodoTableNoVersion = @"TodoNoVersion";
 static NSString *const TodoTable = @"TodoItem";
@@ -1330,7 +1331,7 @@ static NSString *const SyncContextQueueName = @"Sync Context: Operation Callback
 
     // Define the filter
     filter.onInspectRequest = ^(NSURLRequest *request) {
-
+        NSLog(@"Inspect push request: point 0, with %d", pushOperation != nil);
         // Cancellation point 0
         if (requestedCancellationPoint == 0) {
             [pushOperation cancel];
@@ -1340,6 +1341,7 @@ static NSString *const SyncContextQueueName = @"Sync Context: Operation Callback
     };
     
     filter.onInspectResponseData = ^(NSURLRequest *request, NSData *data) {
+        NSLog(@"Inspect push response: point 1, with %d", pushOperation != nil);
 
         // Cancellation point 1
         if (requestedCancellationPoint == 1) {
@@ -1356,16 +1358,28 @@ static NSString *const SyncContextQueueName = @"Sync Context: Operation Callback
     }];
     
     [self waitForExpectationsWithTimeout:10 handler:nil];
+
+    NSLog(@"Begin initial push");
+    
+    // Block the write op q to ensure operation doesn't start until later
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    dispatch_async(client.syncContext.writeOperationQueue, ^{
+        dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+    });
     
     // Perform a push
     pushOperation = [filteredClient.syncContext pushWithCompletion:^(NSError *error) {
-        
+        NSLog(@"Push completion: point 2, with %d", pushOperation != nil);
         // Cancellation point 2
         if (requestedCancellationPoint == 2) {
             [pushOperation cancel];
         }
     }];
+    dispatch_group_leave(group);
     
+    NSLog(@"Post push create: point 3, with %d", pushOperation != nil);
+
     // Cancellation point 3
     if (requestedCancellationPoint == 3) {
         [pushOperation cancel];
@@ -1374,6 +1388,7 @@ static NSString *const SyncContextQueueName = @"Sync Context: Operation Callback
     [self verifyFinished:pushOperation];
 
     int synchronizedItemCount = [self synchronizedItemCount];
+    NSLog(@"Done wairing on push with count: %d", synchronizedItemCount);
 
     // Perform another insert
     insertExpectation = [self expectationWithDescription:@"insert expectation"];
@@ -1397,6 +1412,7 @@ static NSString *const SyncContextQueueName = @"Sync Context: Operation Callback
 
     filter.ignoreNextFilter = YES;
     filter.onInspectResponseData = ^(NSURLRequest *request, NSData *data) {
+        NSLog(@"Followup push response inspect");
         NSError *error = nil;
         
         NSDictionary *item = [filteredClient.serializer itemFromData:request.HTTPBody withOriginalItem:nil ensureDictionary:YES orError:&error];
@@ -1411,10 +1427,14 @@ static NSString *const SyncContextQueueName = @"Sync Context: Operation Callback
     // Perform push
     XCTestExpectation *pushExpectation = [self expectationWithDescription:@"push expectation"];
     [filteredClient.syncContext pushWithCompletion:^(NSError *error) {
+        NSLog(@"Followup push completion triggered");
+        
         XCTAssertNil(error, "Expected successful push");
         [pushExpectation fulfill];
     }];
     [self waitForExpectationsWithTimeout:10 handler:nil];
+
+    NSLog(@"Followup push complete");
     
     return [self synchronizedItemCount];
 }
@@ -1711,9 +1731,10 @@ static NSString *const SyncContextQueueName = @"Sync Context: Operation Callback
     
     // Define filters
     ((MSTestFilter *)filter.testFilters[0]).onInspectRequest = ^(NSURLRequest *request) {
-        
+        NSLog(@"Inspection of request 0");
         // Cancellation point 0
         if (requestedCancellationPoint == 0) {
+            NSLog(@"Cancel of pull at point 1, with %d", pullOperation != nil);
             [pullOperation cancel];
         }
         
@@ -1721,9 +1742,10 @@ static NSString *const SyncContextQueueName = @"Sync Context: Operation Callback
     };
     
     ((MSTestFilter *)filter.testFilters[0]).onInspectResponseData = ^(NSURLRequest *request, NSData *data) {
-        
+        NSLog(@"Inspection of response 0");
         // Cancellation point 1
         if (requestedCancellationPoint == 1) {
+            NSLog(@"Cancel of pull at point 1 with %d", pullOperation != nil);
             [pullOperation cancel];
         }
         
@@ -1731,9 +1753,10 @@ static NSString *const SyncContextQueueName = @"Sync Context: Operation Callback
     };
     
     ((MSTestFilter *)filter.testFilters[1]).onInspectRequest = ^(NSURLRequest *request) {
-        
+        NSLog(@"Inspection of request 1");
         // Cancellation point 2
         if (requestedCancellationPoint == 2) {
+            NSLog(@"Cancel of pull at point 2 with %d", pullOperation != nil);
             [pullOperation cancel];
         }
         
@@ -1741,9 +1764,10 @@ static NSString *const SyncContextQueueName = @"Sync Context: Operation Callback
     };
     
     ((MSTestFilter *)filter.testFilters[1]).onInspectResponseData = ^(NSURLRequest *request, NSData *data) {
-        
+        NSLog(@"Inspection of response 1");
         // Cancellation point 3
         if (requestedCancellationPoint == 3) {
+            NSLog(@"Cancel of pull at point 3 with %d", pullOperation != nil);
             [pullOperation cancel];
         }
         
@@ -1759,22 +1783,37 @@ static NSString *const SyncContextQueueName = @"Sync Context: Operation Callback
     [self waitForExpectationsWithTimeout:10 handler:nil];
     
     // Perform a pull
+    NSLog(@"Begin initial pull");
+    
+    // Block the write op q to ensure operation doesn't start until later
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    dispatch_async(client.syncContext.writeOperationQueue, ^{
+        dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+    });
+    
     pullOperation = [todoTable pullWithQuery:query queryId:nil completion:^(NSError *error) {
-
+        NSLog(@"Pull 1: completion block hit (point 4)");
         // Cancellation point 4
         if (requestedCancellationPoint == 4) {
+            NSLog(@"Cancel of pull at point 4");
             [pullOperation cancel];
         }
     }];
+    dispatch_group_leave(group);
+    
+    NSLog(@"Cancel of pull at point 5, with %d", pullOperation != nil);
 
     // Cancellation point 5
     if (requestedCancellationPoint == 5) {
         [pullOperation cancel];
     }
 
+    NSLog(@"Begin wait on pull operation");
     [self verifyFinished:pullOperation];
     
     int synchronizedItemCount = [self synchronizedItemCount];
+    NSLog(@"End of pull operation with count %d", synchronizedItemCount);
     
     XCTAssertEqual([self performFollowupPullWithClient:client], 3, "Expected all server items to have been pulled to the client by now");
     
@@ -1793,6 +1832,7 @@ static NSString *const SyncContextQueueName = @"Sync Context: Operation Callback
     __block bool isFirstPullRequest = true;
     filter.ignoreNextFilter = YES;
     filter.onInspectResponseData = ^(NSURLRequest *request, NSData *data) {
+        NSLog(@"Inspecting full pull operation response");
 
         NSDictionary *item = [filteredClient.serializer itemFromData:request.HTTPBody withOriginalItem:nil ensureDictionary:YES orError:nil];
         
@@ -1816,7 +1856,9 @@ static NSString *const SyncContextQueueName = @"Sync Context: Operation Callback
     };
     
     // Perform pull
+    NSLog(@"Begin full pull operation");
     NSOperation *pullOperation = [todoTable pullWithQuery:query queryId:nil completion:^(NSError *error) {
+        NSLog(@"Full pull operation complete");
         XCTAssertNil(error, "Expected successful pull");
     }];
     
