@@ -333,7 +333,7 @@ static NSString *const TableName = @"TodoItem";
 -(void)testReadWithQuery_RecordWithNullPropertyValue
 {
     NSError *error;
-    NSArray *testArray = @[@{@"id":@"ABC", @"text": [NSNull null]}];
+    NSArray *testArray = @[ @{ @"id" : @"ABC", @"text" : [NSNull null] } ];
     
     [self.store upsertItems:testArray table:TableName orError:&error];
     XCTAssertNil(error, @"upsert failed: %@", error.description);
@@ -349,6 +349,48 @@ static NSString *const TableName = @"TodoItem";
     
     XCTAssertEqual(item[@"text"], [NSNull null], @"Incorrect text value. Should have been null");
 }
+
+-(void)testReadTable_RecordWithNullBooleanValue
+{
+    NSError *error;
+    NSArray *testArray = @[ @{ @"id" : @"ABC", @"boolean": [NSNull null] } ];
+    
+    [self.store upsertItems:testArray table:@"ColumnTypes" orError:&error];
+    XCTAssertNil(error, @"upsert failed: %@", error.description);
+    
+    NSDictionary *item = [self.store readTable:@"ColumnTypes" withItemId:@"ABC" orError:&error];
+    XCTAssertNil(error, @"readTable:withItemId: failed: %@", error.description);
+    
+    XCTAssertEqual(item[@"boolean"], [NSNull null]);
+}
+
+/** 
+ TODO: Root cause on why test fails via xctool, but json serialization works as expected via
+ XCode and deployed apps
+ *
+-(void)testReadTable_RecordWithYesBooleanValue
+{
+    NSError *error;
+    NSArray *testArray = @[ @{ @"id" : @"ABC", @"boolean": @YES } ];
+    
+    [self.store upsertItems:testArray table:@"ColumnTypes" orError:&error];
+    XCTAssertNil(error, @"upsert failed: %@", error.description);
+    
+    NSDictionary *item = [self.store readTable:@"ColumnTypes" withItemId:@"ABC" orError:&error];
+    XCTAssertNil(error, @"readTable:withItemId: failed: %@", error.description);
+    
+    NSDictionary *itemWithOnlyBoolean = [item dictionaryWithValuesForKeys:@[ @"boolean" ]];
+    
+    // We want __NCSFBoolean, not __NCSFNumber, but this is a class cluster, so test that the JSON
+    // is a boolean (true/false) and not 1/0.
+    NSData *data = [NSJSONSerialization dataWithJSONObject:itemWithOnlyBoolean options:0 error:nil];
+    data = [[MSJSONSerializer JSONSerializer] dataFromItem:itemWithOnlyBoolean idAllowed:YES ensureDictionary:NO removeSystemProperties:NO orError:nil];
+    NSString *itemAsJson = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"%@", itemAsJson);
+    XCTAssertEqualObjects(itemAsJson, @"{\"boolean\":true}");
+}
+ */
 
 -(void)testReadWithQuery
 {
