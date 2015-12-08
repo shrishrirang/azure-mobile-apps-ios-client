@@ -22,10 +22,7 @@
 #import "MSSyncContextReadResult.h"
 #import "MSSyncTable.h"
 
-@implementation MSSyncContext {
-    dispatch_queue_t writeOperationQueue;
-    dispatch_queue_t readOperationQueue;
-}
+@implementation MSSyncContext
 
 static NSOperationQueue *pushQueue_;
 
@@ -42,7 +39,7 @@ static NSOperationQueue *pushQueue_;
 
     // We don't need to wait for this, and all operation creation goes onto this queue so its
     // guaranteed to happen only after this is populated.
-    dispatch_async(writeOperationQueue, ^{
+    dispatch_async(self.writeOperationQueue, ^{
         self.operationSequence = [self.operationQueue getNextOperationId];
     });
 }
@@ -57,8 +54,8 @@ static NSOperationQueue *pushQueue_;
     self = [super init];
     if (self)
     {
-        writeOperationQueue = dispatch_queue_create("WriteOperationQueue", DISPATCH_QUEUE_SERIAL);
-        readOperationQueue = dispatch_queue_create("ReadOperationQueue",  DISPATCH_QUEUE_CONCURRENT);
+        _writeOperationQueue = dispatch_queue_create("WriteOperationQueue", DISPATCH_QUEUE_SERIAL);
+        _readOperationQueue = dispatch_queue_create("ReadOperationQueue",  DISPATCH_QUEUE_CONCURRENT);
 
         callbackQueue_ = callbackQueue;
         if (!callbackQueue_) {
@@ -90,7 +87,7 @@ static NSOperationQueue *pushQueue_;
 -(NSOperation *) pushWithCompletion:(MSSyncBlock)completion
 {
     MSQueuePushOperation *push = [[MSQueuePushOperation alloc] initWithSyncContext:self
-                                                                     dispatchQueue:writeOperationQueue
+                                                                     dispatchQueue:self.writeOperationQueue
                                                                      callbackQueue:self.callbackQueue
                                                                         completion:completion];
     
@@ -140,7 +137,7 @@ static NSOperationQueue *pushQueue_;
     }
     
     // Add the operation to the queue
-    dispatch_async(writeOperationQueue, ^{
+    dispatch_async(self.writeOperationQueue, ^{
         NSError *error;
         MSCondenseAction condenseAction = MSCondenseAddNew;
         
@@ -256,7 +253,7 @@ static NSOperationQueue *pushQueue_;
         return;
     }
     
-    dispatch_async(readOperationQueue, ^{
+    dispatch_async(self.readOperationQueue, ^{
         NSError *error;
         NSDictionary *item = [self.dataSource readTable:table withItemId:itemId orError:&error];
         if (completion) {
@@ -278,7 +275,7 @@ static NSOperationQueue *pushQueue_;
 
 /// Simple passthrough to the local storage data source to retrive a list of items
 -(void)readWithQuery:(MSQuery *)query completion:(MSReadQueryBlock)completion {
-    dispatch_async(readOperationQueue, ^{
+    dispatch_async(self.readOperationQueue, ^{
         NSError *error;
         MSSyncContextReadResult *result = [self.dataSource readWithQuery:query orError:&error];
         
@@ -302,7 +299,7 @@ static NSOperationQueue *pushQueue_;
 - (void) cancelOperation:(MSTableOperation *)operation updateItem:(NSDictionary *)item completion:(MSSyncBlock)completion;
 {
     // Removing an operation requires write access to the queue
-    dispatch_async(writeOperationQueue, ^{
+    dispatch_async(self.writeOperationQueue, ^{
         NSError *error;
         
         // FUTURE: Verify operation hasn't been modified by others
@@ -334,7 +331,7 @@ static NSOperationQueue *pushQueue_;
 - (void) cancelOperation:(MSTableOperation *)operation discardItemWithCompletion:(MSSyncBlock)completion
 {
     // Removing an operation requires write access to the queue
-    dispatch_async(writeOperationQueue, ^{
+    dispatch_async(self.writeOperationQueue, ^{
         NSError *error;
         
         // FUTURE: Verify operation hasn't been modified by others
@@ -357,7 +354,7 @@ static NSOperationQueue *pushQueue_;
 -(void) updateOperation:(MSTableOperation *)operation updateItem:(NSDictionary *)item completion:(MSSyncBlock)completion
 {
     // updating an operation requires write access to the queue
-    dispatch_async(writeOperationQueue, ^{
+    dispatch_async(self.writeOperationQueue, ^{
         NSError *error;
         
         if (operation.type == MSTableOperationDelete) {
@@ -472,11 +469,11 @@ static NSOperationQueue *pushQueue_;
                                                                              query:query
                                                                            queryId:queryId
                                                                         maxRecords:maxRecords
-                                                                     dispatchQueue:writeOperationQueue
+                                                                     dispatchQueue:self.writeOperationQueue
                                                                      callbackQueue:self.callbackQueue
                                                                         completion:completion];
     
-    dispatch_async(writeOperationQueue, ^{
+    dispatch_async(self.writeOperationQueue, ^{
         // Before we can pull from the remote, we need to make sure out table doesn't having pending operations
         NSArray<MSTableOperation *> *tableOps = [self.operationQueue getOperationsForTable:query.table.name item:nil];
         if (tableOps.count > 0) {
@@ -514,7 +511,7 @@ static NSOperationQueue *pushQueue_;
     MSQueuePurgeOperation *purge = [[MSQueuePurgeOperation alloc] initPurgeWithSyncContext:self
                                                                                      query:query
                                                                                      force:NO
-                                                                             dispatchQueue:writeOperationQueue
+                                                                             dispatchQueue:self.writeOperationQueue
                                                                              callbackQueue:self.callbackQueue
                                                                                 completion:completion];
     [pushQueue_ addOperation:purge];
@@ -530,7 +527,7 @@ static NSOperationQueue *pushQueue_;
     MSQueuePurgeOperation *purge = [[MSQueuePurgeOperation alloc] initPurgeWithSyncContext:self
                                                                                      query:query
                                                                                      force:YES
-                                                                             dispatchQueue:writeOperationQueue
+                                                                             dispatchQueue:self.writeOperationQueue
                                                                              callbackQueue:self.callbackQueue
                                                                                 completion:completion];
     [pushQueue_ addOperation:purge];
