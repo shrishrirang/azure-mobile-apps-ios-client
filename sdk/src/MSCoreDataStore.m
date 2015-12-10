@@ -19,8 +19,8 @@
 {
     self = [super init];
     if (self) {
-        self.context = context;
-		self.handlesSyncTableOperations = YES;
+        _context = context;
+		_handlesSyncTableOperations = YES;
     }
     return self;
 }

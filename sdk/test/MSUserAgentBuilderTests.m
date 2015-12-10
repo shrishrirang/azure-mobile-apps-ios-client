@@ -34,7 +34,7 @@
     NSString *userAgent = [MSUserAgentBuilder userAgent];
     
 #if TARGET_OS_IPHONE
-    XCTAssertTrue([userAgent isEqualToString:@"ZUMO/3.0 (lang=objective-c; os=--; os_version=--; arch=iOSSimulator; version=3.0.0)"],
+    XCTAssertTrue([userAgent isEqualToString:@"ZUMO/3.1 (lang=objective-c; os=--; os_version=--; arch=iOSSimulator; version=3.1.0)"],
                  @"user agent was: %@", userAgent);
 #endif
 }

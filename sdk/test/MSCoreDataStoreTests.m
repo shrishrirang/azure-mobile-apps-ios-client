@@ -2,7 +2,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
 
-
 #import <XCTest/XCTest.h>
 #import "MSCoreDataStore.h"
 #import "MSCoreDataStore+TestHelper.h"
