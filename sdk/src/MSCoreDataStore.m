@@ -76,8 +76,17 @@
     // Remove any attributes in the dictionary that are not also in the data model
     NSMutableDictionary *serverItem = [[object dictionaryWithValuesForKeys:properties] mutableCopy];
     
-    // TODO: Convert booleans to YES/NO fields
-    
+    // We need to fix the JSON encoding of this item, by remaking any boolean attributes as explicit
+    // NSNumber numberWithBools, or else the encoder will treat them as 1/0 instead of true/false
+    for (NSString *property in properties) {
+        NSAttributeDescription *attribute = object.entity.attributesByName[property];
+        if (attribute.attributeType == NSBooleanAttributeType) {
+            if ([serverItem objectForKey:property] != [NSNull null]) {
+                serverItem[property] = @([serverItem[property] boolValue]);
+            }
+        }
+    }
+
     return serverItem;
 }
 
