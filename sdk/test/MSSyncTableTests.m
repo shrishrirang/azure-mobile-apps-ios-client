@@ -44,9 +44,6 @@ static NSString *const SyncContextQueueName = @"Sync Context: Operation Callback
 {
     NSLog(@"%@ setUp", self.name);
     
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    config.timeoutIntervalForRequest = 11;
-    
     client = [MSClient clientWithApplicationURLString:@"https://someUrl/"];
     offline = [[MSOfflinePassthroughHelper alloc] initWithManagedObjectContext:[MSCoreDataStore inMemoryManagedObjectContext]];
     
@@ -1139,7 +1136,7 @@ static NSString *const SyncContextQueueName = @"Sync Context: Operation Callback
 -(void) testPushNetworkTimeout
 {
     MSTestFilter *filter = [[MSTestFilter alloc] init];
-    filter.ignoreNextFilter = NO;
+    filter.ignoreNextFilter = YES;
     filter.errorToUse = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorTimedOut userInfo:nil];
     
     MSClient *filteredClient = [client clientWithFilter:filter];
