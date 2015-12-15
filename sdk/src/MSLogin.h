@@ -39,6 +39,7 @@
 // Logs in the current end user with the given provider by presenting the
 // MSLoginController with the given |controller|.
 -(void)loginWithProvider:(NSString *)provider
+              parameters:(NSDictionary *)parameters
               controller:(UIViewController *)controller
                 animated:(BOOL)animated
               completion:(MSClientLoginBlock)completion;

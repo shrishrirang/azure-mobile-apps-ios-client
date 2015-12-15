@@ -50,7 +50,8 @@
 
 #if TARGET_OS_IPHONE
 -(void) loginWithProvider:(NSString *)provider
-             controller:(UIViewController *)controller
+               parameters:(nonnull NSDictionary *)parameters
+               controller:(UIViewController *)controller
                  animated:(BOOL)animated
                completion:(MSClientLoginBlock)completion
 {
@@ -92,6 +93,7 @@
     
     provider = [self normalizeProvider:provider];
     loginController = [self loginViewControllerWithProvider:provider
+                                                 parameters:parameters
                                                  completion:loginCompletion];
     
     // On iPhone this will do nothing, but on iPad it will present a smaller
@@ -106,11 +108,13 @@
 }
 
 -(MSLoginController *) loginViewControllerWithProvider:(NSString *)provider
+                                            parameters:(nonnull NSDictionary *)parameters
                                             completion:(MSClientLoginBlock)completion
 {
     provider = [self normalizeProvider:provider];
     return [[MSLoginController alloc] initWithClient:self.client
                                             provider:provider
+                                          parameters:parameters
                                           completion:completion];
 }
 

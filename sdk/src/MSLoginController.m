@@ -8,6 +8,7 @@
 #import "MSJSONSerializer.h"
 #import "MSClient.h"
 #import "MSClientInternal.h"
+#import "MSURLBuilder.h"
 
 #pragma mark * MSLoginController Private Interface
 
@@ -18,6 +19,7 @@
 @property (nonatomic, strong, readonly)     id<MSSerializer> serializer;
 @property (nonatomic, strong, readwrite)    MSLoginView *loginView;
 @property (nonatomic, copy,   readonly)     MSClientLoginBlock completion;
+@property (nonnull, copy, readonly)         NSDictionary *parameters;
 
 @end
 
@@ -27,11 +29,6 @@
 
 @implementation MSLoginController
 
-@synthesize client = client_;
-@synthesize provider = provider_;
-@synthesize completion = completion_;
-@synthesize loginView = loginView_;
-
 
 #pragma mark * Public Static Constructor Methods
 
@@ -40,14 +37,24 @@
             provider:(NSString *)provider
           completion:(MSClientLoginBlock)completion
 {
+    return [self initWithClient:client provider:provider parameters:nil completion:completion];
+}
+
+-(nonnull instancetype)initWithClient:(nonnull MSClient *)client
+                             provider:(nonnull NSString *)provider
+                            parameters:(nullable NSDictionary *)parameters
+                           completion:(nullable MSClientLoginBlock)completion
+{
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
-        client_ = client;
-        provider_ = [provider copy];
-        completion_ = [completion copy];
+        _client = client;
+        _provider = [provider copy];
+        _completion = [completion copy];
+        _parameters = [parameters copy];
     }
     
     return self;
+    
 }
 
 
@@ -150,7 +157,7 @@
 
 -(MSLoginView *) loginView
 {
-    MSLoginView *loginView = loginView_;
+    MSLoginView *loginView = _loginView;
     
     // If there is not an MSLoginView, create one
     if (!loginView) {
@@ -158,6 +165,11 @@
         // Ensure we are using HTTPS
         CGRect frame = [[UIScreen mainScreen] bounds];
         NSURL *start = [self.client.loginURL URLByAppendingPathComponent:self.provider];
+        
+        if (self.parameters) {
+            start = [MSURLBuilder URLByAppendingQueryParameters:self.parameters
+                                                      toURL:start];
+        }
         NSURL *end = [self.client.loginURL URLByAppendingPathComponent: @"done"];
         
         MSLoginViewBlock viewCompletion = nil;
@@ -189,7 +201,7 @@
                                                 endURL:end
                                             completion:viewCompletion];
         
-        loginView_ = loginView;
+        _loginView = loginView;
     }
     
     return loginView;
