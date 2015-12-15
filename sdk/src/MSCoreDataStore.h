@@ -41,6 +41,9 @@
  */
 @property (nonatomic) BOOL handlesSyncTableOperations;
 
+/// The NSManagedObjectContext that is associated with this data store
+@property (readonly, nonatomic, nonnull, strong) NSManagedObjectContext *context;
+
 #pragma mark * Helper functions
 
 /** @name Working with the table APIs */
