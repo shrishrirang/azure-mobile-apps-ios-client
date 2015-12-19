@@ -47,7 +47,8 @@
 // Returns an |MSLoginController| that can be used to log in the current
 // end user with the given provider.
 -(MSLoginController *)loginViewControllerWithProvider:(NSString *)provider
-                                      completion:(MSClientLoginBlock)completion;
+                                           parameters:(NSDictionary *)parameters
+                                           completion:(MSClientLoginBlock)completion;
 
 #endif
 

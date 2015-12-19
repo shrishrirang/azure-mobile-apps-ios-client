@@ -213,6 +213,7 @@
                                       completion:(MSClientLoginBlock)completion
 {
     return [self.login loginViewControllerWithProvider:provider
+                                            parameters:nil
                                             completion:completion];
 }
 #endif
