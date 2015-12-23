@@ -201,7 +201,14 @@ onPushCompleteWithError:(nullable NSError *)error
 /** Returns the number of pending outbound operations on the queue */
 @property (nonatomic, readonly) NSUInteger pendingOperationsCount;
 
-/** Executes all current pending operations on the queue */
+/** 
+ Executes all current pending operations on the queue
+ @param completion MSSyncBlock that will be triggered after all operations have been ran or a 
+ terminal error, like no network connection occurs.
+ @returns An NSOperation that wraps all the individual table operations being ran. The operation 
+ will be finished after the completion block fires. Cancelling the NSOperation will stop any
+ table operation in progress and abort running any additional ones.
+ */
 - (nonnull NSOperation *) pushWithCompletion:(nullable MSSyncBlock)completion;
 
 /** Specifies the delegate that will be used in the resolution of syncing issues */
