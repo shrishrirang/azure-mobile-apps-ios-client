@@ -7,6 +7,7 @@
 #import "MSTable.h"
 #import "MSClient.h"
 #import "MSQuery.h"
+#import "MSURLSettings.h"
 
 #pragma mark * Query String Constants
 
@@ -40,12 +41,10 @@ static NSString *const inlineCountAllPage = @"allpages";
     // Ensure that the user parameters are valid if there are any
     if ([MSURLBuilder userParametersAreValid:parameters orError:error]) {
         
-        // Create the table path
-        NSString *tablePath = [NSString stringWithFormat:@"tables/%@", table.name];
-        
         // Append it to the application URL; Don't percent encode the tablePath
         // because URLByAppending will percent encode for us
-        url = [table.client.applicationURL URLByAppendingPathComponent:tablePath];
+		url = [table.client.applicationURL URLByAppendingPathComponent:[MSURLSettings appSettings].tableEndpoint];
+		url = [url URLByAppendingPathComponent:table.name];
         
         // Add on the querystring now
         url = [MSURLBuilder URLByAppendingQueryString:query toURL:url];
@@ -107,7 +106,7 @@ static NSString *const inlineCountAllPage = @"allpages";
         }
         
         // Create the API path
-        NSString *apiPath = [NSString stringWithFormat:@"api/%@", APIName];
+        NSString *apiPath = APIName;
         
         // Check for a query string in the APIName
         NSString *apiQuery = nil;
@@ -119,7 +118,8 @@ static NSString *const inlineCountAllPage = @"allpages";
         
         // Append it to the application URL; Don't percent encode the apiPath
         // because URLByAppending will percent encode for us
-        url = [client.applicationURL URLByAppendingPathComponent:apiPath];
+        url = [client.applicationURL URLByAppendingPathComponent:[MSURLSettings appSettings].apiEndpoint];
+		url = [url URLByAppendingPathComponent:apiPath];
         
         // If there was a query on the APIName, add it back to the url
         // we are building
