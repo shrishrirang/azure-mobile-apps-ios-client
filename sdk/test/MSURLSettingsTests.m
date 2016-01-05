@@ -1,10 +1,6 @@
-//
-//  MSURLSettingsTests.m
-//  MicrosoftAzureMobile
-//
-//  Created by Damien Pontifex on 4/01/2016.
-//  Copyright © 2016 Windows Azure. All rights reserved.
-//
+// ----------------------------------------------------------------------------
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// ----------------------------------------------------------------------------
 
 #import <XCTest/XCTest.h>
 #import "MSURLSettings.h"
