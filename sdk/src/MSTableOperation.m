@@ -74,7 +74,7 @@
     return @{ @"id": [NSNumber numberWithInteger:self.operationId], @"table": self.tableName, @"tableKind": @0, @"itemId": self.itemId, @"properties": data };
 }
 
-- (void) executeWithCompletion:(void(^)(id, NSError *))completion
+- (void) executeWithCompletion:(void(^)(NSDictionary *, NSError *))completion
 {
     MSTable *table = [self.client tableWithName:self.tableName];
     table.features = MSFeatureOffline;
