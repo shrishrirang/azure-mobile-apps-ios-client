@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
     "sdk/src/MSLoginController.h",
     "sdk/src/MSManagedObjectObserver.h",
     "sdk/src/MSPullSettings.h",
-    "sdk/src/MSURLSettings.h",
+    "sdk/src/MSConnectionConfiguration.h",
     "sdk/src/MSPush.h",
     "sdk/src/MSQuery.h",
     "sdk/src/MSQueryResult.h",

@@ -7,7 +7,7 @@
 #import "MSTable.h"
 #import "MSClient.h"
 #import "MSQuery.h"
-#import "MSURLSettings.h"
+#import "MSConnectionConfiguration.h"
 
 #pragma mark * Query String Constants
 
@@ -43,7 +43,7 @@ static NSString *const inlineCountAllPage = @"allpages";
         
         // Append it to the application URL; Don't percent encode the tablePath
         // because URLByAppending will percent encode for us
-		url = [table.client.applicationURL URLByAppendingPathComponent:[MSURLSettings appSettings].tableEndpoint];
+		url = [table.client.applicationURL URLByAppendingPathComponent:[MSConnectionConfiguration appConfiguration].tableEndpoint];
 		url = [url URLByAppendingPathComponent:table.name];
         
         // Add on the querystring now
@@ -118,7 +118,7 @@ static NSString *const inlineCountAllPage = @"allpages";
         
         // Append it to the application URL; Don't percent encode the apiPath
         // because URLByAppending will percent encode for us
-        url = [client.applicationURL URLByAppendingPathComponent:[MSURLSettings appSettings].apiEndpoint];
+        url = [client.applicationURL URLByAppendingPathComponent:[MSConnectionConfiguration appConfiguration].apiEndpoint];
 		url = [url URLByAppendingPathComponent:apiPath];
         
         // If there was a query on the APIName, add it back to the url

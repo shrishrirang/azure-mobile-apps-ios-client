@@ -2,12 +2,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
 
-#import "MSURLSettings.h"
+#import "MSConnectionConfiguration.h"
 
 static NSString *const defaultTableEndpoint = @"tables";
 static NSString *const defaultApiEndpoint = @"api";
 
-@implementation MSURLSettings
+@implementation MSConnectionConfiguration
 
 - (instancetype)init
 {
@@ -19,7 +19,7 @@ static NSString *const defaultApiEndpoint = @"api";
 	return self;
 }
 
-+ (instancetype)appSettings
++ (instancetype)appConfiguration
 {
 	static id instance;
 	static dispatch_once_t onceToken;
