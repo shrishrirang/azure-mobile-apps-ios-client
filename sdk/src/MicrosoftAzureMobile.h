@@ -16,6 +16,7 @@
 #endif
 #import "MSManagedObjectObserver.h"
 #import "MSPullSettings.h"
+#import "MSConnectionConfiguration.h"
 #import "MSPush.h"
 #import "MSQuery.h"
 #import "MSQueryResult.h"
