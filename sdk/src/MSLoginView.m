@@ -82,7 +82,7 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
         
         // Create the webview
         webView_ = [[WKWebView alloc] init];
-		webView_.navigationDelegate = self;
+        webView_.navigationDelegate = self;
         [self addSubview:webView_];
         
         // Call setViewFrames to update the subview frames
@@ -147,7 +147,7 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
         }
     }
     
-	decisionHandler(shouldLoad);
+    decisionHandler(shouldLoad);
 }
 
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error
@@ -169,12 +169,12 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
-	[self.activityIndicator stopAnimating];
+    [self.activityIndicator stopAnimating];
 }
 
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation
 {
-	[self.activityIndicator startAnimating];
+    [self.activityIndicator startAnimating];
 }
 
 
@@ -292,10 +292,10 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
                 
                 self.currentURL = URL;
 				
-				[self.webView loadData:data 
-							  MIMEType:MIMEType 
-				 characterEncodingName:textEncodingName 
-							   baseURL:self.currentURL];
+                [self.webView loadData:data 
+                              MIMEType:MIMEType 
+                 characterEncodingName:textEncodingName 
+                               baseURL:self.currentURL];
             }
         }
     };
