@@ -5,6 +5,7 @@
 #import "MSLoginView.h"
 #import "MSClientConnection.h"
 #import "MSClient.h"
+#import <WebKit/WebKit.h>
 
 #pragma mark * MSLoginViewErrorDomain
 
@@ -21,10 +22,10 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
 #pragma mark * MSLoginController Private Interface
 
 
-@interface MSLoginView() <UIWebViewDelegate>
+@interface MSLoginView() <WKNavigationDelegate>
 
 // Private instance properties
-@property (nonatomic, strong, readwrite) UIWebView *webView;
+@property (nonatomic, strong, readwrite) WKWebView *webView;
 @property (nonatomic, strong, readwrite) NSURL* currentURL;
 @property (nonatomic, strong, readwrite) NSString* endURLString;
 @property (nonatomic, copy, readwrite)   MSLoginViewBlock completion;
@@ -80,8 +81,8 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
         toolbarPosition_ = UIToolbarPositionBottom;
         
         // Create the webview
-        webView_ = [[UIWebView alloc] init];
-        webView_.delegate = self;
+        webView_ = [[WKWebView alloc] init];
+		webView_.navigationDelegate = self;
         [self addSubview:webView_];
         
         // Call setViewFrames to update the subview frames
@@ -93,12 +94,6 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
     }
     return self;
 }
-
-- (void) dealloc
-{
-    webView_.delegate = nil;
-}
-
 
 #pragma mark * Public ShowToolbar Property Accessor Methods
 
@@ -124,17 +119,14 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
 }
 
 
-#pragma mark * UIWebViewDelegate Private Implementation
+#pragma mark * WKNavigationDelegate Private Implementation
 
-
--(BOOL) webView:(UIWebView *)webView
-            shouldStartLoadWithRequest:(NSURLRequest *)request
-            navigationType:(UIWebViewNavigationType)navigationType;
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
-    BOOL shouldLoad = NO;
+    WKNavigationActionPolicy shouldLoad = WKNavigationActionPolicyCancel;
     
-    NSURL *requestURL = request.URL;
-    NSString *requestURLString = request.URL.absoluteString;
+    NSURL *requestURL = navigationAction.request.URL;
+    NSString *requestURLString = navigationAction.request.URL.absoluteString;
     
     // Now check if we've reached the end URL and we're done
     if ([requestURLString rangeOfString:self.endURLString options:NSCaseInsensitiveSearch].location == 0) {
@@ -148,17 +140,17 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
         if ([self.currentURL isEqual:requestURL] ||
             [requestURLString rangeOfString:appURLString].location != 0)
         {
-            shouldLoad = YES;
+            shouldLoad = WKNavigationActionPolicyAllow;
         }
         else {
-            [self makeRequest:request];
+            [self makeRequest:navigationAction.request];
         }
     }
     
-    return shouldLoad;
+	decisionHandler(shouldLoad);
 }
 
--(void) webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error
 {    
     // Ignore "Fame Load Interrupted" errors.  These are caused by us
     // taking over the HTTP calls to the Microsoft Azure Mobile Service
@@ -175,14 +167,14 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
     [self callCompletion:nil orError:error];
 }
 
--(void) webViewDidStartLoad:(UIWebView *)webView
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
-    [self.activityIndicator startAnimating];
+	[self.activityIndicator stopAnimating];
 }
 
--(void) webViewDidFinishLoad:(UIWebView *)webView
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation
 {
-    [self.activityIndicator stopAnimating];
+	[self.activityIndicator startAnimating];
 }
 
 
@@ -299,10 +291,11 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
                 NSString *textEncodingName = response.textEncodingName;
                 
                 self.currentURL = URL;
-                [self.webView loadData:data
-                              MIMEType:MIMEType
-                      textEncodingName:textEncodingName
-                               baseURL:self.currentURL];
+				
+				[self.webView loadData:data 
+							  MIMEType:MIMEType 
+				 characterEncodingName:textEncodingName 
+							   baseURL:self.currentURL];
             }
         }
     };
