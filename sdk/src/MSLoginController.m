@@ -166,10 +166,18 @@
         CGRect frame = [[UIScreen mainScreen] bounds];
         NSURL *start = [self.client.loginURL URLByAppendingPathComponent:self.provider];
         
+        NSMutableDictionary *params;
         if (self.parameters) {
-            start = [MSURLBuilder URLByAppendingQueryParameters:self.parameters
-                                                      toURL:start];
+            params = [self.parameters mutableCopy];
+        } else {
+            params = [NSMutableDictionary new];
         }
+        // For now we do not let this be overridden, and are not worried about alt casing
+        params[@"session_mode"] = @"token";
+        
+        start = [MSURLBuilder URLByAppendingQueryParameters:params
+                                                      toURL:start];
+        
         NSURL *end = [self.client.loginURL URLByAppendingPathComponent: @"done"];
         
         MSLoginViewBlock viewCompletion = nil;
