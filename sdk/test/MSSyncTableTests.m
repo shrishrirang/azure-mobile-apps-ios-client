@@ -1373,7 +1373,6 @@ static NSString *const SyncContextQueueName = @"Sync Context: Operation Callback
             [pushOperation cancel];
         }
     }];
-    dispatch_group_leave(group);
     
     NSLog(@"Post push create: point 3, with %d", pushOperation != nil);
 
@@ -1381,11 +1380,12 @@ static NSString *const SyncContextQueueName = @"Sync Context: Operation Callback
     if (requestedCancellationPoint == 3) {
         [pushOperation cancel];
     }
-
+    dispatch_group_leave(group);
+    
     [self verifyFinished:pushOperation];
 
     int synchronizedItemCount = [self synchronizedItemCount];
-    NSLog(@"Done wairing on push with count: %d", synchronizedItemCount);
+    NSLog(@"Done waiting on push with count: %d", synchronizedItemCount);
 
     // Perform another insert
     insertExpectation = [self expectationWithDescription:@"insert expectation"];
