@@ -323,6 +323,9 @@
 		F3C002A11AF7FFF80028AB81 /* MSJSONSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = E8F33B2716166837002DD7C6 /* MSJSONSerializer.h */; };
 		F3C002A21AF7FFF80028AB81 /* MSPredicateTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = E8F33B2B1616684F002DD7C6 /* MSPredicateTranslator.h */; };
 		F3C002A31AF7FFF80028AB81 /* MSBlockDefinitions.h in Headers */ = {isa = PBXBuildFile; fileRef = F3C002331AF7F7450028AB81 /* MSBlockDefinitions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3D8EC941C46485100BE61EB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3D8EC931C46485100BE61EB /* WebKit.framework */; };
+		F3D8EC951C46486600BE61EB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3D8EC931C46485100BE61EB /* WebKit.framework */; };
+		F3D8EC961C46486F00BE61EB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3D8EC931C46485100BE61EB /* WebKit.framework */; };
 		F3EA41DD1B0E63470014B587 /* MSQueuePullOperationInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = F3EA41DC1B0E62F40014B587 /* MSQueuePullOperationInternal.h */; };
 		F3EBDFF41BAC305700D82B10 /* MSPullSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D3B9351B290D80002A126A /* MSPullSettings.m */; };
 		F3EBDFF51BAC305D00D82B10 /* MSPullSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = D0D3B9341B2906EF002A126A /* MSPullSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -476,7 +479,7 @@
 		E84CA4D216236A6E009B2588 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E84CA4D5162373E2009B2588 /* MSUserAgentBuilderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUserAgentBuilderTests.m; sourceTree = "<group>"; };
 		E8653C0A16559C15002CB440 /* MSLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLoginView.h; sourceTree = "<group>"; };
-		E8653C0B16559C15002CB440 /* MSLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLoginView.m; sourceTree = "<group>"; };
+		E8653C0B16559C15002CB440 /* MSLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLoginView.m; sourceTree = "<group>"; usesTabs = 0; };
 		E87BB01B161A28FC008053F9 /* MSClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSClientTests.m; sourceTree = "<group>"; };
 		E87BB01D161A446C008053F9 /* MSURLBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSURLBuilder.h; sourceTree = "<group>"; };
 		E87BB01E161A446C008053F9 /* MSURLBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSURLBuilder.m; sourceTree = "<group>"; };
@@ -533,6 +536,7 @@
 		F3C002331AF7F7450028AB81 /* MSBlockDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSBlockDefinitions.h; sourceTree = "<group>"; };
 		F3C0023A1AF7FF490028AB81 /* MicrosoftAzureMobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MicrosoftAzureMobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3C002441AF7FF4A0028AB81 /* MicrosoftAzureMobile.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MicrosoftAzureMobile.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3D8EC931C46485100BE61EB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		F3EA41DC1B0E62F40014B587 /* MSQueuePullOperationInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSQueuePullOperationInternal.h; sourceTree = "<group>"; };
 		F3EBDFF31BAC301400D82B10 /* MicrosoftAzureMobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MicrosoftAzureMobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -542,6 +546,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3D8EC951C46486600BE61EB /* WebKit.framework in Frameworks */,
 				F3EBE0131BAC32A000D82B10 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -550,6 +555,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3D8EC941C46485100BE61EB /* WebKit.framework in Frameworks */,
 				E84CA4D316236A6E009B2588 /* UIKit.framework in Frameworks */,
 				E8F33ADF1616659C002DD7C6 /* Foundation.framework in Frameworks */,
 			);
@@ -559,6 +565,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3D8EC961C46486F00BE61EB /* WebKit.framework in Frameworks */,
 				A28224B0192ACEAE00EF8743 /* CoreData.framework in Frameworks */,
 				E84CA4DE16272371009B2588 /* UIKit.framework in Frameworks */,
 				E8F33AF11616659C002DD7C6 /* Foundation.framework in Frameworks */,
@@ -756,6 +763,7 @@
 		E8F33ADD1616659C002DD7C6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F3D8EC931C46485100BE61EB /* WebKit.framework */,
 				F3B70FAD1BAC34B30018AE8D /* CoreData.framework */,
 				A28224AF192ACEAE00EF8743 /* CoreData.framework */,
 				E84CA4D216236A6E009B2588 /* UIKit.framework */,

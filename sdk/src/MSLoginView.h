@@ -44,7 +44,7 @@ typedef void (^MSLoginViewBlock)(NSURL *endURL, NSError *error);
 
 
 // The |MSLoginView| class encapsulates all of the UI needed for login
-// scenarios. It includes a |UIWebView| and a |UIToolbar| with a cancel button
+// scenarios. It includes a |WKWebView| and a |UIToolbar| with a cancel button
 // and an activity indicator.  The toolbar can be configured.  The |MSLoginView|
 // is designed to start a given URL and allow the user to navigate until a
 // specific end URL is reached or an error has occurred.
