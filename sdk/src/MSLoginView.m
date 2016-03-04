@@ -268,6 +268,7 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
                                                       andData:data];
         }
         
+        
         // If the connection had an error or we got an error status code,
         // then we call the completion block
         if (error) {
@@ -329,10 +330,11 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
                                          andData:(NSData *)data
 {
     NSDictionary *userInfo = @{
-        MSErrorResponseKey:response,
-        MSLoginViewErrorResponseData : data
-    };
-    
+        MSErrorResponseKey:response
+    };    
+    if(data){
+      [userInfo setValue:data  forKey:MSLoginViewErrorResponseData];
+    }
     return [self errorWithDescriptionKey:@"The login operation failed."
                             andErrorCode:MSLoginViewFailed
                              andUserInfo:userInfo];
