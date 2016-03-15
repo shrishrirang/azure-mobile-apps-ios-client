@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0044609E1C84D96600CB5A0F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0044609D1C84D96600CB5A0F /* WebKit.framework */; };
 		872B02BF1672A73B003613A1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872B02BE1672A73B003613A1 /* UIKit.framework */; };
 		872B02C11672A73B003613A1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872B02C01672A73B003613A1 /* Foundation.framework */; };
 		872B02C31672A73B003613A1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872B02C21672A73B003613A1 /* CoreGraphics.framework */; };
@@ -41,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0044609D1C84D96600CB5A0F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		872B02BA1672A73B003613A1 /* ZumoE2ETestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZumoE2ETestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		872B02BE1672A73B003613A1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		872B02C01672A73B003613A1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -105,6 +107,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0044609E1C84D96600CB5A0F /* WebKit.framework in Frameworks */,
 				A37A1C7A1C04D1FB007A5BC2 /* MicrosoftAzureMobile.framework in Frameworks */,
 				A2B509DD199ABF1A00A914CF /* MessageUI.framework in Frameworks */,
 				872B02BF1672A73B003613A1 /* UIKit.framework in Frameworks */,
@@ -136,6 +139,7 @@
 		872B02BD1672A73B003613A1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0044609D1C84D96600CB5A0F /* WebKit.framework */,
 				A37A1C791C04D1FB007A5BC2 /* MicrosoftAzureMobile.framework */,
 				A2B509DC199ABF1A00A914CF /* MessageUI.framework */,
 				872B02BE1672A73B003613A1 /* UIKit.framework */,
@@ -426,7 +430,6 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(PROJECT_DIR)",
-					"/Users/pvannor/GitHub/azure-mobile-services/sdk/iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ZumoE2ETestApp/ZumoE2ETestApp-Prefix.pch";
