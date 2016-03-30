@@ -82,7 +82,7 @@ function setMobileService(app, window, appUrl, blobUrl, blobToken) {
 }
 
 function startTests() {
-	UIATarget.localTarget().pushTimeout(300);
+	UIATarget.localTarget().pushTimeout(600);
 
 	var testGroups = window.tableViews()[0].cells();
 	var lastTestGroup = testGroups.length - 1;
