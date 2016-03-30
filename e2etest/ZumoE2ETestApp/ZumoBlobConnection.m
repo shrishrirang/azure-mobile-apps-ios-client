@@ -56,7 +56,11 @@
 -(void) uploadData:(NSData *)data type:(NSString *)type withFileName:(NSString *)name completion:(void (^)(NSError *))completion
 {
     NSString *blobUrl = [self.blobUrl stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]];
-    NSURL *url = [NSURL URLWithString:[blobUrl stringByAppendingFormat:@"/%@?%@", [name stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]], self.blobAccessToken]];
+    
+    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:self.blobAccessToken options:0];
+    NSString *decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+    NSURL *url = [NSURL URLWithString:[blobUrl stringByAppendingFormat:@"/%@?%@", [name stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]], decodedString]];
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     
     request.HTTPMethod = @"PUT";

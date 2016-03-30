@@ -9,7 +9,7 @@ userNames[MICROSOFT] = 'zumotestuser@hotmail.com';
 userNames[FACEBOOK] = 'zumotestuser@hotmail.com';
 userNames[TWITTER] = 'zumotestuser';
 userNames[GOOGLE] = 'zumotestuser@hotmail.com';
-userNames[AAD] = 'zumotestuser@zumoe2e.onmicrosoft.com';
+userNames[AAD] = 'zumoaaduser@azuremobile.onmicrosoft.com';
 
 var password = '--AUTH_PASSWORD--';
 
@@ -27,9 +27,9 @@ UIATarget.onAlert = function(alert) {
 	var title = alert.name();
 	UIALogger.logDebug("Alert with title: '" + title + "'");
 
-	done = true;
 	if (title == 'Tests Complete') {
 		UIALogger.logPass('All tests');
+		done = true;
 	} else {
 		UIALogger.logFail('All tests');
 	}
@@ -42,21 +42,20 @@ setMobileService(app, window, mobileServiceName, blobUrl, blobToken);
 startTests();
 
 while (!done) {
-	try {
-		var provider = isLoginPage();
-		if (provider) {
-			UIALogger.logMessage('Performing log in for \'' + provider + '\'');
-			var userName = userNames[provider];
+	var provider = isLoginPage();
+	if (provider) {
+		UIALogger.logMessage('Performing log in for \'' + provider + '\'');
+		var userName = userNames[provider];
+		try {
 			doLogin(target, app, userName, password, provider);
+		}catch(error) {
+			UIALogger.logMessage('Login failed: ' + error);
+			UIATarget.localTarget().logElementTree();
+			throw error;
 		}
-
-		UIALogger.logMessage('Waiting for login or done');
-		target.delay(3);
-	} catch (ex) {
-		UIALogger.logMessage('Error: ' + ex);
-		UIATarget.localTarget().logElementTree();
-		throw ex;
 	}
+	UIALogger.logMessage('Waiting for login or done');
+	target.delay(3);
 }
 
 backToStart();
@@ -109,23 +108,23 @@ function isLoginPage() {
 
 	var alltags = webView.staticTexts();
 
-	if (alltags.withPredicate('name contains "Facebook"').length > 0) {
+	if (alltags.withPredicate('name contains[cd] "Facebook"').length > 0) {
 		return FACEBOOK;
 	}
 
-	if (alltags.withPredicate('name contains "work"').length > 0) {
+	if (alltags.withPredicate('name contains[cd] "Work"').length > 0) {
 		return AAD;
 	}
 
-	if (alltags.withPredicate('name contains "Microsoft"').length > 0) {
+	if (alltags.withPredicate('name contains[cd] "Microsoft"').length > 0) {
 		return MICROSOFT;
 	}
 
-	if (alltags.withPredicate('name contains "Twitter"').length > 0) {
+	if (alltags.withPredicate('name contains[cd] "Twitter"').length > 0) {
 		return TWITTER;
 	}
 
-	if (alltags.withPredicate('name contains "Google"').length > 0) {
+	if (alltags.withPredicate('name contains[cd] "Google"').length > 0) {
 			return GOOGLE;
 	}
 
@@ -135,26 +134,44 @@ function isLoginPage() {
 function doLogin(target, app, userName, password, provider) {
 	var webView = getWebView();
 	var userTextField = webView.textFields()[0];
-	userTextField.tap();
 	target.delay(1);
-	if (!userTextField.hasKeyboardFocus()) {
-		userTextField.tap();
+    if(userTextField){
+        userTextField.tap();
+        target.delay(1);
+        if (!userTextField.hasKeyboardFocus()) {
+            userTextField.tap();
+            target.delay(1);
+        }
+        app.keyboard().typeString(userName);
+        target.delay(3);
+    }
+	
+    if(provider===GOOGLE){
+        var btnNext = webView.buttons()[0];
 		target.delay(1);
-	}
-	app.keyboard().typeString(userName);
-	target.delay(3);
-
+        if(btnNext){
+            btnNext.tap();
+            target.delay(1);
+        }
+    }
+    
 	var passwordTextField = webView.secureTextFields()[0];
-	passwordTextField.tap();
 	target.delay(1);
-	if (!passwordTextField.hasKeyboardFocus()) {
-		passwordTextField.tap();
-		target.delay(1);
-	}
-	app.keyboard().typeString(password);
+    if(passwordTextField){
+        passwordTextField.tap();
+        target.delay(1);
+        if (!passwordTextField.hasKeyboardFocus()) {
+            passwordTextField.tap();
+            target.delay(1);
+        }
+        app.keyboard().typeString(password);
+        target.delay(3);
+    }
 
-	target.delay(3);
-	var btnLogin = webView.buttons()[0];
-	btnLogin.tap();
+    var btnLogin = webView.buttons()[0];
 	target.delay(1);
+    if(btnLogin){
+        btnLogin.tap();
+        target.delay(1);
+    }
 }
