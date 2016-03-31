@@ -30,10 +30,7 @@ UIATarget.onAlert = function(alert) {
 	if (title == 'Tests Complete') {
 		UIALogger.logPass('All tests');
 		done = true;
-	} else {
-		UIALogger.logFail('All tests');
-	}
-
+	} 
 	return false;
 }
 
@@ -125,7 +122,7 @@ function isLoginPage() {
 	}
 
 	if (alltags.withPredicate('name contains[cd] "Google"').length > 0) {
-			return GOOGLE;
+		return GOOGLE;
 	}
 
 	return null;
@@ -155,6 +152,14 @@ function doLogin(target, app, userName, password, provider) {
         }
     }
     
+	if(provider===AAD){
+        var rememberMeCheckbox = webView.switches()[0];
+        target.delay(1);
+        if(rememberMeCheckbox){
+            rememberMeCheckbox.setValue(true);
+            target.delay(1);
+        }
+    }
 	var passwordTextField = webView.secureTextFields()[0];
 	target.delay(1);
     if(passwordTextField){
