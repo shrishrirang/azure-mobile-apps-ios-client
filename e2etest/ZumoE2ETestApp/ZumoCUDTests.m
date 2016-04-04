@@ -188,7 +188,7 @@ typedef enum { UpdateUsingObject, NegUpdateObjectInvalidId, NegUpdateObjectNoId 
         if (type == NegUpdateObjectNoId) {
             itemToUpdate = @{ @"name" : @"John Doe", @"age" : @33 };
         } else if (type == NegUpdateObjectInvalidId) {
-            itemToUpdate = @{ @"id": @"IdThatCan'tExistHere!", @"name" : @"John Doe", @"age" : @33 };
+            itemToUpdate = @{ @"id": @"IdThatCan'tExistHere!", @"name" : @"John Doe" };
         }
         
         [table update:itemToUpdate completion:^(NSDictionary *updatedItem, NSError *updateError) {
