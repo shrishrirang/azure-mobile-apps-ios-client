@@ -121,32 +121,17 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
 
 #pragma mark * WKNavigationDelegate Private Implementation
 
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler
 {
-    WKNavigationActionPolicy shouldLoad = WKNavigationActionPolicyCancel;
-    
-    NSURL *requestURL = navigationAction.request.URL;
-    NSString *requestURLString = navigationAction.request.URL.absoluteString;
-    
-    // Now check if we've reached the end URL and we're done
-    if ([requestURLString rangeOfString:self.endURLString options:NSCaseInsensitiveSearch].location == 0) {
-        [self callCompletion:requestURL orError:nil];
+    WKNavigationActionPolicy shouldLoad = WKNavigationResponsePolicyAllow;
+    NSURL *navResponseURL = navigationResponse.response.URL;
+    NSString *responseURLString = navigationResponse.response.URL.absoluteString;
+    //Check if we've reached the end URL
+    if ([responseURLString rangeOfString:self.endURLString options:NSCaseInsensitiveSearch].location == 0) {
+        [self callCompletion:navResponseURL orError:nil];
+        shouldLoad = WKNavigationActionPolicyCancel;
     }
-    else {
-        
-        // Check if this request is to the Authentication URL path, and if so, make the request with
-        // the MSClientConnection so that we can inspect the response
-        NSString *appURLString = self.client.loginHost.absoluteString;
-        if ([self.currentURL isEqual:requestURL] ||
-            [requestURLString rangeOfString:appURLString].location != 0)
-        {
-            shouldLoad = WKNavigationActionPolicyAllow;
-        }
-        else {
-            [self makeRequest:navigationAction.request];
-        }
-    }
-    
+    //Continue until we reach end URL
     decisionHandler(shouldLoad);
 }
 
@@ -255,63 +240,6 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
     UIViewAutoresizingFlexibleHeight;
 }
 
--(void) makeRequest:(NSURLRequest *)request
-{
-    // Create the callback
-    MSResponseBlock responseCompletion =
-    ^(NSHTTPURLResponse *response, NSData *data, NSError *error)
-    {
-        [self.activityIndicator stopAnimating];
-
-        if (!error && response.statusCode >= 400) {
-            error = [self errorForLoginViewFailedWithResponse:response
-                                                      andData:data];
-        }
-        
-        
-        // If the connection had an error or we got an error status code,
-        // then we call the completion block
-        if (error) {
-            [self callCompletion:nil orError:error];
-        }
-        else {
-            
-            // Check for a redirect and if so, build a new request. Otherwise
-            // just have the WebView load the response data.
-            if (response.statusCode >= 300) {
-                NSString *newURLString = [response.allHeaderFields valueForKey:@"Location"];
-                NSURL *newURL = [NSURL URLWithString:newURLString];
-                NSURLRequest *newRequest = [NSURLRequest requestWithURL:newURL];
-                [self.webView loadRequest:newRequest];
-            }
-            else {
-                // The request was successful, so ask the WebView to load the
-                // response data
-                NSURL *URL = response.URL;
-                NSString *MIMEType = response.MIMEType;
-                NSString *textEncodingName = response.textEncodingName;
-                
-                self.currentURL = URL;
-				
-                [self.webView loadData:data 
-                              MIMEType:MIMEType 
-                 characterEncodingName:textEncodingName 
-                               baseURL:self.currentURL];
-            }
-        }
-    };
-    
-    // Make the connection and start it
-    MSClientConnection  *connection = [[MSClientConnection alloc]
-                                       initWithRequest:request
-                                       client:self.client
-                                       completion:responseCompletion];
-    
-    [self.activityIndicator startAnimating];
-    
-    [connection startWithoutFilters];
-}
-
 -(void) callCompletion:(NSURL *)endURL orError:(NSError *)error
 {
     // Call the completion and then set it to nil so that it does not
@@ -332,6 +260,7 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
     NSDictionary *userInfo = @{
         MSErrorResponseKey:response
     };    
+    
     if(data){
       [userInfo setValue:data  forKey:MSLoginViewErrorResponseData];
     }
