@@ -118,6 +118,11 @@ echo Using Zumo IPad
 export DEVICE_ARG=Zumo\ Test\ Team\ iPad\ 1\ \(9.3.1\)
 fi
 
+if [ "$DEVICE_CMD_ARG" == "zumoipadair" ]; then
+echo Using Zumo IPad
+export DEVICE_ARG=zumoipadair\ \(9.3.1\)
+fi
+
 if [ "$DEVICE_ARG" == "" ]
 then
 echo Unsupported device: "$2"
@@ -144,4 +149,4 @@ export INSTRUMENT_TEMPLATE=/Applications/Xcode.app/Contents/Applications/Instrum
 echo Running instruments...
 instruments -w "$DEVICE_ARG" -t "$INSTRUMENT_TEMPLATE" "$APP_NAME" -e UIASCRIPT "ZumoAutomationWithData.js" -e UIARESULTSPATH "Results" || exit $?
 
-exit 0
+exit $?
