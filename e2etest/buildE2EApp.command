@@ -27,7 +27,7 @@ else
 	cp -R ../sdk/MicrosoftAzureMobile.framework .
 fi
 
-xcodebuild -sdk iphonesimulator9.1 || exit 1
+xcodebuild -sdk iphonesimulator9.3 || exit 1
 
 # Copy the E2EAPP into this directory
 rsync -rlK build/Release-iphonesimulator/ZumoE2ETestApp.app .
