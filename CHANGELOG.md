@@ -1,5 +1,13 @@
 # Azure Mobile Services iOS SDK Change Log
 
+### Version 3.1.0
+- Fixed AAD server flow login issue
+- Migrated from WebView to WebKit
+- Few improvements(and bug fixes) to SyncTable operations
+
+### Version 3.0.0
+- Update MicrosoftAzureMobile.podspec
+
 ### Version 3.0.0-rc
 - Changed framework naming to MicrosoftAzureMobile (from WindowsAzureMobileServices)
 - Added base podspec for use by Cocoapods
