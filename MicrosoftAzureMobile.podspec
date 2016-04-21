@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "MicrosoftAzureMobile"
-  s.version      = "3.0.0"
+  s.version      = "3.1.0"
   s.summary      = "Client SDK for working with Azure Mobile Apps."
   s.homepage     = "http://azure.github.io/azure-mobile-apps-ios-client"
   s.license      = "Apache License, Version 2.0"
