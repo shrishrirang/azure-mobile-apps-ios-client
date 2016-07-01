@@ -1,5 +1,18 @@
 language: objective-c
 osx_image: xcode7.1
 xcode_project: sdk/MicrosoftAzureMobile.xcodeproj
-xcode_scheme: MicrosoftAzureMobile
-xcode_sdk: iphonesimulator9.1
+xcode_scheme: 
+    - MicrosoftAzureMobile
+    - MicrosoftAzureMobileFramework
+    - MicrosoftAzureMobile_Mac
+xcode_sdk: 
+    - iphonesimulator9.1
+    - macosx10.11
+matrix:
+    exclude:
+        - xcode_scheme: MicrosoftAzureMobile
+          xcode_sdk: macosx10.11
+        - xcode_scheme: MicrosoftAzureMobileFramework
+          xcode_sdk: macosx10.11 
+        - xcode_scheme: MicrosoftAzureMobile_Mac
+          xcode_sdk: iphonesimulator9.1

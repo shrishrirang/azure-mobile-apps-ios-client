@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0710"
+   LastUpgradeVersion = "0720"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,23 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5A4FAC5C1B050A870027011D"
+               BlueprintIdentifier = "F3C002391AF7FF490028AB81"
                BuildableName = "MicrosoftAzureMobile.framework"
-               BlueprintName = "MicrosoftAzureMobileFramework"
-               ReferencedContainer = "container:MicrosoftAzureMobile.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5A4FAC661B050A880027011D"
-               BuildableName = "WindowsAzureMobileServicesFrameworkTests.xctest"
-               BlueprintName = "WindowsAzureMobileServicesFrameworkTests"
+               BlueprintName = "MicrosoftAzureMobile_Mac"
                ReferencedContainer = "container:MicrosoftAzureMobile.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E8F33AEB1616659C002DD7C6"
+               BlueprintIdentifier = "F3C002431AF7FF4A0028AB81"
                BuildableName = "MicrosoftAzureMobile.xctest"
-               BlueprintName = "MicrosoftAzureMobileTests"
+               BlueprintName = "MicrosoftAzureMobile_MacTests"
                ReferencedContainer = "container:MicrosoftAzureMobile.xcodeproj">
             </BuildableReference>
             <SkippedTests>
@@ -64,9 +50,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5A4FAC5C1B050A870027011D"
+            BlueprintIdentifier = "F3C002391AF7FF490028AB81"
             BuildableName = "MicrosoftAzureMobile.framework"
-            BlueprintName = "MicrosoftAzureMobileFramework"
+            BlueprintName = "MicrosoftAzureMobile_Mac"
             ReferencedContainer = "container:MicrosoftAzureMobile.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -86,9 +72,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5A4FAC5C1B050A870027011D"
+            BlueprintIdentifier = "F3C002391AF7FF490028AB81"
             BuildableName = "MicrosoftAzureMobile.framework"
-            BlueprintName = "MicrosoftAzureMobileFramework"
+            BlueprintName = "MicrosoftAzureMobile_Mac"
             ReferencedContainer = "container:MicrosoftAzureMobile.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -104,9 +90,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5A4FAC5C1B050A870027011D"
+            BlueprintIdentifier = "F3C002391AF7FF490028AB81"
             BuildableName = "MicrosoftAzureMobile.framework"
-            BlueprintName = "MicrosoftAzureMobileFramework"
+            BlueprintName = "MicrosoftAzureMobile_Mac"
             ReferencedContainer = "container:MicrosoftAzureMobile.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
