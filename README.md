@@ -7,7 +7,7 @@ With Microsoft Azure Mobile Apps you can add a scalable backend to your connecte
 ## Getting Started
 
 If you are new to Mobile Apps, you can get started by following our tutorials for connecting your Mobile
-Apps cloud backend to [iOS apps](http://azure.microsoft.com/en-us/documentation/articles/mobile-services-ios-get-started/).
+Apps cloud backend to [iOS apps](https://azure.microsoft.com/en-us/documentation/articles/app-service-mobile-ios-get-started/).
 
 ## Download Source Code
 
