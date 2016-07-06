@@ -1,4 +1,4 @@
-# Azure Mobile Services iOS SDK Change Log
+# Azure Mobile Apps iOS SDK Change Log
 
 ### Version 3.1.0
 - Fixed AAD server flow login issue
