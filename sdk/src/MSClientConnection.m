@@ -22,18 +22,57 @@ static NSString *const xZumoInstallId = @"X-ZUMO-INSTALLATION-ID";
 
 #pragma mark * MSConnectionDelegate Private Interface
 
+// The |MSConnection| is a private class as a container for individual
+// connections to store response data and completion block. It is used
+// by the |MSClientConnection| to track tasks in the delegate
+@interface MSConnection : NSObject
+
+/**
+ Task identifier for this connection
+ */
+@property (nonatomic) NSUInteger identifier;
+
+/**
+ Data for this connection
+ */
+@property (nonatomic, strong) NSMutableData *data;
+
+/**
+ Completion block to be executed once task has completed
+ */
+@property (nonatomic, copy) MSResponseBlock completion;
+@end
+
 
 // The |MSConnectionDelegate| is a private class that implements the
 // |NSURLSessionDataDelegate| and surfaces success and error blocks. It
 // is used only by the |MSClientConnection|.
 @interface MSConnectionDelegate : NSObject <NSURLSessionDataDelegate>
-		
-@property (nonatomic, strong)               MSClient *client;
-@property (nonatomic, strong)               NSData *data;
-@property (nonatomic, copy)                 MSResponseBlock completion;
 
--(id) initWithClient:(MSClient *)client
-          completion:(MSResponseBlock)completion;
+@property (nonatomic, strong) MSClient *client;
+
+/**
+ A bag of current connections being executed by the session
+ */
+@property (nonatomic, strong) NSMutableDictionary<NSNumber *, MSConnection *> *connections;
+
+
+/**
+ Add a task to monitor delegate events
+
+ @param task       The session task that should be monitored
+ @param completion The block to be called on completion of the task
+ */
+- (void)addTask:(NSURLSessionTask *)task completion:(MSResponseBlock)completion;
+
+
+/**
+ Singleton connection delegate to manage multiple data tasks with
+ a single NSURLSession
+
+ @param client The MSClient for the current connection
+ */
++ (instancetype)sharedDelegateWithClient:(MSClient *)client;
 
 @end
 
@@ -51,11 +90,16 @@ static NSOperationQueue *delegateQueue;
 
 +(NSURLSession *)sessionWithDelegate:(id<NSURLSessionDelegate>)delegate delegateQueue:(NSOperationQueue *)queue
 {
-	NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    
-	NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration
-											 delegate:delegate
-										delegateQueue:queue];
+    static NSURLSession *session = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        
+        session = [NSURLSession sessionWithConfiguration:configuration
+                                                delegate:delegate
+                                           delegateQueue:queue];
+    });
+	
 	return session;
 }
 
@@ -176,15 +220,12 @@ static NSOperationQueue *delegateQueue;
 			taskQueue = [NSOperationQueue mainQueue];
 		}
 		
-		MSConnectionDelegate *delegate = [[MSConnectionDelegate alloc]
-										  initWithClient:client
-										  completion:completion];
-		
-		NSURLSession *session = [self sessionWithDelegate:delegate delegateQueue:taskQueue];
+        MSConnectionDelegate *sharedDelegate = [MSConnectionDelegate sharedDelegateWithClient:client];
+		NSURLSession *session = [self sessionWithDelegate:sharedDelegate delegateQueue:taskQueue];
 		NSURLSessionDataTask *task = [session dataTaskWithRequest:request];
-		[task resume];
         
-        [session finishTasksAndInvalidate];
+        [sharedDelegate addTask:task completion:completion];
+		[task resume];
     }
     else {
         
@@ -269,27 +310,55 @@ static NSOperationQueue *delegateQueue;
 
 #pragma mark * MSConnectionDelegate Private Implementation
 
+@implementation MSConnection
 
-@implementation MSConnectionDelegate
-
-@synthesize client = client_;
-@synthesize completion = completion_;
-@synthesize data = data_;
-
-
-# pragma mark * Public Initializer Methods
-
-
--(id) initWithClient:(MSClient *)client
-          completion:(MSResponseBlock)completion
+- (instancetype)initWithIdentifier:(NSUInteger)identifier completion:(MSResponseBlock)completion
 {
-    self = [super init];
-    if (self) {
-        client_ = client;
-        completion_ = [completion copy];
+    if (self = [super init]) {
+        self.identifier = identifier;
+        self.completion = completion;
+        self.data = [NSMutableData data];
     }
     
     return self;
+}
+
+@end
+
+
+@implementation MSConnectionDelegate
+
+# pragma mark * Public Initializer Methods
+
++ (instancetype)sharedDelegateWithClient:(MSClient *)client
+{
+    static id sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[[self class] alloc] initWithClient:client];
+    });
+    return sharedInstance;
+}
+
+- (void)addTask:(NSURLSessionTask *)task completion:(MSResponseBlock)completion
+{
+    MSConnection *connection = [[MSConnection alloc] initWithIdentifier:task.taskIdentifier
+                                                             completion:completion];
+    self.connections[@(task.taskIdentifier)] = connection;
+}
+
+- (instancetype)initWithClient:(MSClient *)client
+{
+    if (self = [super init]) {
+        self.client = client;
+        self.connections = [NSMutableDictionary dictionary];
+    }
+    return self;
+}
+
+- (MSConnection *)connectionForTask:(NSURLSessionTask *)task
+{
+    return self.connections[@(task.taskIdentifier)];
 }
 
 # pragma mark * NSURLSessionDataDelegate Methods
@@ -302,17 +371,8 @@ static NSOperationQueue *delegateQueue;
 
 -(void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
 {
-	// If we haven't received any data before, just take this data instance
-	if (!self.data) {
-		self.data = data;
-	}
-	else {
-		
-		// Otherwise, append this data to what we have
-		NSMutableData *newData = [NSMutableData dataWithData:self.data];
-		[newData appendData:data];
-		self.data = newData;
-	}
+    MSConnection *connection = [self connectionForTask:dataTask];
+    [connection.data appendData:data];
 }
 
 -(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task willPerformHTTPRedirection:(NSHTTPURLResponse *)response newRequest:(NSURLRequest *)request completionHandler:(void (^)(NSURLRequest *))completionHandler
@@ -333,17 +393,18 @@ static NSOperationQueue *delegateQueue;
 
 -(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
 {
-	if (self.completion) {
-		self.completion((NSHTTPURLResponse *)task.response, self.data, error);
-		[self cleanup];
+    MSConnection *connection = [self connectionForTask:task];
+	if (connection.completion) {
+        // Convert data so we pass an immutable version to the completion handler
+        NSData *data = [NSData dataWithData:connection.data];
+		connection.completion((NSHTTPURLResponse *)task.response, data, error);
+        [self cleanup:task];
 	}
 }
 
--(void) cleanup
+-(void) cleanup:(NSURLSessionTask *)task
 {
-	self.client = nil;
-	self.data = nil;
-	self.completion = nil;
+    [self.connections removeObjectForKey:@(task.taskIdentifier)];
 }
 
 @end
