@@ -233,6 +233,8 @@
 		F331FBE71BB003C5004E777C /* MSPullSettingsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = D0EFD8581B2F785F009CF6DA /* MSPullSettingsInternal.h */; };
 		F331FBE81BB003C5004E777C /* MSQueuePullOperationInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = F3EA41DC1B0E62F40014B587 /* MSQueuePullOperationInternal.h */; };
 		F331FBE91BB003C5004E777C /* MSBlockDefinitions.h in Headers */ = {isa = PBXBuildFile; fileRef = F3C002331AF7F7450028AB81 /* MSBlockDefinitions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3366E891D50636900FBAEF9 /* NSURLSessionTask+Completion.h in Headers */ = {isa = PBXBuildFile; fileRef = F3366E871D50636900FBAEF9 /* NSURLSessionTask+Completion.h */; };
+		F3366E8A1D50636900FBAEF9 /* NSURLSessionTask+Completion.m in Sources */ = {isa = PBXBuildFile; fileRef = F3366E881D50636900FBAEF9 /* NSURLSessionTask+Completion.m */; };
 		F36D9F001C3A46CD002AC412 /* MSConnectionConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = F36D9EFE1C3A46CD002AC412 /* MSConnectionConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36D9F011C3A46CD002AC412 /* MSConnectionConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = F36D9EFE1C3A46CD002AC412 /* MSConnectionConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36D9F021C3A46CD002AC412 /* MSConnectionConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = F36D9EFE1C3A46CD002AC412 /* MSConnectionConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -529,6 +531,8 @@
 		E8F33B36161668DA002DD7C6 /* MSJSONSerializerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSJSONSerializerTests.m; sourceTree = "<group>"; };
 		E8F33B38161668E4002DD7C6 /* MSPredicateTranslatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPredicateTranslatorTests.m; sourceTree = "<group>"; };
 		E8F33B3A161668ED002DD7C6 /* MSQueryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSQueryTests.m; sourceTree = "<group>"; };
+		F3366E871D50636900FBAEF9 /* NSURLSessionTask+Completion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSessionTask+Completion.h"; sourceTree = "<group>"; };
+		F3366E881D50636900FBAEF9 /* NSURLSessionTask+Completion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSessionTask+Completion.m"; sourceTree = "<group>"; };
 		F36D9EFE1C3A46CD002AC412 /* MSConnectionConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSConnectionConfiguration.h; sourceTree = "<group>"; };
 		F36D9EFF1C3A46CD002AC412 /* MSConnectionConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSConnectionConfiguration.m; sourceTree = "<group>"; };
 		F36D9F191C3A4BC2002AC412 /* MSConnectionConfigurationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSConnectionConfigurationTests.m; sourceTree = "<group>"; };
@@ -854,6 +858,8 @@
 		E8F33B1A161667E2002DD7C6 /* Connection */ = {
 			isa = PBXGroup;
 			children = (
+				F3366E871D50636900FBAEF9 /* NSURLSessionTask+Completion.h */,
+				F3366E881D50636900FBAEF9 /* NSURLSessionTask+Completion.m */,
 				E8F33B1E16166822002DD7C6 /* MSClientConnection.h */,
 				E8F33B1F16166822002DD7C6 /* MSClientConnection.m */,
 				E8F33B2016166822002DD7C6 /* MSTableConnection.h */,
@@ -992,6 +998,7 @@
 				7929542819B7C793006A3829 /* MSQueryResult.h in Headers */,
 				E8E3790D161F769D00C13F00 /* MicrosoftAzureMobile.h in Headers */,
 				E84CA4E116272C15009B2588 /* MSLoginController.h in Headers */,
+				F3366E891D50636900FBAEF9 /* NSURLSessionTask+Completion.h in Headers */,
 				E8E3790E161F769D00C13F00 /* MSClient.h in Headers */,
 				A3D7153C1C1A09F300545C0B /* MSManagedObjectObserver.h in Headers */,
 				E8E37911161F769D00C13F00 /* MSTable.h in Headers */,
@@ -1355,6 +1362,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3366E8A1D50636900FBAEF9 /* NSURLSessionTask+Completion.m in Sources */,
 				CF762EC91A1D37A40018C292 /* MSDateOffset.m in Sources */,
 				E8F33B15161667CE002DD7C6 /* MSClient.m in Sources */,
 				A258890C18A19D0B00962F9A /* MSOperationQueue.m in Sources */,
