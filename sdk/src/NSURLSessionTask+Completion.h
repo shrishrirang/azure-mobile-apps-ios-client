@@ -1,10 +1,6 @@
-//
-//  NSURLSessionTask+Completion.h
-//  MicrosoftAzureMobile
-//
-//  Created by Damien Pontifex on 2/08/2016.
-//  Copyright © 2016 Windows Azure. All rights reserved.
-//
+// ----------------------------------------------------------------------------
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// ----------------------------------------------------------------------------
 
 #import <Foundation/Foundation.h>
 #import "MSBlockDefinitions.h"

@@ -21,28 +21,6 @@ static NSString *const jsonContentType = @"application/json";
 static NSString *const xZumoAuth = @"X-ZUMO-AUTH";
 static NSString *const xZumoInstallId = @"X-ZUMO-INSTALLATION-ID";
 
-#pragma mark * MSConnectionDelegate Private Interface
-
-// The |MSConnectionDelegate| is a private class that implements the
-// |NSURLSessionDataDelegate| and surfaces success and error blocks. It
-// is used only by the |MSClientConnection|.
-@interface MSConnectionDelegate : NSObject <NSURLSessionDataDelegate>
-
-- (instancetype)init NS_UNAVAILABLE;
-
-@property (nonatomic, strong) MSClient *client;
-
-/**
- Singleton connection delegate to manage multiple data tasks with
- a single NSURLSession
-
- @param client The MSClient for the current connection
- */
-+ (instancetype)sharedDelegateWithClient:(MSClient *)client;
-
-@end
-
-
 #pragma mark * MSClientConnection Implementation
 
 
@@ -54,24 +32,7 @@ static NSOperationQueue *delegateQueue;
 @synthesize request = request_;
 @synthesize completion = completion_;
 
-+(NSURLSession *)sessionWithClient:(MSClient *)client delegateQueue:(NSOperationQueue *)queue
-{
-    static NSURLSession *session = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        MSConnectionDelegate *delegate = [MSConnectionDelegate sharedDelegateWithClient:client];
-        
-        session = [NSURLSession sessionWithConfiguration:configuration
-                                                delegate:delegate
-                                           delegateQueue:queue];
-    });
-	
-	return session;
-}
-
 # pragma mark * Public Initializer Methods
-
 
 -(id) initWithRequest:(NSURLRequest *)request
                client:(MSClient *)client
@@ -180,15 +141,7 @@ static NSOperationQueue *delegateQueue;
 		// No filters to invoke so use |NSURLSessionDataTask | to actually
 		// send the request.
 		
-		NSOperationQueue *taskQueue = nil;
-        if (client.connectionDelegateQueue) {
-			taskQueue = client.connectionDelegateQueue;
-        } else {
-			taskQueue = [NSOperationQueue mainQueue];
-		}
-		
-        NSURLSession *session = [self sessionWithClient:client delegateQueue:taskQueue];
-		NSURLSessionDataTask *task = [session dataTaskWithRequest:request];
+		NSURLSessionDataTask *task = [client.urlSession dataTaskWithRequest:request];
         task.completion = completion;
         
 		[task resume];
@@ -272,70 +225,3 @@ static NSOperationQueue *delegateQueue;
 
 
 @end
-
-
-#pragma mark * MSConnectionDelegate Private Implementation
-
-@implementation MSConnectionDelegate
-
-# pragma mark * Public Initializer Methods
-
-+ (instancetype)sharedDelegateWithClient:(MSClient *)client
-{
-    static MSConnectionDelegate *sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[[self class] alloc] init];
-        sharedInstance.client = client;
-    });
-    return sharedInstance;
-}
-
-# pragma mark * NSURLSessionDataDelegate Methods
-
--(void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask willCacheResponse:(NSCachedURLResponse *)proposedResponse completionHandler:(void (^)(NSCachedURLResponse *cachedResponse))completionHandler
-{
-	// We don't want to cache anything
-	completionHandler(nil);
-}
-
--(void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
-{
-    [dataTask.data appendData:data];
-}
-
--(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task willPerformHTTPRedirection:(NSHTTPURLResponse *)response newRequest:(NSURLRequest *)request completionHandler:(void (^)(NSURLRequest *))completionHandler
-{
-	NSURLRequest *newRequest = nil;
-	
-	// Only follow redirects to the Microsoft Azure Mobile Service and not
-	// to other hosts
-	NSString *requestHost = request.URL.host;
-	NSString *applicationHost = self.client.applicationURL.host;
-	if ([applicationHost isEqualToString:requestHost])
-	{
-		newRequest = request;
-	}
-	
-	completionHandler(newRequest);
-}
-
--(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
-{
-    MSResponseBlock completion = task.completion;
-	if (completion) {
-        // Convert data so we pass an immutable version to the completion handler
-        NSData *data = [NSData dataWithData:task.data];
-		completion((NSHTTPURLResponse *)task.response, data, error);
-        [self cleanup:task];
-	}
-}
-
--(void) cleanup:(NSURLSessionTask *)task
-{
-    task.completion = nil;
-    task.data = nil;
-}
-
-@end
-

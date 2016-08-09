@@ -13,7 +13,7 @@
 #import "MSSyncContextInternal.h"
 #import "MSSyncTable.h"
 #import "MSPush.h"
-
+#import "MSConnectionDelegate.h"
 
 #pragma mark * MSClient Private Interface
 
@@ -330,6 +330,35 @@
 {
     // Just use a hard coded reference to MSJSONSerializer
     return [MSJSONSerializer JSONSerializer];
+}
+
+- (MSConnectionDelegate *)connectionDelegate
+{
+    if (!_connectionDelegate)
+    {
+        _connectionDelegate = [[MSConnectionDelegate alloc] initWithClient:self];
+    }
+    return _connectionDelegate;
+}
+
+- (NSURLSession *)urlSession
+{
+    if (!_urlSession)
+    {
+        NSOperationQueue *taskQueue = nil;
+        if (self.connectionDelegateQueue) {
+            taskQueue = self.connectionDelegateQueue;
+        } else {
+            taskQueue = [NSOperationQueue mainQueue];
+        }
+        
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        _urlSession = [NSURLSession sessionWithConfiguration:configuration
+                                                    delegate:self.connectionDelegate
+                                               delegateQueue:taskQueue];
+    }
+    
+    return _urlSession;
 }
 
 @end
