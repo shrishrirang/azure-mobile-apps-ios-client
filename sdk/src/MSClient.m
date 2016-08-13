@@ -96,6 +96,12 @@
         _applicationURL = url;
         _login = [[MSLogin alloc] initWithClient:self];
         _push = [[MSPush alloc] initWithClient:self];
+        _connectionDelegate = [[MSConnectionDelegate alloc] initWithClient:self];
+        
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        _urlSession = [NSURLSession sessionWithConfiguration:configuration
+                                                    delegate:self.connectionDelegate
+                                               delegateQueue:nil];
     }
     return self;
 }
@@ -332,33 +338,14 @@
     return [MSJSONSerializer JSONSerializer];
 }
 
-- (MSConnectionDelegate *)connectionDelegate
+- (void)setConnectionDelegateQueue:(NSOperationQueue *)connectionDelegateQueue
 {
-    if (!_connectionDelegate)
+    if (connectionDelegateQueue != _connectionDelegateQueue)
     {
-        _connectionDelegate = [[MSConnectionDelegate alloc] initWithClient:self];
+        _connectionDelegateQueue = connectionDelegateQueue;
+        // Pass the queue through to the connection delegate so the completion handler gets called on this queue
+        self.connectionDelegate.completionQueue = connectionDelegateQueue;
     }
-    return _connectionDelegate;
-}
-
-- (NSURLSession *)urlSession
-{
-    if (!_urlSession)
-    {
-        NSOperationQueue *taskQueue = nil;
-        if (self.connectionDelegateQueue) {
-            taskQueue = self.connectionDelegateQueue;
-        } else {
-            taskQueue = [NSOperationQueue mainQueue];
-        }
-        
-        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        _urlSession = [NSURLSession sessionWithConfiguration:configuration
-                                                    delegate:self.connectionDelegate
-                                               delegateQueue:taskQueue];
-    }
-    
-    return _urlSession;
 }
 
 @end

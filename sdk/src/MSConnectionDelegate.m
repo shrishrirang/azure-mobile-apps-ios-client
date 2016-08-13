@@ -52,9 +52,14 @@
     MSResponseBlock completion = task.completion;
     if (completion)
     {
+        // Default to main queue if no explicit queue has been set
+        NSOperationQueue *callQueue = self.completionQueue ?: [NSOperationQueue mainQueue];
+        
         // Convert data so we pass an immutable version to the completion handler
         NSData *data = [NSData dataWithData:task.data];
-        completion((NSHTTPURLResponse *)task.response, data, error);
+        [callQueue addOperationWithBlock:^{
+            completion((NSHTTPURLResponse *)task.response, data, error);
+        }];
         [self cleanup:task];
     }
 }

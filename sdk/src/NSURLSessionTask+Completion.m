@@ -24,6 +24,7 @@
     NSMutableData *_data = objc_getAssociatedObject(self, _cmd);
     if (!_data) {
         _data = [NSMutableData data];
+        // Call the explicit setter so the setAssociatedObject method gets called to retain the data
         self.data = _data;
     }
     
@@ -32,7 +33,7 @@
 
 - (void)setData:(NSMutableData *)data
 {
-    objc_setAssociatedObject(self, _cmd, data, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    objc_setAssociatedObject(self, _cmd, data, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end

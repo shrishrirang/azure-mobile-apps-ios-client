@@ -27,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong) MSClient *client;
 
+@property (nonatomic, strong, nullable) NSOperationQueue *completionQueue;
+
 @end
 
 NS_ASSUME_NONNULL_END
