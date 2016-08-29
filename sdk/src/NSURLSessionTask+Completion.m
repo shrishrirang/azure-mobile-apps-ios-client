@@ -11,17 +11,17 @@
 
 - (MSResponseBlock)completion
 {
-    return objc_getAssociatedObject(self, _cmd);
+    return objc_getAssociatedObject(self, @selector(completion));
 }
 
 - (void)setCompletion:(MSResponseBlock)completion
 {
-    objc_setAssociatedObject(self, _cmd, completion, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(completion), completion, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 - (NSMutableData *)data
 {
-    NSMutableData *_data = objc_getAssociatedObject(self, _cmd);
+    NSMutableData *_data = objc_getAssociatedObject(self, @selector(data));
     if (!_data) {
         _data = [NSMutableData data];
         // Call the explicit setter so the setAssociatedObject method gets called to retain the data
@@ -33,7 +33,7 @@
 
 - (void)setData:(NSMutableData *)data
 {
-    objc_setAssociatedObject(self, _cmd, data, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(data), data, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end
