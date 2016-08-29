@@ -16,6 +16,7 @@ NSString *const MSFeatureCodeOpportunisticConcurrency = @"OC";
 NSString *const MSFeatureCodeOffline = @"OL";
 NSString *const MSFeatureCodeReadWithLinkHeader = @"LH";
 NSString *const MSFeatureCodeIncrementalPull = @"IP";
+NSString *const MSFeatureCodeRefreshToken = @"RT";
 
 @implementation MSSDKFeatures
 
@@ -49,6 +50,9 @@ NSString *const MSFeatureCodeIncrementalPull = @"IP";
     }
     if (features & MSFeatureIncrementalPull) {
         [allFeatures addObject:MSFeatureCodeIncrementalPull];
+    }
+    if (features & MSFeatureRefreshToken) {
+        [allFeatures addObject:MSFeatureCodeRefreshToken];
     }
 
     return [allFeatures componentsJoinedByString:@","];

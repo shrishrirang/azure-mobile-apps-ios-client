@@ -7,6 +7,7 @@
 #import "MSFilter.h"
 #import "MSUser.h"
 #import "MSClientInternal.h"
+#import "MSSDKFeatures.h"
 
 #pragma mark * HTTP Header String Constants
 
@@ -77,6 +78,22 @@ static NSOperationQueue *delegateQueue;
     return self;
 }
 
+-(id) initWithRequest:(NSURLRequest *)request
+               client:(MSClient *)client
+             features:(MSSDKFeatures *)features
+           completion:(MSResponseBlock)completion
+{
+    self = [super init];
+    if (self) {
+        client_ = client;
+        request_ = [MSClientConnection configureHeadersOnRequest:request
+                                                      withClient:client
+                                                    withFeatures:features];
+        completion_ = [completion copy];
+    }
+    
+    return self;
+}
 
 #pragma mark * Public Start Methods
 
@@ -208,6 +225,18 @@ static NSOperationQueue *delegateQueue;
                            next:onNext
                        response:completion];
     }
+}
+
++(NSURLRequest *) configureHeadersOnRequest:(NSURLRequest *)request
+                                 withClient:(MSClient *)client
+                                withFeatures:(MSSDKFeatures *)features
+{
+    NSMutableURLRequest *mutableRequest = [MSClientConnection configureHeadersOnRequest:request withClient:client];
+
+    [mutableRequest setValue:[MSSDKFeatures httpHeaderForFeatures:features]
+                    forHTTPHeaderField:MSFeaturesHeaderName];
+    
+    return mutableRequest;
 }
 
 +(NSURLRequest *) configureHeadersOnRequest:(NSURLRequest *)request

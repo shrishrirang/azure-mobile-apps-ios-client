@@ -192,6 +192,17 @@ extern NSString *const MSErrorPushResultKey;
 /// was invalid.
 #define MSLoginInvalidURL                       -1506
 
+/// Indicates that the refresh user operation failed because the identity provider
+/// does not support refresh token or user is not logged in with sufficient permission
+#define MSRefreshBadRequest                     -1507
+
+/// Indicates that the refresh user operation failed because credentials are not valid
+#define MSRefreshUnauthorized                   -1508
+
+/// Indicates that the refresh user operation failed because refresh token was revoked
+/// or expired
+#define MSRefreshForbidden                      -1509
+
 /// Indicates that a required parameter for push operation was not provided
 #define MSPushRequiredParameter                 -1600
 

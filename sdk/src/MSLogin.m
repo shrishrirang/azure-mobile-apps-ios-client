@@ -8,6 +8,7 @@
 #import "MSClientConnection.h"
 #import "MSClient.h"
 #import "MSClientInternal.h"
+#import "MSSDKFeatures.h"
 
 #if TARGET_OS_IPHONE
 #import "MSLoginController.h"
@@ -178,6 +179,58 @@
     }
 }
 
+-(void)refreshUserWithCompletion:(nullable MSClientLoginBlock)completion
+{
+    // Create the request
+    NSURL *URL = [self.client.loginHost URLByAppendingPathComponent:@".auth/refresh"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+    request.HTTPMethod = @"GET";
+    
+    // Create the response completion block
+    MSResponseBlock responseCompletion = nil;
+    if (completion) {
+        responseCompletion = ^(NSHTTPURLResponse *response, NSData *data, NSError *responseError)
+        {
+            MSUser *user = nil;
+            if (!responseError) {
+                if (response.statusCode < 400) {
+                    user = [[MSLoginSerializer loginSerializer] userFromData:data orError:&responseError];
+                    if (user) {
+                        self.client.currentUser = user;
+                    }
+                }
+                else {
+                    switch (response.statusCode) {
+                        case 400:
+                            responseError = [self errorWithDescriptionKey:@"Refresh failed with a 400 Bad Request error. The identity provider does not support refresh, or the user is not logged in with sufficient permission."
+                                        andErrorCode:MSRefreshBadRequest];
+                            break;
+                        case 401:
+                            responseError = [self errorWithDescriptionKey:@"Refresh failed with a 401 Unauthorized error. Credentials are no longer valid."
+                                        andErrorCode:MSRefreshUnauthorized];
+                            break;
+                        case 403:
+                            responseError = [self errorWithDescriptionKey:@"Refresh failed with a 403 Forbidden error. The refresh token was revoked or expired."
+                                        andErrorCode:MSRefreshForbidden];
+                            break;
+                        default:
+                            responseError = [self.serializer errorFromData:data MIMEType:response.MIMEType];
+                            break;
+                    }
+                }
+            }
+            completion(user, responseError);
+        };
+    }
+    
+    // Create the connection and start it
+    MSClientConnection *connection = [[MSClientConnection alloc]
+                                      initWithRequest:request
+                                      client:self.client
+                                      features:MSFeatureCodeRefreshToken
+                                      completion:responseCompletion];
+    [connection start];
+}
 
 #pragma mark * Private Serializer Property Accessor Methods
     
@@ -219,6 +272,21 @@
     }
     
     return request;
+}
+
+
+#pragma mark * Private NSError Generation Methods
+
+
+-(NSError *) errorWithDescriptionKey:(NSString *)descriptionKey
+                        andErrorCode:(NSInteger)errorCode
+{
+    NSString *description = NSLocalizedString(descriptionKey, nil);
+    NSDictionary *userInfo = @{ NSLocalizedDescriptionKey :description };
+    
+    return [NSError errorWithDomain:MSErrorDomain
+                               code:errorCode
+                           userInfo:userInfo];
 }
 
 @end

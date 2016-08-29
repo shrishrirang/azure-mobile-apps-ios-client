@@ -4,6 +4,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MSBlockDefinitions.h"
+#import "MSSDKFeatures.h"
 
 @class MSClient;
 
@@ -36,6 +37,13 @@
 // request. NOTE: The request is not sent until |start| is called.
 -(id)initWithRequest:(NSURLRequest *)request
               client:(MSClient *)client
+          completion:(MSResponseBlock)completion;
+
+// Initializes an |MSClientConnection| with the given client sends the given
+// request with SDK features.
+-(id)initWithRequest:(NSURLRequest *)request
+              client:(MSClient *)client
+            features:(MSSDKFeatures *)features
           completion:(MSResponseBlock)completion;
 
 

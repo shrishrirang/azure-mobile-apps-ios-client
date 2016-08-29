@@ -58,4 +58,7 @@
                    token:(NSDictionary *)token
               completion:(MSClientLoginBlock)completion;
 
+// Refreshes access token with the identity provider for the logged in user.
+-(void)refreshUserWithCompletion:(nullable MSClientLoginBlock)completion;
+
 @end
