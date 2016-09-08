@@ -32,10 +32,19 @@
 
 #pragma mark * Refresh User Tests
 
+- (void)testRefreshUserWhenCompletionIsNil
+{
+    MSClient *client = [MSClient clientWithApplicationURLString:@"http://someURL.com/"];
+    
+    // Invoke the API
+    [client refreshUserWithCompletion:nil];
+}
+
 - (void)testRefreshUser
 {
-    MSClient *client = [MSClient clientWithApplicationURLString:@"http://someURL.com"];
+    XCTestExpectation *expectation = [self expectationWithDescription:self.name];
 
+    MSClient *client = [MSClient clientWithApplicationURLString:@"http://someURL.com/"];
     MSTestFilter *testFilter = [MSTestFilter testFilterWithStatusCode:200];
     
     testFilter.onInspectResponseData = ^(NSURLRequest *request, NSData *data) {
@@ -44,63 +53,109 @@
     };
     
     MSClient *filterClient = [client clientWithFilter:testFilter];
+
+    // Invoke the API
+    [filterClient refreshUserWithCompletion:
+     ^(MSUser *user, NSError *error) {
+         XCTAssertNil(error);
+         XCTAssertNotNil(user);
+         XCTAssertEqualObjects(user.mobileServiceAuthenticationToken, @"token12345678");
+         done = YES;
+         
+         [expectation fulfill];
+     }];
+    
+    [self waitForExpectationsWithTimeout:1.0 handler:nil];
+}
+
+- (void)testRefreshUserWhenLoginHostIsOverriden
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:self.name];
+    
+    MSClient *client = [MSClient clientWithApplicationURLString:@"http://someURL.com/"];
+    [client setLoginHost:[NSURL URLWithString:@"https://anotherURL.com"]];
+    MSTestFilter *testFilter = [MSTestFilter testFilterWithStatusCode:200];
+    
+    testFilter.onInspectResponseData = ^(NSURLRequest *request, NSData *data) {
+        NSDictionary *item = @{ @"user" : @{ @"userId" : @"sid:12345678" }, @"authenticationToken" : @"token12345678" };
+        return [[MSJSONSerializer JSONSerializer] dataFromItem:item idAllowed:YES ensureDictionary:NO removeSystemProperties:YES orError:nil];
+    };
+    
+    MSClient *filterClient = [client clientWithFilter:testFilter];
+    [filterClient setLoginHost:[NSURL URLWithString:@"https://anotherURL.com"]];
     
     // Invoke the API
     [filterClient refreshUserWithCompletion:
      ^(MSUser *user, NSError *error) {
          XCTAssertNil(error);
          XCTAssertNotNil(user);
-         XCTAssertEqualObjects(user.userId, @"sid:12345678");
          XCTAssertEqualObjects(user.mobileServiceAuthenticationToken, @"token12345678");
          done = YES;
+         
+         [expectation fulfill];
      }];
     
-    XCTAssertTrue([self waitForTest:1], @"Test timed out.");
+    [self waitForExpectationsWithTimeout:1.0 handler:nil];
+}
+
+- (void)testRefreshUserWhenResponseContainsNoAuthenticationToken
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:self.name];
+    
+    MSClient *client = [MSClient clientWithApplicationURLString:@"http://someURL.com/"];
+    MSTestFilter *testFilter = [MSTestFilter testFilterWithStatusCode:200];
+    
+    testFilter.onInspectResponseData = ^(NSURLRequest *request, NSData *data) {
+        NSDictionary *item = @{ @"user" : @{ @"userId" : @"sid:12345678" } };
+        return [[MSJSONSerializer JSONSerializer] dataFromItem:item idAllowed:YES ensureDictionary:NO removeSystemProperties:YES orError:nil];
+    };
+    
+    MSClient *filterClient = [client clientWithFilter:testFilter];
+    
+    // Invoke the API
+    [filterClient refreshUserWithCompletion:
+     ^(MSUser *user, NSError *error) {
+         XCTAssertNil(user.mobileServiceAuthenticationToken);
+         XCTAssertNotNil(error, @"error should not have been nil.");
+         XCTAssertTrue([[error localizedDescription] isEqualToString:
+                        @"The token in the login response was invalid. The token must be a JSON object with both a userId and an authenticationToken."],
+                       @"error description was: %@", [error localizedDescription]);
+         
+         done = YES;
+         
+         [expectation fulfill];
+     }];
+    
+    [self waitForExpectationsWithTimeout:1.0 handler:nil];
 }
 
 - (void)testRefreshUser400Error
 {
-    MSClient *client = [MSClient clientWithApplicationURLString:@"http://someURL.com"];
-    
-    MSTestFilter *testFilter = [MSTestFilter testFilterWithStatusCode:400];
-    
-    MSClient *filterClient = [client clientWithFilter:testFilter];
-    
-    // Invoke the API
-    [filterClient refreshUserWithCompletion:
-     ^(MSUser *user, NSError *error) {
-         XCTAssertNotNil(error);
-         XCTAssertEqual(error.code, MSRefreshBadRequest);
-         done = YES;
-     }];
-    
-    XCTAssertTrue([self waitForTest:1], @"Test timed out.");
+    [self testRefreshUserWithStatusCode:400 withErrorCode:MSRefreshBadRequest];
 }
 
 - (void)testRefreshUser401Error
 {
-    MSClient *client = [MSClient clientWithApplicationURLString:@"http://someURL.com"];
-    
-    MSTestFilter *testFilter = [MSTestFilter testFilterWithStatusCode:401];
-
-    MSClient *filterClient = [client clientWithFilter:testFilter];
-    
-    // Invoke the API
-    [filterClient refreshUserWithCompletion:
-     ^(MSUser *user, NSError *error) {
-         XCTAssertNotNil(error);
-         XCTAssertEqual(error.code, MSRefreshUnauthorized);
-         done = YES;
-     }];
-    
-    XCTAssertTrue([self waitForTest:1], @"Test timed out.");
+    [self testRefreshUserWithStatusCode:401 withErrorCode:MSRefreshUnauthorized];
 }
 
 - (void)testRefreshUser403Error
 {
+    [self testRefreshUserWithStatusCode:403 withErrorCode:MSRefreshForbidden];
+}
+
+- (void)testRefreshUser500Error
+{
+    [self testRefreshUserWithStatusCode:500 withErrorCode:MSRefreshUnexpectedError];
+}
+
+- (void)testRefreshUserWithStatusCode:(int)statusCode withErrorCode:(NSInteger)errorCode
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:self.name];
+
     MSClient *client = [MSClient clientWithApplicationURLString:@"http://someURL.com"];
     
-    MSTestFilter *testFilter = [MSTestFilter testFilterWithStatusCode:403];
+    MSTestFilter *testFilter = [MSTestFilter testFilterWithStatusCode:statusCode];
     
     MSClient *filterClient = [client clientWithFilter:testFilter];
     
@@ -108,30 +163,13 @@
     [filterClient refreshUserWithCompletion:
      ^(MSUser *user, NSError *error) {
          XCTAssertNotNil(error);
-         XCTAssertEqual(error.code, MSRefreshForbidden);
+         XCTAssertEqual(error.code, errorCode);
          done = YES;
+         
+         [expectation fulfill];
      }];
     
-    XCTAssertTrue([self waitForTest:1], @"Test timed out.");
+    [self waitForExpectationsWithTimeout:1.0 handler:nil];
 }
-
-#pragma mark * Async Test Helper Method
-
-
--(BOOL) waitForTest:(NSTimeInterval)testDuration {
-    
-    NSDate *timeoutAt = [NSDate dateWithTimeIntervalSinceNow:testDuration];
-    
-    while (!done) {
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-                                 beforeDate:timeoutAt];
-        if([timeoutAt timeIntervalSinceNow] <= 0.0) {
-            break;
-        }
-    };
-    
-    return done;
-}
-
 
 @end

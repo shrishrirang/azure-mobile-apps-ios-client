@@ -67,20 +67,12 @@ static NSOperationQueue *delegateQueue;
                client:(MSClient *)client
            completion:(MSResponseBlock)completion
 {
-    self = [super init];
-    if (self) {
-        client_ = client;
-        request_ = [MSClientConnection configureHeadersOnRequest:request
-                                                      withClient:client];
-        completion_ = [completion copy];
-    }
-    
-    return self;
+    return [self initWithRequest:request client:client features:MSFeatureNone completion:completion];
 }
 
 -(id) initWithRequest:(NSURLRequest *)request
                client:(MSClient *)client
-             features:(MSSDKFeatures *)features
+             features:(MSFeatures)features
            completion:(MSResponseBlock)completion
 {
     self = [super init];
@@ -229,18 +221,7 @@ static NSOperationQueue *delegateQueue;
 
 +(NSURLRequest *) configureHeadersOnRequest:(NSURLRequest *)request
                                  withClient:(MSClient *)client
-                                withFeatures:(MSSDKFeatures *)features
-{
-    NSMutableURLRequest *mutableRequest = [MSClientConnection configureHeadersOnRequest:request withClient:client];
-
-    [mutableRequest setValue:[MSSDKFeatures httpHeaderForFeatures:features]
-                    forHTTPHeaderField:MSFeaturesHeaderName];
-    
-    return mutableRequest;
-}
-
-+(NSURLRequest *) configureHeadersOnRequest:(NSURLRequest *)request
-                                 withClient:(MSClient *)client
+                                withFeatures:(MSFeatures)features
 {
     NSMutableURLRequest *mutableRequest = [request mutableCopy];
     
@@ -287,6 +268,10 @@ static NSOperationQueue *delegateQueue;
             [mutableRequest setValue:jsonContentType
                   forHTTPHeaderField:contentTypeHeader];
         }
+    }
+    
+    if (features) {
+        [mutableRequest setValue:[MSSDKFeatures httpHeaderForFeatures:features] forHTTPHeaderField:MSFeaturesHeaderName];
     }
     
     return mutableRequest;

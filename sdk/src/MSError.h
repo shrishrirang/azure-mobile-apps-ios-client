@@ -203,6 +203,9 @@ extern NSString *const MSErrorPushResultKey;
 /// or expired
 #define MSRefreshForbidden                      -1509
 
+/// Indicates that the refresh user operation failed due to an unexpected error
+#define MSRefreshUnexpectedError                -1510
+
 /// Indicates that a required parameter for push operation was not provided
 #define MSPushRequiredParameter                 -1600
 
