@@ -270,9 +270,7 @@ static NSOperationQueue *delegateQueue;
         }
     }
     
-    if (features) {
-        [mutableRequest setValue:[MSSDKFeatures httpHeaderForFeatures:features] forHTTPHeaderField:MSFeaturesHeaderName];
-    }
+    [mutableRequest setValue:[MSSDKFeatures httpHeaderForFeatures:features] forHTTPHeaderField:MSFeaturesHeaderName];
     
     return mutableRequest;
 }

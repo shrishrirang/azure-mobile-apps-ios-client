@@ -10,7 +10,6 @@
 #import "MSUser.h"
 
 @interface MSLoginTests : XCTestCase {
-    BOOL done;
 }
 
 @end
@@ -22,8 +21,6 @@
 
 - (void)setUp {
     NSLog(@"%@ setUp", self.name);
-    
-    done = NO;
 }
 
 - (void)tearDown {
@@ -60,7 +57,6 @@
          XCTAssertNil(error);
          XCTAssertNotNil(user);
          XCTAssertEqualObjects(user.mobileServiceAuthenticationToken, @"token12345678");
-         done = YES;
          
          [expectation fulfill];
      }];
@@ -90,7 +86,6 @@
          XCTAssertNil(error);
          XCTAssertNotNil(user);
          XCTAssertEqualObjects(user.mobileServiceAuthenticationToken, @"token12345678");
-         done = YES;
          
          [expectation fulfill];
      }];
@@ -100,13 +95,24 @@
 
 - (void)testRefreshUserWhenResponseContainsNoAuthenticationToken
 {
+    NSDictionary *item = @{ @"user" : @{ @"userId" : @"sid:12345678" } };
+    [self refreshUserWithResponseData:item];
+}
+
+- (void)testRefreshUserWhenResponseContainsNoUser
+{
+    NSDictionary *item = @{ @"authenticationToken" : @"token12345678" };
+    [self refreshUserWithResponseData:item];
+}
+
+- (void)refreshUserWithResponseData:(NSDictionary *)item
+{
     XCTestExpectation *expectation = [self expectationWithDescription:self.name];
     
     MSClient *client = [MSClient clientWithApplicationURLString:@"http://someURL.com/"];
     MSTestFilter *testFilter = [MSTestFilter testFilterWithStatusCode:200];
     
     testFilter.onInspectResponseData = ^(NSURLRequest *request, NSData *data) {
-        NSDictionary *item = @{ @"user" : @{ @"userId" : @"sid:12345678" } };
         return [[MSJSONSerializer JSONSerializer] dataFromItem:item idAllowed:YES ensureDictionary:NO removeSystemProperties:YES orError:nil];
     };
     
@@ -115,13 +121,11 @@
     // Invoke the API
     [filterClient refreshUserWithCompletion:
      ^(MSUser *user, NSError *error) {
-         XCTAssertNil(user.mobileServiceAuthenticationToken);
+         XCTAssertNil(user);
          XCTAssertNotNil(error, @"error should not have been nil.");
          XCTAssertTrue([[error localizedDescription] isEqualToString:
                         @"The token in the login response was invalid. The token must be a JSON object with both a userId and an authenticationToken."],
                        @"error description was: %@", [error localizedDescription]);
-         
-         done = YES;
          
          [expectation fulfill];
      }];
@@ -131,25 +135,25 @@
 
 - (void)testRefreshUser400Error
 {
-    [self testRefreshUserWithStatusCode:400 withErrorCode:MSRefreshBadRequest];
+    [self refreshUserWithStatusCode:400 withErrorCode:MSRefreshBadRequest];
 }
 
 - (void)testRefreshUser401Error
 {
-    [self testRefreshUserWithStatusCode:401 withErrorCode:MSRefreshUnauthorized];
+    [self refreshUserWithStatusCode:401 withErrorCode:MSRefreshUnauthorized];
 }
 
 - (void)testRefreshUser403Error
 {
-    [self testRefreshUserWithStatusCode:403 withErrorCode:MSRefreshForbidden];
+    [self refreshUserWithStatusCode:403 withErrorCode:MSRefreshForbidden];
 }
 
 - (void)testRefreshUser500Error
 {
-    [self testRefreshUserWithStatusCode:500 withErrorCode:MSRefreshUnexpectedError];
+    [self refreshUserWithStatusCode:500 withErrorCode:MSRefreshUnexpectedError];
 }
 
-- (void)testRefreshUserWithStatusCode:(int)statusCode withErrorCode:(NSInteger)errorCode
+- (void)refreshUserWithStatusCode:(int)statusCode withErrorCode:(NSInteger)errorCode
 {
     XCTestExpectation *expectation = [self expectationWithDescription:self.name];
 
@@ -164,7 +168,6 @@
      ^(MSUser *user, NSError *error) {
          XCTAssertNotNil(error);
          XCTAssertEqual(error.code, errorCode);
-         done = YES;
          
          [expectation fulfill];
      }];
