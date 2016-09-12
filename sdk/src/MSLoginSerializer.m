@@ -99,7 +99,12 @@ static MSLoginSerializer *staticLoginSerializerSingleton;
             }
             else {
                 user = [[MSUser alloc] initWithUserId:userId];
-                user.mobileServiceAuthenticationToken = authToken;
+                if (user) {
+                    user.mobileServiceAuthenticationToken = authToken;
+                }
+                else {
+                    localError = [self errorForInvalidUserJson];
+                }
             }
         }
     }
