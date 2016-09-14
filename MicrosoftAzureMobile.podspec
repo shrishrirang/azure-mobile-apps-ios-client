@@ -6,13 +6,15 @@ Pod::Spec.new do |s|
   s.license      = "Apache License, Version 2.0"
   s.author             = "Microsoft"
   s.social_media_url   = "http://twitter.com/AzureMobile"
-  s.platform     = :ios, "8.0"
+  s.ios.deployment_target = "8.0"
+  s.osx.deployment_target = "10.10"
   s.source       = {
     :git => "https://github.com/Azure/azure-mobile-apps-ios-client.git",
     :tag => "3.1.0"
   }
   s.source_files  = "sdk/src"
   s.exclude_files = "Classes/Exclude"
+  s.osx.exclude_files = "sdk/src/MSLoginController.{h,m}", "sdk/src/MSLoginView.{h,m}"
   s.public_header_files = [
     "sdk/src/MicrosoftAzureMobile.h",
     "sdk/src/MSBlockDefinitions.h",
@@ -21,7 +23,6 @@ Pod::Spec.new do |s|
     "sdk/src/MSDateOffset.h",
     "sdk/src/MSError.h",
     "sdk/src/MSFilter.h",
-    "sdk/src/MSLoginController.h",
     "sdk/src/MSManagedObjectObserver.h",
     "sdk/src/MSPullSettings.h",
     "sdk/src/MSConnectionConfiguration.h",
@@ -35,6 +36,9 @@ Pod::Spec.new do |s|
     "sdk/src/MSTableOperation.h",
     "sdk/src/MSTableOperationError.h",
     "sdk/src/MSUser.h"
+  ]
+  s.ios.public_header_files = [
+    "sdk/src/MSLoginController.h",
   ]
   s.requires_arc = true
 end

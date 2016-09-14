@@ -46,7 +46,7 @@ The SDK requires XCode 7.0 or greater.
 
 ### Running the E2E Tests
 
-1. Create a test server to test against, see: [E2E Test Suite](e2etest)
+1. Create a [test server](https://github.com/Azure/azure-mobile-apps-net-server/tree/master/e2etest) to test against, see: [E2E Test Suite](e2etest)
 2. Open the ```ZumoE2ETestApp\ZumoE2ETestApp.xcodeproj``` file in XCode.
 3. Drag a copy of the ```WindowsAzureMobileServices.framework``` into the project
 4. Pick the device to test and run the project

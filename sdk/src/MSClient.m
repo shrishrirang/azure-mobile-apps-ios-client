@@ -13,7 +13,7 @@
 #import "MSSyncContextInternal.h"
 #import "MSSyncTable.h"
 #import "MSPush.h"
-
+#import "MSConnectionDelegate.h"
 
 #pragma mark * MSClient Private Interface
 
@@ -96,6 +96,12 @@
         _applicationURL = url;
         _login = [[MSLogin alloc] initWithClient:self];
         _push = [[MSPush alloc] initWithClient:self];
+        _connectionDelegate = [[MSConnectionDelegate alloc] initWithClient:self];
+        
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        _urlSession = [NSURLSession sessionWithConfiguration:configuration
+                                                    delegate:self.connectionDelegate
+                                               delegateQueue:nil];
     }
     return self;
 }
@@ -334,6 +340,16 @@
 {
     // Just use a hard coded reference to MSJSONSerializer
     return [MSJSONSerializer JSONSerializer];
+}
+
+- (void)setConnectionDelegateQueue:(NSOperationQueue *)connectionDelegateQueue
+{
+    if (connectionDelegateQueue != _connectionDelegateQueue)
+    {
+        _connectionDelegateQueue = connectionDelegateQueue;
+        // Pass the queue through to the connection delegate so the completion handler gets called on this queue
+        self.connectionDelegate.completionQueue = connectionDelegateQueue;
+    }
 }
 
 @end
