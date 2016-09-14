@@ -243,6 +243,10 @@
     }
 }
 
+-(void)refreshUserWithCompletion:(nullable MSClientLoginBlock)completion
+{
+    return [self.login refreshUserWithCompletion:completion];
+}
 
 #pragma mark * Public Table Constructor Methods
 

@@ -4,6 +4,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MSBlockDefinitions.h"
+#import "MSSDKFeatures.h"
 
 @class MSClient;
 
@@ -32,10 +33,17 @@
 #pragma  mark * Public Initializer Methods
 
 
-// Initializes an |MSClientConnection| with the given client sends the given
+// Initializes an |MSClientConnection| with the given client that sends the given
 // request. NOTE: The request is not sent until |start| is called.
 -(id)initWithRequest:(NSURLRequest *)request
               client:(MSClient *)client
+          completion:(MSResponseBlock)completion;
+
+// Initializes an |MSClientConnection| with the given client that sends the given
+// request using certain MSFeatures.
+-(id)initWithRequest:(NSURLRequest *)request
+              client:(MSClient *)client
+            features:(MSFeatures)features
           completion:(MSResponseBlock)completion;
 
 

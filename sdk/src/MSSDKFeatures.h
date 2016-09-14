@@ -39,7 +39,10 @@ typedef NS_OPTIONS(NSUInteger, MSFeatures) {
     MSFeatureReadWithLinkHeader       = 1 << 7,
     
     // Table read is using incremental pull
-    MSFeatureIncrementalPull          = 1 << 8
+    MSFeatureIncrementalPull          = 1 << 8,
+    
+    // Refresh Token
+    MSFeatureRefreshToken             = 1 << 9
 };
 
 extern NSString *const MSFeaturesHeaderName;
@@ -52,6 +55,7 @@ extern NSString *const MSFeatureCodeTableReadRaw;
 extern NSString *const MSFeatureCodeOpportunisticConcurrency;
 extern NSString *const MSFeatureCodeOffline;
 extern NSString *const MSFeatureCodeIncrementalPull;
+extern NSString *const MSFeatureCodeRefreshToken;
 
 
 // The |MSSDKFeatures| class defines methods to convert between the

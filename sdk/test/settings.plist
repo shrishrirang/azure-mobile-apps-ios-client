@@ -4,7 +4,5 @@
 <dict>
 	<key>TestAppUrl</key>
 	<string></string>
-	<key>TestAppApplicationKey</key>
-	<string></string>
 </dict>
 </plist>

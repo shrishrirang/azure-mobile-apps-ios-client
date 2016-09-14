@@ -138,6 +138,9 @@
 /// Logs out the current end user.
 -(void)logoutWithCompletion:(nullable MSClientLogoutBlock)completion;
 
+/// Refreshes access token with the identity provider for the logged in user.
+-(void)refreshUserWithCompletion:(nullable MSClientLoginBlock)completion;
+
 /// @}
 
 #pragma mark * Public Table Methods

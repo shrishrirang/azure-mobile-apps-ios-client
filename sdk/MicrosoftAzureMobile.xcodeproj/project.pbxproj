@@ -102,6 +102,7 @@
 		7929542919B7C793006A3829 /* MSQueryResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 7929542719B7C793006A3829 /* MSQueryResult.m */; };
 		870C0C9C199C246700A134DD /* MSSDKFeatures.h in Headers */ = {isa = PBXBuildFile; fileRef = 870C0C9A199C246700A134DD /* MSSDKFeatures.h */; };
 		870C0C9D199C246700A134DD /* MSSDKFeatures.m in Sources */ = {isa = PBXBuildFile; fileRef = 870C0C9B199C246700A134DD /* MSSDKFeatures.m */; };
+		9CCEB9011D62733500D70EE4 /* MSLoginTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCEB9001D62733500D70EE4 /* MSLoginTests.m */; };
 		A202C3461AA25F730005A8AE /* MSPushConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = A202C3441AA25F730005A8AE /* MSPushConnection.h */; };
 		A202C3471AA25F730005A8AE /* MSPushConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A202C3451AA25F730005A8AE /* MSPushConnection.m */; };
 		A214410C182631A500C2E762 /* MSTableFuncTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A214410B182631A500C2E762 /* MSTableFuncTests.m */; };
@@ -421,6 +422,7 @@
 		870C0C9B199C246700A134DD /* MSSDKFeatures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSDKFeatures.m; sourceTree = "<group>"; };
 		8790D2BE199C5D510000DC4E /* MSTableInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSTableInternal.h; sourceTree = "<group>"; };
 		8790D2BF199EA5950000DC4E /* MSQueryInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSQueryInternal.h; sourceTree = "<group>"; };
+		9CCEB9001D62733500D70EE4 /* MSLoginTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLoginTests.m; sourceTree = "<group>"; };
 		A202C3441AA25F730005A8AE /* MSPushConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPushConnection.h; sourceTree = "<group>"; };
 		A202C3451AA25F730005A8AE /* MSPushConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPushConnection.m; sourceTree = "<group>"; };
 		A214410B182631A500C2E762 /* MSTableFuncTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTableFuncTests.m; sourceTree = "<group>"; };
@@ -844,6 +846,7 @@
 				A2E7D5EF18237F21007153E4 /* Functional */,
 				E87BB01B161A28FC008053F9 /* MSClientTests.m */,
 				E8E37906161F4D0D00C13F00 /* MSFilterTest.m */,
+				9CCEB9001D62733500D70EE4 /* MSLoginTests.m */,
 				E8F33B3A161668ED002DD7C6 /* MSQueryTests.m */,
 				E87BB024161B5A4D008053F9 /* MSTableTests.m */,
 				CF4D498D1A3253F7006AEB70 /* MSTestWaiter.h */,
@@ -1448,6 +1451,7 @@
 				E8F33B3F1616695E002DD7C6 /* MSPredicateTranslatorTests.m in Sources */,
 				A2ADF7E91914481B0078BB16 /* MSTableOperationTests.m in Sources */,
 				A258891E18A1A30000962F9A /* MSSyncTableTests.m in Sources */,
+				9CCEB9011D62733500D70EE4 /* MSLoginTests.m in Sources */,
 				E87BB01C161A28FC008053F9 /* MSClientTests.m in Sources */,
 				E87BB022161B57C8008053F9 /* MSUserTests.m in Sources */,
 				E87BB025161B5A4D008053F9 /* MSTableTests.m in Sources */,

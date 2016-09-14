@@ -52,6 +52,7 @@ static NSString *lastUserIdentityObjectKey = @"lastUserIdentityObject";
     
     NSArray *providers = @[ @"facebook", @"twitter", @"google", @"microsoftaccount", @"aad" ];
     NSArray *clientProviders = @[ @"facebook", @"twitter", @"microsoftaccount" ];
+    NSArray *providersSupportRefreshToken = @[ @"google", @"microsoftaccount", @"aad" ];
     
     for (int useSimplifiedLogin = 0; useSimplifiedLogin <= 1; useSimplifiedLogin++) {
         for (NSString *provider in providers) {
@@ -59,6 +60,9 @@ static NSString *lastUserIdentityObjectKey = @"lastUserIdentityObject";
             [result addObject:[self createLogoutTest]];
             [result addObject:[self createSleepTest:3]];
             [result addObject:[self createLoginTestForProvider:provider usingSimplifiedMode:useSimplified]];
+            if (useSimplifiedLogin && [providersSupportRefreshToken containsObject:provider]) {
+                [result addObject:[self createRefreshTestForProvider:provider]];
+            }
             [result addObject:[self createCRUDTestForProvider:provider forTable:@"public" ofType:ZumoTableAnonymous andAuthenticated:YES]];
             [result addObject:[self createCRUDTestForProvider:provider forTable:@"authenticated" ofType:ZumoTableAuthenticated andAuthenticated:YES]];
             
@@ -235,6 +239,7 @@ typedef enum { ZumoTableAnonymous, ZumoTableAuthenticated } ZumoTableType;
     }];
 }
 
+
 + (ZumoTest *)createLoginTestForProvider:(NSString *)provider usingSimplifiedMode:(BOOL)useSimplified {
     ZumoTest *result = [ZumoTest createTestWithName:[NSString stringWithFormat:@"%@Login for %@", useSimplified ? @"Simplified " : @"", provider] andExecution:^(ZumoTest *test, UIViewController *viewController, ZumoTestCompletion completion) {
         MSClient *client = [[ZumoTestGlobals sharedInstance] client];
@@ -249,18 +254,43 @@ typedef enum { ZumoTableAnonymous, ZumoTableAuthenticated } ZumoTableType;
                 [test setTestStatus:TSPassed];
                 completion(YES);
             }
-            
             if (shouldDismissControllerInBlock) {
                 [viewController dismissViewControllerAnimated:YES completion:nil];
             }
         };
         
         if (useSimplified) {
-            [client loginWithProvider:provider controller:viewController animated:YES completion:loginBlock];
+            if ([provider isEqualToString:@"microsoftaccount"] || [provider isEqualToString:@"facebook"] || [provider isEqualToString:@"twitter"]) {
+                [client loginWithProvider:provider controller:viewController animated:YES completion:loginBlock];
+            } else if ([provider isEqualToString:@"google"]) {
+                [client loginWithProvider:provider parameters:@{@"access_type" : @"offline"} controller:viewController animated:YES completion:loginBlock];
+            } else if ([provider isEqualToString:@"aad"]) {
+                [client loginWithProvider:provider parameters:@{@"response_type" : @"code id_token"} controller:viewController animated:YES completion:loginBlock];
+            }
         } else {
             UIViewController *loginController = [client loginViewControllerWithProvider:provider completion:loginBlock];
             [viewController presentViewController:loginController animated:YES completion:nil];
         }
+    }];
+    
+    return result;
+}
+
++ (ZumoTest *)createRefreshTestForProvider:(NSString *)provider {
+    ZumoTest *result = [ZumoTest createTestWithName:[NSString stringWithFormat:@"Refresh for %@", provider] andExecution:^(ZumoTest *test, UIViewController *viewController, ZumoTestCompletion completion) {
+        MSClient *client = [[ZumoTestGlobals sharedInstance] client];
+
+        [client refreshUserWithCompletion:^(MSUser *user, NSError *error) {
+            if (error) {
+                [test addLog:[NSString stringWithFormat:@"Error refreshing: %@", error]];
+                [test setTestStatus:TSFailed];
+                completion(NO);
+            } else {
+                [test addLog:[NSString stringWithFormat:@"Refresh succeeded. userId: %@", [user userId]]];
+                [test setTestStatus:TSPassed];
+                completion(YES);
+            }
+        }];
     }];
     
     return result;

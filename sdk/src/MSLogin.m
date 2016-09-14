@@ -8,6 +8,8 @@
 #import "MSClientConnection.h"
 #import "MSClient.h"
 #import "MSClientInternal.h"
+#import "MSSDKFeatures.h"
+#import "MSUser.h"
 
 #if TARGET_OS_IPHONE
 #import "MSLoginController.h"
@@ -178,6 +180,63 @@
     }
 }
 
+-(void)refreshUserWithCompletion:(nullable MSClientLoginBlock)completion
+{
+    // Create the request
+    NSURL *URL = [self.client.loginHost URLByAppendingPathComponent:@".auth/refresh"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+    
+    MSResponseBlock responseCompletion = nil;
+    if (completion) {
+        // Define a response completion block if required
+        responseCompletion = ^(NSHTTPURLResponse *response, NSData *data, NSError *responseError)
+        {
+            MSUser *user = nil;
+            if (!responseError) {
+                if (response.statusCode == 200) {
+                    user = [[MSLoginSerializer loginSerializer] userFromData:data orError:&responseError];
+                    if (!responseError) {
+                        self.client.currentUser.mobileServiceAuthenticationToken = user.mobileServiceAuthenticationToken;
+                    }
+                }
+                else {
+                    NSError *internalError = [self.serializer errorFromData:data MIMEType:response.MIMEType];
+                    switch (response.statusCode) {
+                        case 400:
+                            responseError = [self errorWithDescription:@"Refresh failed with a 400 Bad Request error. The identity provider does not support refresh, or the user is not logged in with sufficient permission."
+                                        code:MSRefreshBadRequest
+                                        internalError:internalError];
+                            break;
+                        case 401:
+                            responseError = [self errorWithDescription:@"Refresh failed with a 401 Unauthorized error. Credentials are no longer valid."
+                                        code:MSRefreshUnauthorized
+                                        internalError:internalError];
+                            break;
+                        case 403:
+                            responseError = [self errorWithDescription:@"Refresh failed with a 403 Forbidden error. The refresh token was revoked or expired."
+                                        code:MSRefreshForbidden
+                                        internalError:internalError];
+                            break;
+                        default:
+                            responseError = [self errorWithDescription:@"Refresh failed with an unexpected error."
+                                        code:MSRefreshUnexpectedError
+                                        internalError:internalError];
+                            break;
+                    }
+                }
+            }
+            completion(user, responseError);
+        };
+    }
+    
+    // Create the connection and start it
+    MSClientConnection *connection = [[MSClientConnection alloc]
+                                      initWithRequest:request
+                                      client:self.client
+                                      features:MSFeatureRefreshToken
+                                      completion:responseCompletion];
+    [connection start];
+}
 
 #pragma mark * Private Serializer Property Accessor Methods
     
@@ -219,6 +278,21 @@
     }
     
     return request;
+}
+
+
+#pragma mark * Private NSError Generation Methods
+
+
+- (NSError *) errorWithDescription:(NSString *)description code:(NSInteger)code internalError:(NSError *)error
+{
+    NSMutableDictionary *userInfo = [@{ NSLocalizedDescriptionKey: description } mutableCopy];
+    
+    if (error) {
+        [userInfo setObject:error forKey:NSUnderlyingErrorKey];
+    }
+    
+    return [NSError errorWithDomain:MSErrorDomain code:code userInfo:userInfo];
 }
 
 @end
