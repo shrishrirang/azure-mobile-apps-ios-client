@@ -1,5 +1,9 @@
 # Azure Mobile Apps iOS SDK Change Log
 
+### Version 3.2.0
+- Support Refresh Token
+- Reuse NSURLSession instance [#88](https://github.com/Azure/azure-mobile-apps-ios-client/pull/88)
+
 ### Version 3.1.0
 - Fixed AAD server flow login issue
 - Migrated from WebView to WebKit
