@@ -29,7 +29,7 @@
 #import "MSUser.h"
 
 #define MicrosoftAzureMobileSdkMajorVersion 3
-#define MicrosoftAzureMobileSdkMinorVersion 1
+#define MicrosoftAzureMobileSdkMinorVersion 2
 #define MicrosoftAzureMobileSdkBuildVersion 0
 
 #endif
