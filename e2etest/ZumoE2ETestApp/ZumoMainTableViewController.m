@@ -73,7 +73,7 @@
     }
 
     ZumoTestGroup *testGroup = [[self testGroups] objectAtIndex:[indexPath row]];
-    [[cell textLabel] setText:[NSString stringWithFormat:@"%ld. %@", [indexPath row] + 1, [testGroup name]]];
+    [[cell textLabel] setText:[NSString stringWithFormat:@"%ld. %@", (long)[indexPath row] + 1, [testGroup name]]];
     
     return cell;
 }
