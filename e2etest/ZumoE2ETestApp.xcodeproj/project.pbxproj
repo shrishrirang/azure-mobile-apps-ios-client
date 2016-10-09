@@ -276,6 +276,11 @@
 				CLASSPREFIX = Zumo;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = Microsoft;
+				TargetAttributes = {
+					872B02B91672A73B003613A1 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 872B02B41672A73B003613A1 /* Build configuration list for PBXProject "ZumoE2ETestApp" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -408,6 +413,8 @@
 		872B02D91672A73B003613A1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -426,6 +433,8 @@
 		872B02DA1672A73B003613A1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
