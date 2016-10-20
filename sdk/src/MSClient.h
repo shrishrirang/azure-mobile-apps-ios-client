@@ -44,14 +44,6 @@
 /// For legacy usage, this can be set to 'login'
 @property (nonatomic, strong, nonnull) NSString *loginPrefix;
 
-/// The application key for the Microsoft Azure Mobile Service associated with
-/// the client if one was provided in the creation of the client and nil
-/// otherwise. If non-nil, the application key will be included in all requests
-/// made to the Microsoft Azure Mobile Service, allowing the client to perform
-/// all actions on the Microsoft Azure Mobile Service that require application-key
-/// level permissions.
-@property (nonatomic, copy, readonly, nullable) NSString *applicationKey;
-
 /// A collection of MSFilter instances to apply to use with the requests and
 /// responses sent and received by the client. The property is readonly and the
 /// array is not-mutable. To apply a filter to a client, use the withFilter:

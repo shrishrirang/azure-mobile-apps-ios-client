@@ -89,8 +89,6 @@
     NSString *urlString = [client.applicationURL absoluteString];
     XCTAssertTrue([urlString isEqualToString:@"http://someURL.com"],
                  @"The client should be using the url it was created with.");
-    
-    XCTAssertNil(client.applicationKey, @"client.applicationKey should be nil.");
 }
 
 -(void) testInitWithApplicationURLAllowsNilURL
@@ -104,7 +102,6 @@
     
     XCTAssertNotNil(client, @"client should not be nil.");
     XCTAssertNil(client.applicationURL, @"client.applicationURL should be nil.");
-    XCTAssertNil(client.applicationKey, @"client.applicationKey should be nil.");
 }
 
 
