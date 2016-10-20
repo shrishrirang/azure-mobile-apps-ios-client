@@ -49,7 +49,6 @@
 #pragma mark * HTTP Header String Constants
 
 
-static NSString *const xApplicationHeader = @"X-ZUMO-APPLICATION";
 static NSString *const contentTypeHeader = @"Content-Type";
 static NSString *const userAgentHeader = @"User-Agent";
 static NSString *const zumoVersionHeader = @"X-ZUMO-VERSION";
@@ -246,13 +245,6 @@ static NSOperationQueue *delegateQueue;
         // Exemptions will need added if later on we use a wrapping MSLoginRequest object
         if (![request isMemberOfClass:[NSURLRequest class]]) {
             [mutableRequest setValue:@"2.0.0" forHTTPHeaderField:zumoApiVersionHeader];
-        }
-        
-        // Set the special Application key header
-        NSString *appKey = client.applicationKey;
-        if (appKey != nil) {
-            [mutableRequest setValue:appKey
-                  forHTTPHeaderField:xApplicationHeader];
         }
         
         // Set the installation id header
