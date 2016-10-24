@@ -10,6 +10,7 @@
 @class MSClient;
 @class MSLoginController;
 
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark * MSLogin Public Interface
 
@@ -23,7 +24,7 @@
 
 
 // The client associated with this |MSLogin|.
-@property (nonatomic, weak, readonly) MSClient* client;
+@property (nonatomic, weak, readonly, nullable) MSClient* client;
 
 
 #pragma  mark * Public Initializer Methods
@@ -39,16 +40,16 @@
 // Logs in the current end user with the given provider by presenting the
 // MSLoginController with the given |controller|.
 -(void)loginWithProvider:(NSString *)provider
-              parameters:(NSDictionary *)parameters
+              parameters:(nullable NSDictionary *)parameters
               controller:(UIViewController *)controller
                 animated:(BOOL)animated
-              completion:(MSClientLoginBlock)completion;
+              completion:(nullable MSClientLoginBlock)completion;
 
 // Returns an |MSLoginController| that can be used to log in the current
 // end user with the given provider.
 -(MSLoginController *)loginViewControllerWithProvider:(NSString *)provider
-                                           parameters:(NSDictionary *)parameters
-                                           completion:(MSClientLoginBlock)completion;
+                                           parameters:(nullable NSDictionary *)parameters
+                                           completion:(nullable MSClientLoginBlock)completion;
 
 #endif
 
@@ -56,9 +57,11 @@
 // the provider.
 -(void)loginWithProvider:(NSString *)provider
                    token:(NSDictionary *)token
-              completion:(MSClientLoginBlock)completion;
+              completion:(nullable MSClientLoginBlock)completion;
 
 // Refreshes access token with the identity provider for the logged in user.
 -(void)refreshUserWithCompletion:(nullable MSClientLoginBlock)completion;
 
 @end
+
+NS_ASSUME_NONNULL_END
