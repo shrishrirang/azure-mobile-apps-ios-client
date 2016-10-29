@@ -45,7 +45,7 @@
     MSTestFilter *testFilter = [[MSTestFilter alloc] init];
     
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                   initWithURL:nil
+                                   initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                    statusCode:400
                                    HTTPVersion:nil headerFields:nil];
     NSString* stringData = @"This is an Error Message!";

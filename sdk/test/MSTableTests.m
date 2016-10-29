@@ -316,7 +316,7 @@
     MSTestFilter *testFilter = [[MSTestFilter alloc] init];
     
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                   initWithURL:nil
+                                   initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                    statusCode:200
                                    HTTPVersion:nil headerFields:nil];
     NSString* stringData = @"{\"id\":120, \"name\":\"test name updated\"}";
@@ -349,7 +349,7 @@
     MSTestFilter *testFilter = [[MSTestFilter alloc] init];
     
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                   initWithURL:nil
+                                   initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                    statusCode:200
                                    HTTPVersion:nil headerFields:nil];
     NSString* stringData = @"{\"id\":\"120\", \"name\":\"test name updated\"}";
@@ -593,7 +593,7 @@
     MSTestFilter *testFilter = [[MSTestFilter alloc] init];
     
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                   initWithURL:nil
+                                   initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                    statusCode:200
                                    HTTPVersion:nil headerFields:nil];
     testFilter.responseToUse = response;
@@ -623,7 +623,7 @@
     MSTestFilter *testFilter = [[MSTestFilter alloc] init];
     
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                   initWithURL:nil
+                                   initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                    statusCode:200
                                    HTTPVersion:nil headerFields:nil];
     testFilter.responseToUse = response;
@@ -655,7 +655,7 @@
     NSData* data = [stringData dataUsingEncoding:NSUTF8StringEncoding];
     
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                   initWithURL:nil
+                                   initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                    statusCode:412
                                    HTTPVersion:nil headerFields:nil];
     testFilter.responseToUse = response;
@@ -695,7 +695,7 @@
     NSData* data = [stringData dataUsingEncoding:NSUTF8StringEncoding];
     
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                   initWithURL:nil
+                                   initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                    statusCode:412
                                    HTTPVersion:nil headerFields:nil];
     testFilter.responseToUse = response;
@@ -916,7 +916,7 @@
     MSTestFilter *testFilter = [[MSTestFilter alloc] init];
     
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                   initWithURL:nil
+                                   initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                    statusCode:200
                                    HTTPVersion:nil headerFields:nil];
     testFilter.responseToUse = response;
@@ -943,7 +943,7 @@
     MSTestFilter *testFilter = [[MSTestFilter alloc] init];
     
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                   initWithURL:nil
+                                   initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                    statusCode:200
                                    HTTPVersion:nil headerFields:nil];
     testFilter.responseToUse = response;
@@ -1099,7 +1099,7 @@
     __block NSString *contentType = nil;
     
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                   initWithURL:nil
+                                   initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                    statusCode:400
                                    HTTPVersion:nil headerFields:nil];
     testFilter.responseToUse = response;
@@ -1249,7 +1249,7 @@
     MSTestFilter *testFilter = [[MSTestFilter alloc] init];
     
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                   initWithURL:nil
+                                   initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                    statusCode:200
                                    HTTPVersion:nil headerFields:nil];
     NSString* stringData = @"{\"id\": \"120\", \"name\":\"test name\"}";
@@ -1408,7 +1408,7 @@
     __block NSString *contentType = nil;
     
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                   initWithURL:nil
+                                   initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                    statusCode:400
                                    HTTPVersion:nil headerFields:nil];
     testFilter.responseToUse = response;
@@ -1458,7 +1458,7 @@
     __block NSString *contentType = nil;
     
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                   initWithURL:nil
+                                   initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                    statusCode:400
                                    HTTPVersion:nil headerFields:nil];
     testFilter.responseToUse = response;
@@ -1578,7 +1578,7 @@
     {
         MSTestFilter *testFilter = [[MSTestFilter alloc] init];
         NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                       initWithURL:nil
+                                       initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                        statusCode:200
                                        HTTPVersion:nil headerFields:nil];
         testFilter.responseToUse = response;
@@ -1615,7 +1615,7 @@
     {
         MSTestFilter *testFilter = [[MSTestFilter alloc] init];
         NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                       initWithURL:nil
+                                       initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                        statusCode:200
                                        HTTPVersion:nil headerFields:nil];
         testFilter.responseToUse = response;
@@ -1652,7 +1652,7 @@
     {
         MSTestFilter *testFilter = [[MSTestFilter alloc] init];
         NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                       initWithURL:nil
+                                       initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                        statusCode:200
                                        HTTPVersion:nil headerFields:nil];
         testFilter.responseToUse = response;
@@ -1690,7 +1690,7 @@
     {
         MSTestFilter *testFilter = [[MSTestFilter alloc] init];
         NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                       initWithURL:nil
+                                       initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                        statusCode:200
                                        HTTPVersion:nil headerFields:nil];
         testFilter.responseToUse = response;
@@ -1744,7 +1744,7 @@
 - (void) verifyLinkHeaderOnRead: (NSString *) actualLink  expectedLink: (NSString *) expectedLink {
     MSTestFilter *testFilter = [[MSTestFilter alloc] init];
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc]
-                                   initWithURL:nil
+                                   initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                                    statusCode:200
                                    HTTPVersion:nil
                                    headerFields:@{@"Link": actualLink}];

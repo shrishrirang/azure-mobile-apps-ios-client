@@ -31,7 +31,7 @@
     if (self) {
         self.ignoreNextFilter = YES;
         self.responseToUse = [[NSHTTPURLResponse alloc]
-                              initWithURL:nil
+                              initWithURL:[[NSURL alloc] initWithString:@"https://someUrl"]
                               statusCode:statusCode
                               HTTPVersion:nil headerFields:nil];
         if (data) {
