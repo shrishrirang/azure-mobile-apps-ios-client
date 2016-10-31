@@ -193,7 +193,7 @@
 -(void) loginWithProvider:(NSString *)provider
              controller:(UIViewController *)controller
                  animated:(BOOL)animated
-               completion:(MSClientLoginBlock)completion
+               completion:(nullable MSClientLoginBlock)completion
 {
     return [self.login loginWithProvider:provider
                               parameters:nil
@@ -216,7 +216,7 @@
 }
 
 -(MSLoginController *) loginViewControllerWithProvider:(NSString *)provider
-                                      completion:(MSClientLoginBlock)completion
+                                      completion:(nullable MSClientLoginBlock)completion
 {
     return [self.login loginViewControllerWithProvider:provider
                                             parameters:nil

@@ -18,6 +18,8 @@
 
 @protocol MSFilter;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma  mark * MSClient Public Interface
 
 /// The MSClient class is the starting point for working with a Microsoft Azure
@@ -187,3 +189,5 @@
 /// @}
 
 @end
+
+NS_ASSUME_NONNULL_END

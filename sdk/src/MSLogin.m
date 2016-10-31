@@ -52,10 +52,10 @@
 
 #if TARGET_OS_IPHONE
 -(void) loginWithProvider:(NSString *)provider
-               parameters:(nonnull NSDictionary *)parameters
+               parameters:(nullable NSDictionary *)parameters
                controller:(UIViewController *)controller
                  animated:(BOOL)animated
-               completion:(MSClientLoginBlock)completion
+               completion:(nullable MSClientLoginBlock)completion
 {
     __block MSLoginController *loginController = nil;
     __block MSUser *localUser = nil;
@@ -110,8 +110,8 @@
 }
 
 -(MSLoginController *) loginViewControllerWithProvider:(NSString *)provider
-                                            parameters:(nonnull NSDictionary *)parameters
-                                            completion:(MSClientLoginBlock)completion
+                                            parameters:(nullable NSDictionary *)parameters
+                                            completion:(nullable MSClientLoginBlock)completion
 {
     provider = [self normalizeProvider:provider];
     return [[MSLoginController alloc] initWithClient:self.client
@@ -124,7 +124,7 @@
 
 -(void) loginWithProvider:(NSString *)provider
                 token:(NSDictionary *)token
-               completion:(MSClientLoginBlock)completion
+               completion:(nullable MSClientLoginBlock)completion
 {
     // Create the request
     NSError *error = nil;
