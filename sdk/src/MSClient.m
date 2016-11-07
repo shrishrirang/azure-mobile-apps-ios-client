@@ -131,7 +131,6 @@
                                 [NSCharacterSet URLHostAllowedCharacterSet]];
         
         return [NSURL URLWithString:[NSString stringWithFormat:@"https://%@", host]];
-        return [self.applicationURL baseURL];
     }
     
     return _loginHost;
