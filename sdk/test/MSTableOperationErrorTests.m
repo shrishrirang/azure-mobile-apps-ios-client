@@ -155,10 +155,17 @@
     
     // Cancel our pending operation and update the stored value
     XCTestExpectation *expectation = [self expectationWithDescription:@"CancelAndUpdateOperation"];
+    
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wnonnull"
+
     [opError cancelOperationAndUpdateItem:nil completion:^(NSError *error) {
         XCTAssertNotNil(error);
         [expectation fulfill];
     }];
+
+    #pragma clang diagnostic pop
+
     [self waitForExpectationsWithTimeout:1.0 handler:nil];
     
     // Verify operation is still in the local store layer

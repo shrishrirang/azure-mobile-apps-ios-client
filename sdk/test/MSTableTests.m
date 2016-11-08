@@ -55,8 +55,13 @@
 
 -(void) testInitWithNameAndClientAllowsNil
 {
-    MSTable *table = [[MSTable alloc] initWithName:nil client:nil];
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wnonnull"
     
+    MSTable *table = [[MSTable alloc] initWithName:nil client:nil];
+
+    #pragma clang diagnostic pop
+
     XCTAssertNotNil(table, @"table should not be nil.");
     
     XCTAssertNil(table.client, @"table.client should be nil.");
@@ -101,6 +106,9 @@
     XCTestExpectation *testExpectation = [self expectationWithDescription:@"Insert: Nil Item"];
     
     MSTable *todoTable = [client tableWithName:@"todoItem"];
+
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wnonnull"
     
     // Insert the item
     [todoTable insert:nil completion:^(NSDictionary *item, NSError *error) {
@@ -114,7 +122,9 @@
         
         [testExpectation fulfill];
     }];
-    
+
+    #pragma clang diagnostic pop
+
     [self waitForExpectationsWithTimeout:1.0 handler:nil];
 }
 
@@ -381,6 +391,9 @@
 {
     MSTable *todoTable = [client tableWithName:@"todoItem"];
     
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wnonnull"
+    
     // Update the item
     [todoTable update:nil completion:^(NSDictionary *item, NSError *error) {
     
@@ -399,6 +412,8 @@
         done = YES;
     }];
     
+    #pragma clang diagnostic pop
+
     XCTAssertTrue([self waitForTest:0.1], @"Test timed out.");
 }
 
@@ -724,6 +739,9 @@
 {
     MSTable *todoTable = [client tableWithName:@"todoItem"];
     
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wnonnull"
+
     // Update the item
     [todoTable delete:nil completion:^(id itemId, NSError *error) {
   
@@ -742,6 +760,8 @@
         done = YES;
     }];
     
+    #pragma clang diagnostic pop
+
     XCTAssertTrue([self waitForTest:0.1], @"Test timed out.");
 }
 
@@ -969,6 +989,9 @@
 {
     MSTable *todoTable = [client tableWithName:@"todoItem"];
 
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wnonnull"
+
     // Delete the item
     [todoTable deleteWithId:nil completion:^(id itemId, NSError *error) {
     
@@ -987,6 +1010,8 @@
         done = YES;
     }];
     
+    #pragma clang diagnostic pop
+
     XCTAssertTrue([self waitForTest:0.1], @"Test timed out.");
 }
 
@@ -1278,6 +1303,9 @@
 {
     MSTable *todoTable = [client tableWithName:@"todoItem"];
     
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wnonnull"
+
     // Read the item
     [todoTable readWithId:nil completion:^(NSDictionary *item, NSError *error) {
     
@@ -1295,7 +1323,9 @@
         
         done = YES;
     }];
-    
+
+    #pragma clang diagnostic pop
+
     XCTAssertTrue([self waitForTest:0.1], @"Test timed out.");
 }
 
@@ -1447,8 +1477,14 @@
 -(void) testQueryWithPredicateReturnsNonNil
 {
     MSTable *todoTable = [client tableWithName:@"todoItem"];
+
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wnonnull"
+
     MSQuery *query = [todoTable queryWithPredicate:nil];
-    
+
+    #pragma clang diagnostic pop
+
     XCTAssertNotNil(query, @"query should not have been nil.");
 }
 

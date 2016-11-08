@@ -66,12 +66,17 @@
     
     MSClient *testClient = [self.client clientWithFilter:filter];
     
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wnonnull"
+    
     [testClient.push registerDeviceToken:nil completion:^(NSError *error) {
         XCTAssertNotNil(error);
         XCTAssertEqual(error.code, MSPushRequiredParameter);
         self.done = YES;
     }];
     
+    #pragma clang diagnostic pop
+
     XCTAssertTrue([self waitForTest:15], @"Test timed out.");
 }
 
