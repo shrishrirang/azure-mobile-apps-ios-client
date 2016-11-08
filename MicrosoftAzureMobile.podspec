@@ -8,6 +8,7 @@ Pod::Spec.new do |s|
   s.social_media_url   = "http://twitter.com/AzureMobile"
   s.ios.deployment_target = "8.0"
   s.osx.deployment_target = "10.10"
+  s.frameworks = "WebKit"
   s.source       = {
     :git => "https://github.com/Azure/azure-mobile-apps-ios-client.git",
     :tag => "3.2.0"
