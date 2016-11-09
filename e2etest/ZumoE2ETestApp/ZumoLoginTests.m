@@ -78,7 +78,7 @@ typedef enum { ZumoTableAnonymous, ZumoTableAuthenticated } ZumoTableType;
     [tests addObject:[self createSleepTest:1]];
     
     // Server Login Flow - simplified
-    [tests addObject:[self createLoginTestForProvider:provider usingSimplifiedMode:YES]];
+    [tests addObject:[self createServerFlowLoginTestForProvider:provider usingSimplifiedMode:YES]];
     [tests addObject:[self createCRUDTestForProvider:provider forTable:@"public" ofType:ZumoTableAnonymous andAuthenticated:YES]];
     [tests addObject:[self createCRUDTestForProvider:provider forTable:@"authenticated" ofType:ZumoTableAuthenticated andAuthenticated:YES]];
     
@@ -86,7 +86,7 @@ typedef enum { ZumoTableAnonymous, ZumoTableAuthenticated } ZumoTableType;
     [tests addObject:[self createSleepTest:3]];
     
     // Server Login Flow - non-simplified
-    [tests addObject:[self createLoginTestForProvider:provider usingSimplifiedMode:NO]];
+    [tests addObject:[self createServerFlowLoginTestForProvider:provider usingSimplifiedMode:NO]];
     [tests addObject:[self createCRUDTestForProvider:provider forTable:@"public" ofType:ZumoTableAnonymous andAuthenticated:YES]];
     [tests addObject:[self createCRUDTestForProvider:provider forTable:@"authenticated" ofType:ZumoTableAuthenticated andAuthenticated:YES]];
     
@@ -106,7 +106,7 @@ typedef enum { ZumoTableAnonymous, ZumoTableAuthenticated } ZumoTableType;
     [tests addObject:[self createSleepTest:1]];
     
     // Server Login Flow - simplified
-    [tests addObject:[self createLoginTestForProvider:provider usingSimplifiedMode:YES]];
+    [tests addObject:[self createServerFlowLoginTestForProvider:provider usingSimplifiedMode:YES]];
     [tests addObject:[self createCRUDTestForProvider:provider forTable:@"public" ofType:ZumoTableAnonymous andAuthenticated:YES]];
     [tests addObject:[self createCRUDTestForProvider:provider forTable:@"authenticated" ofType:ZumoTableAuthenticated andAuthenticated:YES]];
     
@@ -117,7 +117,7 @@ typedef enum { ZumoTableAnonymous, ZumoTableAuthenticated } ZumoTableType;
     [tests addObject:[self createSleepTest:3]];
     
     // Server Login Flow - non-simplified
-    [tests addObject:[self createLoginTestForProvider:provider usingSimplifiedMode:NO]];
+    [tests addObject:[self createServerFlowLoginTestForProvider:provider usingSimplifiedMode:NO]];
     [tests addObject:[self createCRUDTestForProvider:provider forTable:@"public" ofType:ZumoTableAnonymous andAuthenticated:YES]];
     [tests addObject:[self createCRUDTestForProvider:provider forTable:@"authenticated" ofType:ZumoTableAuthenticated andAuthenticated:YES]];
     
@@ -275,7 +275,7 @@ typedef enum { ZumoTableAnonymous, ZumoTableAuthenticated } ZumoTableType;
 }
 
 
-+ (ZumoTest *)createLoginTestForProvider:(NSString *)provider usingSimplifiedMode:(BOOL)useSimplified {
++ (ZumoTest *)createServerFlowLoginTestForProvider:(NSString *)provider usingSimplifiedMode:(BOOL)useSimplified {
     ZumoTest *result = [ZumoTest createTestWithName:[NSString stringWithFormat:@"%@Login for %@", useSimplified ? @"Simplified " : @"", provider] andExecution:^(ZumoTest *test, UIViewController *viewController, ZumoTestCompletion completion) {
         MSClient *client = [[ZumoTestGlobals sharedInstance] client];
         BOOL shouldDismissControllerInBlock = !useSimplified;
