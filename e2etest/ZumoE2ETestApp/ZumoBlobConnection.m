@@ -39,7 +39,7 @@
     NSLog(@"Uploading data to blob");
     
     NSData *data = [NSJSONSerialization dataWithJSONObject:jsonObject
-                                                   options:NSJSONReadingAllowFragments
+                                                   options:NSJSONWritingPrettyPrinted
                                                      error:nil];
 
     [self uploadData:data type:@"application/json" withFileName:name completion:completion];
