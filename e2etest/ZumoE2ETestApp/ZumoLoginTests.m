@@ -41,6 +41,8 @@
 
 static NSString *lastUserIdentityObjectKey = @"lastUserIdentityObject";
 
+typedef enum { ZumoTableAnonymous, ZumoTableAuthenticated } ZumoTableType;
+
 + (NSArray *)createTests {
     NSMutableArray *result = [[NSMutableArray alloc] init];
     [result addObject:[self createClearAuthCookiesTest]];
@@ -50,33 +52,16 @@ static NSString *lastUserIdentityObjectKey = @"lastUserIdentityObject";
     
     NSInteger indexOfLastUnattendedTest = [result count];
     
-    NSArray *providers = @[ @"facebook", @"twitter", @"google", @"microsoftaccount", @"aad" ];
-    NSArray *clientProviders = @[ @"facebook", @"twitter", @"microsoftaccount" ];
-    NSArray *providersSupportRefreshToken = @[ @"google", @"microsoftaccount", @"aad" ];
+    result = [self createServerLoginFlowAndClientLoginFlowForProvider:@"facebook" tests:result];
     
-    for (int useSimplifiedLogin = 0; useSimplifiedLogin <= 1; useSimplifiedLogin++) {
-        for (NSString *provider in providers) {
-            BOOL useSimplified = useSimplifiedLogin == 1;
-            [result addObject:[self createLogoutTest]];
-            [result addObject:[self createSleepTest:3]];
-            [result addObject:[self createLoginTestForProvider:provider usingSimplifiedMode:useSimplified]];
-            if (useSimplifiedLogin && [providersSupportRefreshToken containsObject:provider]) {
-                [result addObject:[self createRefreshTestForProvider:provider]];
-            }
-            [result addObject:[self createCRUDTestForProvider:provider forTable:@"public" ofType:ZumoTableAnonymous andAuthenticated:YES]];
-            [result addObject:[self createCRUDTestForProvider:provider forTable:@"authenticated" ofType:ZumoTableAuthenticated andAuthenticated:YES]];
-            
-            if (useSimplifiedLogin && [clientProviders containsObject:provider]) {
-                [result addObject:[self createSleepTest:1]];
-                [result addObject:[self createClientSideLoginWithProvider:provider]];
-                [result addObject:[self createCRUDTestForProvider:provider forTable:@"authenticated" ofType:ZumoTableAuthenticated andAuthenticated:YES]];
-            }
-            
-            [result addObject:[self createLogoutTest]];
-            [result addObject:[self createCRUDTestForProvider:nil forTable:@"authenticated" ofType:ZumoTableAuthenticated andAuthenticated:NO]];
-        }
-    }
+    result = [self createServerLoginFlowAndClientLoginFlowForProvider:@"twitter" tests:result];
+    
+    result = [self createServerLoginRefreshTokenFlowForProvider:@"microsoftaccount" tests:result];
 
+    result = [self createServerLoginRefreshTokenFlowForProvider:@"aad" tests:result];
+    
+    result = [self createServerLoginRefreshTokenFlowForProvider:@"google" tests:result];
+    
     for (NSInteger i = indexOfLastUnattendedTest; i < [result count]; i++) {
         ZumoTest *test = result[i];
         [test setCanRunUnattended:NO];
@@ -87,7 +72,57 @@ static NSString *lastUserIdentityObjectKey = @"lastUserIdentityObject";
     return result;
 }
 
-typedef enum { ZumoTableAnonymous, ZumoTableAuthenticated } ZumoTableType;
++ (NSMutableArray *)createServerLoginFlowAndClientLoginFlowForProvider:(NSString *)provider tests:(NSMutableArray *)tests
+{
+    [tests addObject:[self createLogoutTest]];
+    [tests addObject:[self createSleepTest:1]];
+    
+    // Server Login Flow - simplified
+    [tests addObject:[self createServerFlowLoginTestForProvider:provider usingSimplifiedMode:YES]];
+    [tests addObject:[self createCRUDTestForProvider:provider forTable:@"public" ofType:ZumoTableAnonymous andAuthenticated:YES]];
+    [tests addObject:[self createCRUDTestForProvider:provider forTable:@"authenticated" ofType:ZumoTableAuthenticated andAuthenticated:YES]];
+    
+    [tests addObject:[self createLogoutTest]];
+    [tests addObject:[self createSleepTest:3]];
+    
+    // Server Login Flow - non-simplified
+    [tests addObject:[self createServerFlowLoginTestForProvider:provider usingSimplifiedMode:NO]];
+    [tests addObject:[self createCRUDTestForProvider:provider forTable:@"public" ofType:ZumoTableAnonymous andAuthenticated:YES]];
+    [tests addObject:[self createCRUDTestForProvider:provider forTable:@"authenticated" ofType:ZumoTableAuthenticated andAuthenticated:YES]];
+    
+    [tests addObject:[self createLogoutTest]];
+    [tests addObject:[self createSleepTest:1]];
+    
+    // Client Login Flow
+    [tests addObject:[self createClientSideLoginWithProvider:provider]];
+    [tests addObject:[self createCRUDTestForProvider:provider forTable:@"authenticated" ofType:ZumoTableAuthenticated andAuthenticated:YES]];
+    
+    return tests;
+}
+
++ (NSMutableArray *)createServerLoginRefreshTokenFlowForProvider:(NSString *)provider tests:(NSMutableArray *)tests
+{
+    [tests addObject:[self createLogoutTest]];
+    [tests addObject:[self createSleepTest:1]];
+    
+    // Server Login Flow - simplified
+    [tests addObject:[self createServerFlowLoginTestForProvider:provider usingSimplifiedMode:YES]];
+    [tests addObject:[self createCRUDTestForProvider:provider forTable:@"public" ofType:ZumoTableAnonymous andAuthenticated:YES]];
+    [tests addObject:[self createCRUDTestForProvider:provider forTable:@"authenticated" ofType:ZumoTableAuthenticated andAuthenticated:YES]];
+    
+    // Refresh Token
+    [tests addObject:[self createRefreshTestForProvider:provider]];
+
+    [tests addObject:[self createLogoutTest]];
+    [tests addObject:[self createSleepTest:3]];
+    
+    // Server Login Flow - non-simplified
+    [tests addObject:[self createServerFlowLoginTestForProvider:provider usingSimplifiedMode:NO]];
+    [tests addObject:[self createCRUDTestForProvider:provider forTable:@"public" ofType:ZumoTableAnonymous andAuthenticated:YES]];
+    [tests addObject:[self createCRUDTestForProvider:provider forTable:@"authenticated" ofType:ZumoTableAuthenticated andAuthenticated:YES]];
+    
+    return tests;
+}
 
 + (ZumoTest *)createSleepTest:(int)seconds {
     NSString *testName = [NSString stringWithFormat:@"Sleep for %d seconds", seconds];
@@ -240,7 +275,7 @@ typedef enum { ZumoTableAnonymous, ZumoTableAuthenticated } ZumoTableType;
 }
 
 
-+ (ZumoTest *)createLoginTestForProvider:(NSString *)provider usingSimplifiedMode:(BOOL)useSimplified {
++ (ZumoTest *)createServerFlowLoginTestForProvider:(NSString *)provider usingSimplifiedMode:(BOOL)useSimplified {
     ZumoTest *result = [ZumoTest createTestWithName:[NSString stringWithFormat:@"%@Login for %@", useSimplified ? @"Simplified " : @"", provider] andExecution:^(ZumoTest *test, UIViewController *viewController, ZumoTestCompletion completion) {
         MSClient *client = [[ZumoTestGlobals sharedInstance] client];
         BOOL shouldDismissControllerInBlock = !useSimplified;

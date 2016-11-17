@@ -10,7 +10,7 @@
 + (NSArray *)createTests;
 + (NSString *)groupDescription;
 
-+ (ZumoTest *)createLoginTestForProvider:(NSString *)provider usingSimplifiedMode:(BOOL)useSimplified;
++ (ZumoTest *)createServerFlowLoginTestForProvider:(NSString *)provider usingSimplifiedMode:(BOOL)useSimplified;
 + (ZumoTest *)createLogoutTest;
 
 @end

@@ -53,7 +53,7 @@ typedef enum { DataFormatJson, DataFormatXml, DataFormatOther } ApiDataFormat;
 
     NSInteger indexOfLastUnattendedTest = [result count];
     
-    [result addObject:[ZumoLoginTests createLoginTestForProvider:@"facebook" usingSimplifiedMode:YES]];
+    [result addObject:[ZumoLoginTests createServerFlowLoginTestForProvider:@"facebook" usingSimplifiedMode:YES]];
     [result addObject:[self createApiPermissionsTestWithName:@"Application API - logged in" apiName:apiPublicName shouldSucceed:YES]];
     [result addObject:[self createApiPermissionsTestWithName:@"Authenticated API - logged in" apiName:apiUserName shouldSucceed:YES]];
 
