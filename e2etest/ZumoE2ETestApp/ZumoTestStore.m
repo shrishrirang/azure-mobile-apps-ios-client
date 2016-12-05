@@ -9,6 +9,7 @@
 #import "ZumoQueryTests.h"
 #import "ZumoCUDTests.h"
 #import "ZumoLoginTests.h"
+#import "ZumoLoginSafariViewControllerTests.h"
 #import "ZumoMiscTests.h"
 #import "ZumoPushTests.h"
 #import "ZumoCustomApiTests.h"
@@ -27,7 +28,8 @@ NSString * const ALL_UNATTENDED_TESTS_GROUP_NAME = @"All tests unattended";
                               [self createGroupWithName:@"Insert and verify" description:[ZumoRoundTripTests description] tests:[ZumoRoundTripTests createTests]],
                               [self createGroupWithName:@"Query" description:[ZumoQueryTests description] tests:[ZumoQueryTests createTests]],
                               [self createGroupWithName:@"Update / Delete" description:[ZumoCUDTests description] tests:[ZumoCUDTests createTests]],
-                              [self createGroupWithName:@"Login" description:[ZumoLoginTests description] tests:[ZumoLoginTests createTests]],
+                              [self createGroupWithName:@"WebView Login" description:[ZumoLoginTests description] tests:[ZumoLoginTests createTests]],
+                              [self createGroupWithName:@"SafariVC Login" description:[ZumoLoginSafariViewControllerTests description] tests:[ZumoLoginSafariViewControllerTests createTests]],
                               [self createGroupWithName:@"Push notification" description:[ZumoPushTests description] tests:[ZumoPushTests createTests]],
                               [self createGroupWithName:@"Other" description:[ZumoMiscTests description] tests:[ZumoMiscTests createTests]],
                               [self createGroupWithName:@"Custom API" description:[ZumoCustomApiTests description] tests:[ZumoCustomApiTests createTests]],

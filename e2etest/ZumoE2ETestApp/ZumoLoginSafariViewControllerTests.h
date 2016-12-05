@@ -2,10 +2,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "ZumoTest.h"
+#import "ZumoTestGlobals.h"
 
-@interface ZumoAppDelegate : UIResponder <UIApplicationDelegate>
+@interface ZumoLoginSafariViewControllerTests : NSObject
 
-@property (strong, nonatomic, nonnull) UIWindow *window;
++ (NSArray *)createTests;
++ (NSString *)groupDescription;
 
 @end

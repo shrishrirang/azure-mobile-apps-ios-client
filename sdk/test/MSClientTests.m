@@ -91,6 +91,20 @@
                  @"The client should be using the url it was created with.");
 }
 
+-(void) testInitWithApplicationURLAllowsTrailingSlash
+{
+    NSURL *appURL = [NSURL URLWithString:@"http://someURL.com/"];
+    
+    MSClient *client = [[MSClient alloc] initWithApplicationURL:appURL];
+    
+    XCTAssertNotNil(client, @"client should not be nil.");
+    
+    XCTAssertNotNil(client.applicationURL, @"client.applicationURL should not be nil.");
+    NSString *urlString = [client.applicationURL absoluteString];
+    XCTAssertTrue([urlString isEqualToString:@"http://someURL.com/"],
+                  @"The client should be using the url it was created with.");
+}
+
 -(void) testInitWithApplicationURLAllowsNilURL
 {
     #pragma clang diagnostic push

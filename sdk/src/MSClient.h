@@ -15,6 +15,7 @@
 @class MSPush;
 @class MSSyncContext;
 @class MSLoginController;
+@class MSLoginSafariViewController;
 
 @protocol MSFilter;
 
@@ -71,6 +72,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// recommended for non-testing use.
 @property (nonatomic, strong, nullable) MSUser *currentUser;
 
+/// An instance of |MSLoginSafariViewController|
+@property (nonatomic, strong, nonnull) MSLoginSafariViewController *loginSafariViewController;
+
 /// @}
 
 #pragma  mark * Public Static Constructor Methods
@@ -107,7 +111,8 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)loginWithProvider:(nonnull NSString *)provider
               controller:(nonnull UIViewController *)controller
                 animated:(BOOL)animated
-              completion:(nullable MSClientLoginBlock)completion;
+              completion:(nullable MSClientLoginBlock)completion
+DEPRECATED_MSG_ATTRIBUTE("Deprecated. Use SFSafariViewController-based login method loginWithProvider:provider:urlScheme:controller:animated:completion instead");
 
 /// Logs in the current end user with the given provider by presenting the
 /// MSLoginController with the given controller.
@@ -115,12 +120,40 @@ NS_ASSUME_NONNULL_BEGIN
               parameters:(nullable NSDictionary *)parameters
               controller:(nonnull UIViewController *)controller
                 animated:(BOOL)animated
-              completion:(nullable MSClientLoginBlock)completion;
+              completion:(nullable MSClientLoginBlock)completion
+DEPRECATED_MSG_ATTRIBUTE("Deprecated. Use SFSafariViewController-based login method loginWithProvider:provider:urlScheme:parameters:controller:animated:completion instead");
 
 /// Returns an MSLoginController that can be used to log in the current
 /// end user with the given provider.
 -(nonnull MSLoginController *)loginViewControllerWithProvider:(nonnull NSString *)provider
-                                 completion:(nullable MSClientLoginBlock)completion;
+                                                   completion:(nullable MSClientLoginBlock)completion
+DEPRECATED_MSG_ATTRIBUTE("Deprecated. Use SFSafariViewController-based login method loginSafariViewControllerWithProvider:provider:urlScheme:completion instead");
+
+/// Logs in the current end user with given provider by presenting the
+/// SFSafariViewController with the given controller. The URL scheme of
+/// the current application is required for completing login.
+/// As SFSafariViewController is only available on iOS 9 or later, on old platforms,
+/// fallback to WebView based login in |MSLogin| for backward compatibility.
+-(void)loginWithProvider:(nonnull NSString *)provider
+               urlScheme:(nonnull NSString *)urlScheme
+              controller:(nonnull UIViewController *)controller
+                animated:(BOOL)animated
+              completion:(nullable MSClientLoginBlock)completion;
+
+/// Logs in the current end user with given provider and given parameters by presenting the
+/// SFSafariViewController with the given controller. The URL scheme of
+/// the current application is required for completing login.
+/// As SFSafariViewController is only available on iOS 9 or later, on old platforms,
+/// fallback to WebView based login in |MSLogin| for backward compatibility.
+-(void)loginWithProvider:(nonnull NSString *)provider
+               urlScheme:(nonnull NSString *)urlScheme
+              parameters:(nullable NSDictionary *)parameters
+              controller:(nonnull UIViewController *)controller
+                animated:(BOOL)animated
+              completion:(nullable MSClientLoginBlock)completion;
+
+/// Resume login process with redirect URL
+-(BOOL)resumeWithURL:(NSURL *)URL;
 #endif
 
 /// Logs in the current end user with the given provider and the given token for

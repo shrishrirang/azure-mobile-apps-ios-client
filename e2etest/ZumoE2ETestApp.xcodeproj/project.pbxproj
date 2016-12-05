@@ -32,6 +32,7 @@
 		87D8D9451678443D00CDE19A /* ZumoMiscTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D8D9441678443D00CDE19A /* ZumoMiscTests.m */; };
 		87FA8406174FE58A0089EDEA /* ZumoCustomApiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 87FA8405174FE58A0089EDEA /* ZumoCustomApiTests.m */; };
 		87FA840B17569AB90089EDEA /* TestLoggingFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 87FA840A17569AB90089EDEA /* TestLoggingFilter.m */; };
+		9C7466F11DD2B35600F6BB5F /* ZumoLoginSafariViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C7466F01DD2B35600F6BB5F /* ZumoLoginSafariViewControllerTests.m */; };
 		A20EF08A1993F1F000C64641 /* ZumoBlobConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A20EF0891993F1F000C64641 /* ZumoBlobConnection.m */; };
 		A2B509DD199ABF1A00A914CF /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2B509DC199ABF1A00A914CF /* MessageUI.framework */; };
 		A2B509E0199B376C00A914CF /* ZumoTestResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2B509DF199B376C00A914CF /* ZumoTestResultViewController.m */; };
@@ -90,6 +91,8 @@
 		87FA8405174FE58A0089EDEA /* ZumoCustomApiTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZumoCustomApiTests.m; sourceTree = "<group>"; };
 		87FA840917569AB90089EDEA /* TestLoggingFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestLoggingFilter.h; sourceTree = "<group>"; };
 		87FA840A17569AB90089EDEA /* TestLoggingFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestLoggingFilter.m; sourceTree = "<group>"; };
+		9C7466F01DD2B35600F6BB5F /* ZumoLoginSafariViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZumoLoginSafariViewControllerTests.m; sourceTree = "<group>"; };
+		9C7466F21DD2B39700F6BB5F /* ZumoLoginSafariViewControllerTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZumoLoginSafariViewControllerTests.h; sourceTree = "<group>"; };
 		A20EF0881993F1F000C64641 /* ZumoBlobConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZumoBlobConnection.h; sourceTree = "<group>"; };
 		A20EF0891993F1F000C64641 /* ZumoBlobConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZumoBlobConnection.m; sourceTree = "<group>"; };
 		A2B509DC199ABF1A00A914CF /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -243,6 +246,8 @@
 				87FA840A17569AB90089EDEA /* TestLoggingFilter.m */,
 				8757386818A40C2A0025024F /* ZumoTestRunSetup.h */,
 				8757386918A40C2A0025024F /* ZumoTestRunSetup.m */,
+				9C7466F21DD2B39700F6BB5F /* ZumoLoginSafariViewControllerTests.h */,
+				9C7466F01DD2B35600F6BB5F /* ZumoLoginSafariViewControllerTests.m */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -319,6 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2EB9E40199543E30032B8BC /* ZumoConfigurationViewController.m in Sources */,
+				9C7466F11DD2B35600F6BB5F /* ZumoLoginSafariViewControllerTests.m in Sources */,
 				872B02CB1672A73B003613A1 /* main.m in Sources */,
 				872B02CF1672A73B003613A1 /* ZumoAppDelegate.m in Sources */,
 				872B02E01672A8FC003613A1 /* ZumoTest.m in Sources */,

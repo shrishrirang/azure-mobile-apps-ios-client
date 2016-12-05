@@ -244,7 +244,7 @@ NSString* encodeToPercentEscapeString(NSString *string) {
                 [MSURLBuilder appendParameterName:name andValue:[arrayValue description] toQueryString:queryString];
             }
         } else {
-            [MSURLBuilder appendParameterName:name andValue:[value description] toQueryString:queryString];
+                [MSURLBuilder appendParameterName:name andValue:[value description] toQueryString:queryString];
         }
     }
     

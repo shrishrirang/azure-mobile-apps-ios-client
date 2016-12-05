@@ -161,7 +161,7 @@
                                 userFromData:data
                                 orError:&responseError];
                         
-                        if (user) {
+                        if (user && !responseError) {
                             self.client.currentUser = user;
                         }
                     }
@@ -195,7 +195,7 @@
             if (!responseError) {
                 if (response.statusCode == 200) {
                     user = [[MSLoginSerializer loginSerializer] userFromData:data orError:&responseError];
-                    if (!responseError) {
+                    if (user && !responseError) {
                         self.client.currentUser.mobileServiceAuthenticationToken = user.mobileServiceAuthenticationToken;
                     }
                 }

@@ -274,6 +274,8 @@ typedef enum { ZumoTableAnonymous, ZumoTableAuthenticated } ZumoTableType;
     }];
 }
 
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
 + (ZumoTest *)createServerFlowLoginTestForProvider:(NSString *)provider usingSimplifiedMode:(BOOL)useSimplified {
     ZumoTest *result = [ZumoTest createTestWithName:[NSString stringWithFormat:@"%@Login for %@", useSimplified ? @"Simplified " : @"", provider] andExecution:^(ZumoTest *test, UIViewController *viewController, ZumoTestCompletion completion) {
@@ -310,6 +312,8 @@ typedef enum { ZumoTableAnonymous, ZumoTableAuthenticated } ZumoTableType;
     
     return result;
 }
+
+#pragma clang diagnostic pop
 
 + (ZumoTest *)createRefreshTestForProvider:(NSString *)provider {
     ZumoTest *result = [ZumoTest createTestWithName:[NSString stringWithFormat:@"Refresh for %@", provider] andExecution:^(ZumoTest *test, UIViewController *viewController, ZumoTestCompletion completion) {

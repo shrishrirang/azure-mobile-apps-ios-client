@@ -102,6 +102,26 @@
 		7929542919B7C793006A3829 /* MSQueryResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 7929542719B7C793006A3829 /* MSQueryResult.m */; };
 		870C0C9C199C246700A134DD /* MSSDKFeatures.h in Headers */ = {isa = PBXBuildFile; fileRef = 870C0C9A199C246700A134DD /* MSSDKFeatures.h */; };
 		870C0C9D199C246700A134DD /* MSSDKFeatures.m in Sources */ = {isa = PBXBuildFile; fileRef = 870C0C9B199C246700A134DD /* MSSDKFeatures.m */; };
+		9C25F4B11DC7D773001E6298 /* MSLoginSafariViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C25F4B01DC7D773001E6298 /* MSLoginSafariViewController.h */; };
+		9C25F4B21DC7D773001E6298 /* MSLoginSafariViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C25F4B01DC7D773001E6298 /* MSLoginSafariViewController.h */; };
+		9C25F4B41DC7D78E001E6298 /* MSLoginSafariViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C25F4B31DC7D78E001E6298 /* MSLoginSafariViewController.m */; };
+		9C25F4B51DC7D78E001E6298 /* MSLoginSafariViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C25F4B31DC7D78E001E6298 /* MSLoginSafariViewController.m */; };
+		9CA4B5371DC964B400F1F8D4 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA4B5361DC964B400F1F8D4 /* SafariServices.framework */; };
+		9CA4B5381DC964FD00F1F8D4 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA4B5361DC964B400F1F8D4 /* SafariServices.framework */; };
+		9CA4B5391DC9651C00F1F8D4 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA4B5361DC964B400F1F8D4 /* SafariServices.framework */; };
+		9CA4B53B1DC9685100F1F8D4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA4B53A1DC9685100F1F8D4 /* Security.framework */; };
+		9CA4B53C1DC968A700F1F8D4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA4B53A1DC9685100F1F8D4 /* Security.framework */; };
+		9CA4B53D1DC968B300F1F8D4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA4B53A1DC9685100F1F8D4 /* Security.framework */; };
+		9CA4B53F1DC97F1500F1F8D4 /* MSLoginSafariViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CA4B53E1DC97F1500F1F8D4 /* MSLoginSafariViewControllerTests.m */; };
+		9CB78F5A1DEF514F00C86096 /* MSPkceState.h in Headers */ = {isa = PBXBuildFile; fileRef = 9CB78F591DEF514F00C86096 /* MSPkceState.h */; };
+		9CB78F5B1DEF514F00C86096 /* MSPkceState.h in Headers */ = {isa = PBXBuildFile; fileRef = 9CB78F591DEF514F00C86096 /* MSPkceState.h */; };
+		9CB78F5D1DEF54B400C86096 /* MSPkceState.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB78F5C1DEF54B400C86096 /* MSPkceState.m */; };
+		9CB78F5E1DEF54B400C86096 /* MSPkceState.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB78F5C1DEF54B400C86096 /* MSPkceState.m */; };
+		9CC8BDF11DDAE34C00F54988 /* MSLoginSafariViewControllerUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 9CC8BDF01DDAE34C00F54988 /* MSLoginSafariViewControllerUtilities.h */; };
+		9CC8BDF21DDAE34C00F54988 /* MSLoginSafariViewControllerUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 9CC8BDF01DDAE34C00F54988 /* MSLoginSafariViewControllerUtilities.h */; };
+		9CC8BDF41DDAE37700F54988 /* MSLoginSafariViewControllerUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC8BDF31DDAE37700F54988 /* MSLoginSafariViewControllerUtilities.m */; };
+		9CC8BDF51DDAE37700F54988 /* MSLoginSafariViewControllerUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC8BDF31DDAE37700F54988 /* MSLoginSafariViewControllerUtilities.m */; };
+		9CC8BDF91DDBA63E00F54988 /* MSLoginSafariViewControllerUtilitiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC8BDF81DDBA63E00F54988 /* MSLoginSafariViewControllerUtilitiesTests.m */; };
 		9CCEB9011D62733500D70EE4 /* MSLoginTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCEB9001D62733500D70EE4 /* MSLoginTests.m */; };
 		A202C3461AA25F730005A8AE /* MSPushConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = A202C3441AA25F730005A8AE /* MSPushConnection.h */; };
 		A202C3471AA25F730005A8AE /* MSPushConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A202C3451AA25F730005A8AE /* MSPushConnection.m */; };
@@ -419,6 +439,16 @@
 		870C0C9B199C246700A134DD /* MSSDKFeatures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSDKFeatures.m; sourceTree = "<group>"; };
 		8790D2BE199C5D510000DC4E /* MSTableInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSTableInternal.h; sourceTree = "<group>"; };
 		8790D2BF199EA5950000DC4E /* MSQueryInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSQueryInternal.h; sourceTree = "<group>"; };
+		9C25F4B01DC7D773001E6298 /* MSLoginSafariViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLoginSafariViewController.h; sourceTree = "<group>"; };
+		9C25F4B31DC7D78E001E6298 /* MSLoginSafariViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLoginSafariViewController.m; sourceTree = "<group>"; };
+		9CA4B5361DC964B400F1F8D4 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		9CA4B53A1DC9685100F1F8D4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		9CA4B53E1DC97F1500F1F8D4 /* MSLoginSafariViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLoginSafariViewControllerTests.m; sourceTree = "<group>"; };
+		9CB78F591DEF514F00C86096 /* MSPkceState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPkceState.h; sourceTree = "<group>"; };
+		9CB78F5C1DEF54B400C86096 /* MSPkceState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPkceState.m; sourceTree = "<group>"; };
+		9CC8BDF01DDAE34C00F54988 /* MSLoginSafariViewControllerUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLoginSafariViewControllerUtilities.h; sourceTree = "<group>"; };
+		9CC8BDF31DDAE37700F54988 /* MSLoginSafariViewControllerUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLoginSafariViewControllerUtilities.m; sourceTree = "<group>"; };
+		9CC8BDF81DDBA63E00F54988 /* MSLoginSafariViewControllerUtilitiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLoginSafariViewControllerUtilitiesTests.m; sourceTree = "<group>"; };
 		9CCEB9001D62733500D70EE4 /* MSLoginTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLoginTests.m; sourceTree = "<group>"; };
 		A202C3441AA25F730005A8AE /* MSPushConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPushConnection.h; sourceTree = "<group>"; };
 		A202C3451AA25F730005A8AE /* MSPushConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPushConnection.m; sourceTree = "<group>"; };
@@ -563,6 +593,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CA4B53D1DC968B300F1F8D4 /* Security.framework in Frameworks */,
+				9CA4B5391DC9651C00F1F8D4 /* SafariServices.framework in Frameworks */,
 				F3D8EC951C46486600BE61EB /* WebKit.framework in Frameworks */,
 				F3EBE0131BAC32A000D82B10 /* UIKit.framework in Frameworks */,
 			);
@@ -572,6 +604,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CA4B53B1DC9685100F1F8D4 /* Security.framework in Frameworks */,
+				9CA4B5381DC964FD00F1F8D4 /* SafariServices.framework in Frameworks */,
 				F3D8EC941C46485100BE61EB /* WebKit.framework in Frameworks */,
 				E84CA4D316236A6E009B2588 /* UIKit.framework in Frameworks */,
 				E8F33ADF1616659C002DD7C6 /* Foundation.framework in Frameworks */,
@@ -582,6 +616,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CA4B53C1DC968A700F1F8D4 /* Security.framework in Frameworks */,
+				9CA4B5371DC964B400F1F8D4 /* SafariServices.framework in Frameworks */,
 				F3D8EC961C46486F00BE61EB /* WebKit.framework in Frameworks */,
 				A28224B0192ACEAE00EF8743 /* CoreData.framework in Frameworks */,
 				E84CA4DE16272371009B2588 /* UIKit.framework in Frameworks */,
@@ -609,6 +645,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9CBA2B741DF0A6320093FD7E /* WebViewLogin */ = {
+			isa = PBXGroup;
+			children = (
+				402774F8161F73AB00A23A8F /* MSLoginController.h */,
+				E814664A165C07EB0038EBE5 /* MSLoginController.m */,
+				E8653C0A16559C15002CB440 /* MSLoginView.h */,
+				E8653C0B16559C15002CB440 /* MSLoginView.m */,
+				E8146640165BE0150038EBE5 /* MSLogin.h */,
+				E8146641165BE0150038EBE5 /* MSLogin.m */,
+				E8146644165BE2440038EBE5 /* MSLoginSerializer.h */,
+				E8146645165BE2440038EBE5 /* MSLoginSerializer.m */,
+			);
+			name = WebViewLogin;
+			sourceTree = "<group>";
+		};
+		9CBA2B751DF0A65B0093FD7E /* SafariViewControllerLogin */ = {
+			isa = PBXGroup;
+			children = (
+				9C25F4B01DC7D773001E6298 /* MSLoginSafariViewController.h */,
+				9C25F4B31DC7D78E001E6298 /* MSLoginSafariViewController.m */,
+				9CC8BDF01DDAE34C00F54988 /* MSLoginSafariViewControllerUtilities.h */,
+				9CC8BDF31DDAE37700F54988 /* MSLoginSafariViewControllerUtilities.m */,
+				9CB78F591DEF514F00C86096 /* MSPkceState.h */,
+				9CB78F5C1DEF54B400C86096 /* MSPkceState.m */,
+			);
+			name = SafariViewControllerLogin;
+			sourceTree = "<group>";
+		};
 		A24701C11968975B00385DA2 /* Push */ = {
 			isa = PBXGroup;
 			children = (
@@ -732,14 +796,8 @@
 		E84CA4E016272BA2009B2588 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				402774F8161F73AB00A23A8F /* MSLoginController.h */,
-				E814664A165C07EB0038EBE5 /* MSLoginController.m */,
-				E8653C0A16559C15002CB440 /* MSLoginView.h */,
-				E8653C0B16559C15002CB440 /* MSLoginView.m */,
-				E8146640165BE0150038EBE5 /* MSLogin.h */,
-				E8146641165BE0150038EBE5 /* MSLogin.m */,
-				E8146644165BE2440038EBE5 /* MSLoginSerializer.h */,
-				E8146645165BE2440038EBE5 /* MSLoginSerializer.m */,
+				9CBA2B751DF0A65B0093FD7E /* SafariViewControllerLogin */,
+				9CBA2B741DF0A6320093FD7E /* WebViewLogin */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -780,6 +838,8 @@
 		E8F33ADD1616659C002DD7C6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9CA4B53A1DC9685100F1F8D4 /* Security.framework */,
+				9CA4B5361DC964B400F1F8D4 /* SafariServices.framework */,
 				F3D8EC931C46485100BE61EB /* WebKit.framework */,
 				F3B70FAD1BAC34B30018AE8D /* CoreData.framework */,
 				A28224AF192ACEAE00EF8743 /* CoreData.framework */,
@@ -843,6 +903,8 @@
 				E87BB01B161A28FC008053F9 /* MSClientTests.m */,
 				E8E37906161F4D0D00C13F00 /* MSFilterTest.m */,
 				9CCEB9001D62733500D70EE4 /* MSLoginTests.m */,
+				9CC8BDF81DDBA63E00F54988 /* MSLoginSafariViewControllerUtilitiesTests.m */,
+				9CA4B53E1DC97F1500F1F8D4 /* MSLoginSafariViewControllerTests.m */,
 				E8F33B3A161668ED002DD7C6 /* MSQueryTests.m */,
 				E87BB024161B5A4D008053F9 /* MSTableTests.m */,
 				CF4D498D1A3253F7006AEB70 /* MSTestWaiter.h */,
@@ -954,6 +1016,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3B70FAC1BAC34090018AE8D /* MSPushConnection.h in Headers */,
+				9C25F4B21DC7D773001E6298 /* MSLoginSafariViewController.h in Headers */,
 				5A4FACB61B05E6580027011D /* MSAPIConnection.h in Headers */,
 				5A4FAC801B05E4A30027011D /* MSTableOperationInternal.h in Headers */,
 				5A4FAC9E1B05E56A0027011D /* MSSyncContextReadResult.h in Headers */,
@@ -963,6 +1026,7 @@
 				5A4FACA61B05E6000027011D /* MSQueuePullOperation.h in Headers */,
 				5A4FAC851B05E4E90027011D /* MSClient.h in Headers */,
 				5A4FACC71B05E6920027011D /* MSPredicateTranslator.h in Headers */,
+				9CC8BDF21DDAE34C00F54988 /* MSLoginSafariViewControllerUtilities.h in Headers */,
 				5A4FAC8B1B05E5080027011D /* MSQuery.h in Headers */,
 				5A4FACC41B05E6870027011D /* MSSerializer.h in Headers */,
 				5A4FACBE1B05E6730027011D /* MSURLBuilder.h in Headers */,
@@ -1002,6 +1066,7 @@
 				5A4FAC7D1B05E4940027011D /* MSLoginView.h in Headers */,
 				F3F3B2AF1D6FB8080054B7C4 /* NSURLSessionTask+Completion.h in Headers */,
 				5A4FACAA1B05E6130027011D /* MSQueuePushOperation.h in Headers */,
+				9CB78F5B1DEF514F00C86096 /* MSPkceState.h in Headers */,
 				5A4FACB21B05E6460027011D /* MSClientConnection.h in Headers */,
 				5A4FAC871B05E4F40027011D /* MSDateOffset.h in Headers */,
 				5A4FACAC1B05E61D0027011D /* MSTableConfigValue.h in Headers */,
@@ -1013,6 +1078,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A202C3461AA25F730005A8AE /* MSPushConnection.h in Headers */,
+				9C25F4B11DC7D773001E6298 /* MSLoginSafariViewController.h in Headers */,
 				7929542819B7C793006A3829 /* MSQueryResult.h in Headers */,
 				E8E3790D161F769D00C13F00 /* MicrosoftAzureMobile.h in Headers */,
 				E84CA4E116272C15009B2588 /* MSLoginController.h in Headers */,
@@ -1022,6 +1088,7 @@
 				E8E37911161F769D00C13F00 /* MSTable.h in Headers */,
 				A24701BD196896F500385DA2 /* MSPushRequest.h in Headers */,
 				A3FD2DB01BB1C3F300624DA0 /* MSQueryInternal.h in Headers */,
+				9CC8BDF11DDAE34C00F54988 /* MSLoginSafariViewControllerUtilities.h in Headers */,
 				E8E37910161F769D00C13F00 /* MSQuery.h in Headers */,
 				A258890F18A19D0B00962F9A /* MSTableOperation.h in Headers */,
 				A258891618A19D0B00962F9A /* MSSyncTable.h in Headers */,
@@ -1061,6 +1128,7 @@
 				CF1D745B1A5D9CAB0074789F /* MSQueuePurgeOperation.h in Headers */,
 				E8C44042170BAD49002FC997 /* MSAPIConnection.h in Headers */,
 				A258891518A19D0B00962F9A /* MSSyncContextInternal.h in Headers */,
+				9CB78F5A1DEF514F00C86096 /* MSPkceState.h in Headers */,
 				E8C44047170BAD93002FC997 /* MSAPIRequest.h in Headers */,
 				E8EE7842170CAEDC00C2848F /* MSClientInternal.h in Headers */,
 				D0EFD8591B2F785F009CF6DA /* MSPullSettingsInternal.h in Headers */,
@@ -1363,16 +1431,19 @@
 				5A4FACB11B05E6320027011D /* MSTableOperationError.m in Sources */,
 				5A4FACA71B05E6060027011D /* MSQueuePullOperation.m in Sources */,
 				5A4FAC8C1B05E5110027011D /* MSQuery.m in Sources */,
+				9CC8BDF51DDAE37700F54988 /* MSLoginSafariViewControllerUtilities.m in Sources */,
 				5A4FAC991B05E5540027011D /* MSPushRequest.m in Sources */,
 				5A4FAC9F1B05E5710027011D /* MSSyncContextReadResult.m in Sources */,
 				F3A67D531D59588300F07A49 /* MSConnectionDelegate.m in Sources */,
 				5A4FAC7E1B05E4970027011D /* MSLoginController.m in Sources */,
 				5A4FACA51B05E5F60027011D /* MSOperationQueue.m in Sources */,
 				5A4FACB91B05E6620027011D /* MSTableRequest.m in Sources */,
+				9CB78F5E1DEF54B400C86096 /* MSPkceState.m in Sources */,
 				5A4FACAD1B05E6200027011D /* MSTableConfigValue.m in Sources */,
 				5A4FACA91B05E60F0027011D /* MSQueuePurgeOperation.m in Sources */,
 				F36D9F041C3A46CD002AC412 /* MSConnectionConfiguration.m in Sources */,
 				F3B70FAA1BAC33E50018AE8D /* MSPullSettings.m in Sources */,
+				9C25F4B51DC7D78E001E6298 /* MSLoginSafariViewController.m in Sources */,
 				5A4FACA11B05E57A0027011D /* MSSyncTable.m in Sources */,
 				F3B70FAB1BAC33EE0018AE8D /* MSPushConnection.m in Sources */,
 				5A4FAC9D1B05E5670027011D /* MSCoreDataStore.m in Sources */,
@@ -1410,16 +1481,19 @@
 				E87BB01F161A446C008053F9 /* MSURLBuilder.m in Sources */,
 				E8EA24BD161CFC5300BE055D /* MSNaiveISODateFormatter.m in Sources */,
 				A24701BE196896F500385DA2 /* MSPushRequest.m in Sources */,
+				9CC8BDF41DDAE37700F54988 /* MSLoginSafariViewControllerUtilities.m in Sources */,
 				E84CA4D0162369BD009B2588 /* MSUserAgentBuilder.m in Sources */,
 				E8653C0D16559C15002CB440 /* MSLoginView.m in Sources */,
 				E8146643165BE0150038EBE5 /* MSLogin.m in Sources */,
 				A2C14C6B19105D9F00A58609 /* MSSyncContextReadResult.m in Sources */,
 				E8146647165BE2440038EBE5 /* MSLoginSerializer.m in Sources */,
 				E814664B165C07EB0038EBE5 /* MSLoginController.m in Sources */,
+				9CB78F5D1DEF54B400C86096 /* MSPkceState.m in Sources */,
 				A2ACD541192322C50012B1ED /* MSCoreDataStore.m in Sources */,
 				E8C44043170BAD49002FC997 /* MSAPIConnection.m in Sources */,
 				F36D9F031C3A46CD002AC412 /* MSConnectionConfiguration.m in Sources */,
 				E8C44048170BAD93002FC997 /* MSAPIRequest.m in Sources */,
+				9C25F4B41DC7D78E001E6298 /* MSLoginSafariViewController.m in Sources */,
 				CF1D74591A5D85C60074789F /* MSQueuePurgeOperation.m in Sources */,
 				A2818FFD18BB0660001B14E7 /* MSQueuePushOperation.m in Sources */,
 				CFAE6E0A1A3B84D700734128 /* MSTableConfigValue.m in Sources */,
@@ -1452,8 +1526,10 @@
 				E8EA24C0161CFCF400BE055D /* MSURLbuilderTests.m in Sources */,
 				A24701C6196897A700385DA2 /* MSPushTests.m in Sources */,
 				A28224B3192ACFB700EF8743 /* CoreDataTestModel.xcdatamodeld in Sources */,
+				9CA4B53F1DC97F1500F1F8D4 /* MSLoginSafariViewControllerTests.m in Sources */,
 				E8E37904161E2FC500C13F00 /* MSTestFilter.m in Sources */,
 				D0EFD8571B2F73B0009CF6DA /* MSPullSettingsTests.m in Sources */,
+				9CC8BDF91DDBA63E00F54988 /* MSLoginSafariViewControllerUtilitiesTests.m in Sources */,
 				A22CF3731825914700660C79 /* MSTable+MSTableTestUtilities.m in Sources */,
 				E8E37907161F4D0D00C13F00 /* MSFilterTest.m in Sources */,
 				A232CCA31AC9C86D00E15D3A /* TodoItem.m in Sources */,
@@ -1785,11 +1861,6 @@
 		E8F33B041616659C002DD7C6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-					"$(inherited)",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "src/MicrosoftAzureMobile-Prefix.pch";
 				INFOPLIST_FILE = "test/MicrosoftAzureMobileTests-Info.plist";

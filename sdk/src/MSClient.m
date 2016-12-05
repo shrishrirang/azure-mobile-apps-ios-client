@@ -2,6 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
 
+#import <SafariServices/SafariServices.h>
 #import "MSClientInternal.h"
 #import "MSTable.h"
 #import "MSClientConnection.h"
@@ -14,6 +15,7 @@
 #import "MSSyncTable.h"
 #import "MSPush.h"
 #import "MSConnectionDelegate.h"
+#import "MSLoginSafariViewController.h"
 
 #pragma mark * MSClient Private Interface
 
@@ -25,6 +27,7 @@
 
 // Private properties
 @property (nonatomic, strong, readonly) MSLogin *login;
+
 
 @end
 
@@ -97,6 +100,10 @@
         _login = [[MSLogin alloc] initWithClient:self];
         _push = [[MSPush alloc] initWithClient:self];
         _connectionDelegate = [[MSConnectionDelegate alloc] initWithClient:self];
+        
+        if ([SFSafariViewController class]) {
+            _loginSafariViewController = [[MSLoginSafariViewController alloc] initWithClient:self];
+        }
         
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         _urlSession = [NSURLSession sessionWithConfiguration:configuration
@@ -194,7 +201,7 @@
                  animated:(BOOL)animated
                completion:(nullable MSClientLoginBlock)completion
 {
-    return [self.login loginWithProvider:provider
+    [self.login loginWithProvider:provider
                               parameters:nil
                               controller:controller
                                 animated:animated
@@ -207,7 +214,7 @@
                 animated:(BOOL)animated
               completion:(nullable MSClientLoginBlock)completion
 {
-    return [self.login loginWithProvider:provider
+    [self.login loginWithProvider:provider
                               parameters:parameters
                               controller:controller
                                 animated:animated
@@ -221,6 +228,41 @@
                                             parameters:nil
                                             completion:completion];
 }
+
+-(void)loginWithProvider:(nonnull NSString *)provider
+               urlScheme:(nonnull NSString *)urlScheme
+              controller:(nonnull UIViewController *)controller
+                animated:(BOOL)animated
+              completion:(nullable MSClientLoginBlock)completion
+{
+    [self.loginSafariViewController loginWithProvider:provider
+                                        urlScheme:urlScheme
+                                        parameters:nil
+                                        controller:controller
+                                          animated:animated
+                                        completion:completion];
+}
+
+-(void)loginWithProvider:(nonnull NSString *)provider
+               urlScheme:(nonnull NSString *)urlScheme
+              parameters:(nullable NSDictionary *)parameters
+              controller:(nonnull UIViewController *)controller
+                animated:(BOOL)animated
+              completion:(nullable MSClientLoginBlock)completion
+{
+    [self.loginSafariViewController loginWithProvider:provider
+                                        urlScheme:urlScheme
+                                        parameters:parameters
+                                        controller:controller
+                                          animated:animated
+                                        completion:completion];
+}
+
+-(BOOL)resumeWithURL:(NSURL *)URL
+{
+    return [self.loginSafariViewController resumeWithURL:URL];
+}
+
 #endif
 
 -(void) loginWithProvider:(NSString *)provider

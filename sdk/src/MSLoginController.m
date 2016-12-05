@@ -30,7 +30,7 @@
 @implementation MSLoginController
 
 
-#pragma mark * Public Static Constructor Methods
+#pragma mark * Public Constructor Methods
 
 
 -(id) initWithClient:(MSClient *)client
