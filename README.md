@@ -9,6 +9,17 @@ With Microsoft Azure Mobile Apps you can add a scalable backend to your connecte
 If you are new to Mobile Apps, you can get started by following our tutorials for connecting your Mobile
 Apps cloud backend to [iOS apps](https://azure.microsoft.com/en-us/documentation/articles/app-service-mobile-ios-get-started/).
 
+## Supported Platforms
+
+The current release of the iOS SDK for Azure Mobile Apps supports:
+
+* iOS versions 8.0 through 10.1.1
+* Objective-C Projects
+* Swift 2.3 Projects
+* Swift 3.0 Projects (with XCode 8.1)
+
+Other platforms may work, but have not been tested.
+
 ## Download Source Code
 
 To get the source code of our SDKs and samples via **git** just type:
@@ -23,7 +34,7 @@ To get the source code of our SDKs and samples via **git** just type:
 * [Change log](CHANGELOG.md)
 
 ## iOS Client SDK
-Add a cloud backend to your iOS application in minutes with our iOS client SDK. You can [download the iOS SDK](https://go.microsoft.com/fwLink/?LinkID=529823&clcid=0x409) directly or you can download the source code using the instructions above.  
+Add a cloud backend to your iOS application in minutes with our iOS client SDK. You can [download the iOS SDK](https://go.microsoft.com/fwLink/?LinkID=529823&clcid=0x409) directly or you can download the source code using the instructions above.
 
 ### Prerequisites
 
