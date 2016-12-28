@@ -55,7 +55,7 @@
     
     _code = error.code;
     _domain = [error.domain copy];
-    _description = [error.localizedDescription copy];
+    self.description = [error.localizedDescription copy];
     
     NSHTTPURLResponse *response = [error.userInfo objectForKey:MSErrorResponseKey];
     if (response) {

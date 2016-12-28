@@ -64,10 +64,6 @@ static NSString *const xZumoInstallId = @"X-ZUMO-INSTALLATION-ID";
 
 static NSOperationQueue *delegateQueue;
 
-@synthesize client = client_;
-@synthesize request = request_;
-@synthesize completion = completion_;
-
 # pragma mark * Public Initializer Methods
 
 -(id) initWithRequest:(NSURLRequest *)request
@@ -84,11 +80,11 @@ static NSOperationQueue *delegateQueue;
 {
     self = [super init];
     if (self) {
-        client_ = client;
-        request_ = [MSClientConnection configureHeadersOnRequest:request
+        _client = client;
+        _request = [MSClientConnection configureHeadersOnRequest:request
                                                       withClient:client
                                                     withFeatures:features];
-        completion_ = [completion copy];
+        _completion = [completion copy];
     }
     
     return self;

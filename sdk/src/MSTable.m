@@ -21,10 +21,6 @@ NSString *const MSSystemColumnDeleted = @"deleted";
 
 @implementation MSTable
 
-@synthesize client = client_;
-@synthesize name = name_;
-@synthesize features = features_;
-
 #pragma mark * Public Initializer Methods
 
 
@@ -33,9 +29,9 @@ NSString *const MSSystemColumnDeleted = @"deleted";
     self = [super init];
     if (self)
     {
-        client_ = client;
-        name_ = tableName;
-        features_ = MSFeatureNone;
+        _client = client;
+        _name = tableName;
+        _features = MSFeatureNone;
     }
     return self;
 }

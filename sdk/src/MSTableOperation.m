@@ -11,12 +11,6 @@
 
 @implementation MSTableOperation
 
-@synthesize operationId = operationId_;
-@synthesize type = type_;
-@synthesize tableName = tableName_;
-@synthesize itemId = itemId_;
-@synthesize item = item_;
-
 +(MSTableOperation *) pushOperationForTable:(NSString *)tableName
                                       type:(MSTableOperationTypes)type
                                       itemId:(NSString *)itemId;
@@ -31,9 +25,9 @@
     self = [super init];
     if (self)
     {
-        type_ = type;
-        tableName_ = [tableName copy];
-        itemId_ = [itemId copy];
+        _type = type;
+        _tableName = [tableName copy];
+        _itemId = [itemId copy];
     }
     
     return self;
@@ -48,12 +42,12 @@
         
         NSDictionary *rawItem = [serializer itemFromData:data withOriginalItem:nil ensureDictionary:YES orError:nil];
         
-        type_ = [[rawItem objectForKey:@"type"] integerValue];
-        itemId_ = [item objectForKey:@"itemId"];
-        tableName_ = [item objectForKey:@"table"];
-        operationId_ = [[item objectForKey:@"id"] integerValue];
+        _type = [[rawItem objectForKey:@"type"] integerValue];
+        _itemId = [item objectForKey:@"itemId"];
+        _tableName = [item objectForKey:@"table"];
+        _operationId = [[item objectForKey:@"id"] integerValue];
         
-        item_ = [rawItem objectForKey:@"item"];
+        _item = [rawItem objectForKey:@"item"];
     }
     return self;
 }

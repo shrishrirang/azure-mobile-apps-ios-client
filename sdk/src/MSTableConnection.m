@@ -17,8 +17,6 @@ static NSString *const nextLinkPattern = @"^(.*?);\\s*rel\\s*=\\s*(\\w+)\\s*"; /
 
 @implementation MSTableConnection
 
-@synthesize table = table_;
-
 
 #pragma mark * Public Static Constructors
 
@@ -228,7 +226,7 @@ static NSString *const nextLinkPattern = @"^(.*?);\\s*rel\\s*=\\s*(\\w+)\\s*"; /
                         completion:completion];
     
     if (self) {
-        table_ = request.table;
+        _table = request.table;
     }
     
     return self;

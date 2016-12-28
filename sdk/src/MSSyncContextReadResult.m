@@ -6,15 +6,12 @@
 
 @implementation MSSyncContextReadResult
 
-@synthesize totalCount = totalCount_;
-@synthesize items = items_;
-
 - (id)initWithCount:(NSInteger)count items:(NSArray<NSDictionary *> *)items;
 {
     self = [super init];
     if (self) {
-        totalCount_ = count;
-        items_ = items;
+        _totalCount = count;
+        _items = items;
     }
     
     return self;

@@ -6,13 +6,6 @@
 
 @implementation MSTestFilter
 
-@synthesize requestToUse = requestToUse_;
-@synthesize onInspectRequest = onInspectRequest_;
-@synthesize responseToUse = responseToUse_;
-@synthesize dataToUse = dataToUse_;
-@synthesize errorToUse = errorToUse_;
-@synthesize ignoreNextFilter = ignoreNextFilter_;
-
 +(MSTestFilter *)testFilterWithStatusCode:(NSInteger)statusCode
 {
     MSTestFilter *filter = [[MSTestFilter alloc] initWithStatusCode:statusCode data:nil];

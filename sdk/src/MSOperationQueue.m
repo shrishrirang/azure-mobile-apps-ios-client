@@ -17,17 +17,14 @@
 @end
 
 @implementation MSOperationQueue
-@synthesize dataSource = dataSource_;
-@synthesize client = client_;
-@synthesize locks = locks_;
 
 - (id) initWithClient:(MSClient *)client dataSource:(id<MSSyncContextDataSource>)dataSource
 {
     self = [super init];
     if (self) {
-        dataSource_ = dataSource;
-        client_ = client;
-        locks_ = [NSMutableDictionary new];
+        _dataSource = dataSource;
+        _client = client;
+        _locks = [NSMutableDictionary new];
     }
     return self;
 }

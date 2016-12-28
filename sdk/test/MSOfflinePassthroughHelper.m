@@ -10,13 +10,12 @@
 
 @implementation MSOfflinePassthroughHelper
 
-@synthesize data = data_;
 - (NSMutableDictionary *)data {
-    if (data_ == nil) {
-        data_ = [NSMutableDictionary new];
+    if (_data == nil) {
+        _data = [NSMutableDictionary new];
     }
     
-    return data_;
+    return _data;
 }
 
 - (BOOL) upsertItems:(NSArray *)items table:(NSString *)table orError:(NSError **)error

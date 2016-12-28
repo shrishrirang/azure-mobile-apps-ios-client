@@ -15,17 +15,6 @@
 
 @implementation MSQuery
 
-@synthesize table = table_;
-@synthesize syncTable = syncTable_;
-@synthesize fetchLimit = fetchLimit_;
-@synthesize fetchOffset = fetchOffset_;
-@synthesize includeTotalCount = includeTotalCount_;
-@synthesize parameters = parameters_;
-@synthesize selectFields = selectFields_;
-@synthesize predicate = predicate_;
-@synthesize orderBy = orderBy_;
-
-
 #pragma mark * Public Initializer Methods
 
 
@@ -55,14 +44,14 @@
     if (self)
     {
         if ([table isKindOfClass:[MSSyncTable class]]) {
-            syncTable_ = table;
+            _syncTable = table;
         } else {
-            table_ = table;
+            _table = table;
         }
         
-        predicate_ = predicate;
-        fetchLimit_ = -1;
-        fetchOffset_ = -1;
+        _predicate = predicate;
+        _fetchLimit = -1;
+        _fetchOffset = -1;
     }
     return self;
 }

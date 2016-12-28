@@ -76,9 +76,6 @@ static NSString *const httpDelete = @"DELETE";
 
 @implementation MSTableRequest
 
-@synthesize requestType = requestType_;
-@synthesize table = table_;
-
 
 #pragma mark * Private Initializer Method
 
@@ -88,7 +85,7 @@ static NSString *const httpDelete = @"DELETE";
 {
     self = [super initWithURL:url];
     if (self) {
-        table_ = table;
+        _table = table;
     }
     
     return self;
@@ -519,9 +516,6 @@ static NSString *const httpDelete = @"DELETE";
 
 @implementation MSTableItemRequest
 
-@synthesize itemId = itemId_;
-@synthesize item = item_;
-
 @end
 
 
@@ -530,9 +524,6 @@ static NSString *const httpDelete = @"DELETE";
 
 @implementation MSTableDeleteRequest
 
-@synthesize itemId = itemId_;
-@synthesize item = item_;
-
 @end
 
 
@@ -540,7 +531,5 @@ static NSString *const httpDelete = @"DELETE";
 
 
 @implementation MSTableReadQueryRequest
-
-@synthesize queryString = queryString_;
 
 @end
