@@ -21,8 +21,6 @@
 
 @implementation MSAPIConnection
 
-@synthesize serializer = serializer_;
-
 
 #pragma mark * Public Static Constructors
 

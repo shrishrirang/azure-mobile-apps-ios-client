@@ -31,8 +31,6 @@
 
 @implementation MSLogin
 
-@synthesize client = client_;
-
 
 #pragma  mark * Public Initializer Methods
 
@@ -41,7 +39,7 @@
 {
     self = [super init];
     if (self) {
-        client_ = client;
+        _client = client;
     }
     
     return self;

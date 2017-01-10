@@ -38,19 +38,6 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
 
 @implementation MSLoginView
 
-@synthesize client = client_;
-@synthesize startURL = startURL_;
-@synthesize endURL = endURL_;
-@synthesize toolbar = toolbar_;
-@synthesize showToolbar = showToolbar_;
-@synthesize toolbarPosition = toolbarPosition_;
-@synthesize activityIndicator = activityIndicator_;
-@synthesize webView = webView_;
-@synthesize currentURL = currentURL_;
-@synthesize endURLString = endURLString_;
-@synthesize completion = completion_;
-
-
 #pragma mark * Public Initializer and Dealloc Methods
 
 
@@ -64,33 +51,33 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
     if (self) {
         
         // Capture all of the initializer values as properties
-        client_ = client;
-        startURL_ = startURL;
-        endURL_ = endURL;
-        endURLString_ = endURL_.absoluteString;        
-        completion_ = [completion copy];
+        _client = client;
+        _startURL = startURL;
+        _endURL = endURL;
+        _endURLString = _endURL.absoluteString;        
+        _completion = [completion copy];
         
         // Create the activity indicator and toolbar
-        activityIndicator_ = [[UIActivityIndicatorView alloc]
+        _activityIndicator = [[UIActivityIndicatorView alloc]
                               initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        toolbar_ = [self createToolbar:activityIndicator_];
-        [self addSubview:toolbar_];
+        _toolbar = [self createToolbar:_activityIndicator];
+        [self addSubview:_toolbar];
         
         // Set the toolbar defaults
-        showToolbar_ = YES;
-        toolbarPosition_ = UIToolbarPositionBottom;
+        _showToolbar = YES;
+        _toolbarPosition = UIToolbarPositionBottom;
         
         // Create the webview
-        webView_ = [[WKWebView alloc] init];
-        webView_.navigationDelegate = self;
-        [self addSubview:webView_];
+        _webView = [[WKWebView alloc] init];
+        _webView.navigationDelegate = self;
+        [self addSubview:_webView];
         
         // Call setViewFrames to update the subview frames
         [self setViewFrames];
         
         // Start the first request
         NSURLRequest *firstRequest = [NSURLRequest requestWithURL:startURL];
-        [webView_ loadRequest:firstRequest];
+        [_webView loadRequest:firstRequest];
     }
     return self;
 }
@@ -100,8 +87,8 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
 
 -(void) setShowToolbar:(BOOL)showToolbar
 {
-    if (showToolbar != showToolbar_) {
-        showToolbar_ = showToolbar;
+    if (showToolbar != _showToolbar) {
+        _showToolbar = showToolbar;
         [self setViewFrames];
     }
 }
@@ -112,8 +99,8 @@ NSString *const MSLoginViewErrorResponseData = @"com.Microsoft.MicrosoftAzureMob
 
 -(void) setToolbarPosition:(UIToolbarPosition)toolbarPosition
 {
-    if (toolbarPosition != toolbarPosition_) {
-        toolbarPosition_ = toolbarPosition;
+    if (toolbarPosition != _toolbarPosition) {
+        _toolbarPosition = toolbarPosition;
         [self setViewFrames];
     }
 }

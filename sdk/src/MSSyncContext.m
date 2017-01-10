@@ -26,16 +26,10 @@
 
 static NSOperationQueue *pushQueue_;
 
-@synthesize delegate = delegate_;
-@synthesize dataSource = dataSource_;
-@synthesize operationQueue = operationQueue_;
-@synthesize client = client_;
-@synthesize callbackQueue = callbackQueue_;
-
 -(void) setClient:(MSClient *)client
 {
-    client_ = client;
-    operationQueue_ = [[MSOperationQueue alloc] initWithClient:client_ dataSource:self.dataSource];
+    _client = client;
+    _operationQueue = [[MSOperationQueue alloc] initWithClient:_client dataSource:self.dataSource];
 
     // We don't need to wait for this, and all operation creation goes onto this queue so its
     // guaranteed to happen only after this is populated.
@@ -57,19 +51,19 @@ static NSOperationQueue *pushQueue_;
         _writeOperationQueue = dispatch_queue_create("WriteOperationQueue", DISPATCH_QUEUE_SERIAL);
         _readOperationQueue = dispatch_queue_create("ReadOperationQueue",  DISPATCH_QUEUE_CONCURRENT);
 
-        callbackQueue_ = callbackQueue;
-        if (!callbackQueue_) {
-            callbackQueue_ = [[NSOperationQueue alloc] init];
-            callbackQueue_.name = @"Sync Context: Operation Callbacks";
-            callbackQueue_.maxConcurrentOperationCount = 4;
+        _callbackQueue = callbackQueue;
+        if (!_callbackQueue) {
+            _callbackQueue = [[NSOperationQueue alloc] init];
+            _callbackQueue.name = @"Sync Context: Operation Callbacks";
+            _callbackQueue.maxConcurrentOperationCount = 4;
         }
         
         pushQueue_ = [NSOperationQueue new];
         pushQueue_.maxConcurrentOperationCount = 1;
         pushQueue_.name = @"Sync Context: Push";
         
-        dataSource_ = dataSource;
-        delegate_ = delegate;
+        _dataSource = dataSource;
+        _delegate = delegate;
     }
     
     return self;

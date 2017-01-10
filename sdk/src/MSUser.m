@@ -10,9 +10,6 @@
 
 @implementation MSUser
 
-@synthesize userId = userId_;
-@synthesize mobileServiceAuthenticationToken = mobileServiceAuthenticationToken_;
-
 
 #pragma mark * Public Initializer Methods
 
@@ -22,7 +19,7 @@
     self = [super init];
     if(self)
     {
-        userId_ = userId;
+        _userId = userId;
     }
     return self;
 }
