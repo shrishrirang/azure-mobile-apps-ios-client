@@ -1,6 +1,8 @@
 # Microsoft Azure Mobile Apps: iOS SDK
 
 [![Build Status](https://travis-ci.org/Azure/azure-mobile-apps-ios-client.svg?branch=master)](https://travis-ci.org/Azure/azure-mobile-apps-ios-client)
+[![CocoaPods](https://img.shields.io/cocoapods/v/MicrosoftAzureMobile.svg?maxAge=2592000)](https://cocoapods.org/pods/MicrosoftAzureMobile)
+[![CocoaPods](https://img.shields.io/cocoapods/dt/MicrosoftAzureMobile.svg)](https://cocoapods.org/pods/MicrosoftAzureMobile)
 
 With Microsoft Azure Mobile Apps you can add a scalable backend to your connected client applications in minutes. To learn more, visit our [Developer Center](http://azure.microsoft.com/en-us/develop/mobile).
 
