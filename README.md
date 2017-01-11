@@ -36,13 +36,32 @@ To get the source code of our SDKs and samples via **git** just type:
 * [Change log](CHANGELOG.md)
 
 ## iOS Client SDK
+
 Add a cloud backend to your iOS application in minutes with our iOS client SDK. You can [download the iOS SDK](https://go.microsoft.com/fwLink/?LinkID=529823&clcid=0x409) directly or you can download the source code using the instructions above.
 
 ### Prerequisites
 
 The SDK requires XCode 7.0 or greater.
 
-###Building and Referencing the SDK
+### Integration Using CocoaPods
+
+[CocoaPods](https://cocoapods.org/) is a popular dependency manager for Swift and Objective-C Cocoa projects. The dependencies are specified in a single text file called Podfile. Cocoapods will resolve dependencies between libraries, fetch the resulting source code, then link it together in an Xcode workspace to build your project.
+
+1. Add the following to your podfile to include MicrosoftAzureMobile:
+
+    `pod 'MicrosoftAzureMobile', '~> 3.2.0'`
+
+2. You can install the dependencies in your project: 
+
+    `pod install`
+
+3. Open .xcworkspace (instead of .xcodeproj file) to start working on your project. You can import `MicorsoftAzureMobile.h` header in your code like this:
+
+```Objective-C 
+#import <MicrosoftAzureMobile/MicrosoftAzureMobile.h>
+```
+
+### Building and Referencing the SDK
 
 1. Open the ```sdk\WindowsAzureMobileServices.xcodeproj``` file in XCode.
 2. Set the active scheme option to ```Framework\iOS Device```.
