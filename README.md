@@ -55,13 +55,20 @@ The SDK requires XCode 7.0 or greater.
 
     `pod install`
 
-3. Open .xcworkspace (instead of .xcodeproj file) to start working on your project. You can import `MicorsoftAzureMobile.h` header in your code like this:
+3. Open .xcworkspace (instead of .xcodeproj file) to start working on your project. You can import `MicrosoftAzureMobile.h` header in your code like this:
 
 ```Objective-C 
 #import <MicrosoftAzureMobile/MicrosoftAzureMobile.h>
 ```
 
-### Building and Referencing the SDK
+### Integration by Copying the Binary into Your Project
+
+1. Download the Azure Mobile iOS SDK framework zip file from [Releases](https://github.com/Azure/azure-mobile-apps-ios-client/releases)
+2. Unzip the file. `MicrosoftAzureMobile.framework` is the binary to reference.
+
+## How to Build and Run the Tests
+
+### Building the SDK
 
 1. Open the ```sdk\WindowsAzureMobileServices.xcodeproj``` file in XCode.
 2. Set the active scheme option to ```Framework\iOS Device```.
