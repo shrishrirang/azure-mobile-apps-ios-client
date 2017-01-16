@@ -6,7 +6,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSPkceState : NSObject
+@interface MSAuthState : NSObject
 
 @property (nonatomic, readonly) NSString *provider;
 @property (nonatomic, readonly, nullable) MSClientLoginBlock loginCompletion;
@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSString *urlScheme;
 @property (nonatomic, readonly) BOOL animated;
 
-/// Initialize an instance of |MSPkceState|
+/// Initialize an instance of MSAuthState
 - (instancetype)initWithProvider:(NSString *)provider
                  loginCompletion:(nullable MSClientLoginBlock)loginCompletion
                     codeVerifier:(NSString *)codeVerifier

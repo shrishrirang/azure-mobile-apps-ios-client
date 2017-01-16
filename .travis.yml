@@ -6,7 +6,7 @@ xcode_scheme:
     - MicrosoftAzureMobileFramework
     - MicrosoftAzureMobile_Mac
 xcode_sdk: 
-    - iphonesimulator9.1
+    - iphonesimulator10.2
     - macosx10.11
 matrix:
     exclude:
@@ -15,4 +15,4 @@ matrix:
         - xcode_scheme: MicrosoftAzureMobileFramework
           xcode_sdk: macosx10.11 
         - xcode_scheme: MicrosoftAzureMobile_Mac
-          xcode_sdk: iphonesimulator9.1
+          xcode_sdk: iphonesimulator10.2

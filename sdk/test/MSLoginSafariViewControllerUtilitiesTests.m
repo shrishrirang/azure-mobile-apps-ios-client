@@ -212,4 +212,11 @@
     XCTAssertEqualObjects(expectedString, actualString);
 }
 
+- (void)testNormalizeProvider
+{
+    XCTAssertEqualObjects(@"aad", [MSLoginSafariViewControllerUtilities normalizeProvider:@"windowsazureactivedirectory"]);
+    
+    XCTAssertEqualObjects(@"AAD", [MSLoginSafariViewControllerUtilities normalizeProvider:@"AAD"]);
+}
+
 @end

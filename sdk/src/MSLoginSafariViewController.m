@@ -2,14 +2,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <SafariServices/SafariServices.h>
 #import "MSClient.h"
-#import "MSLogin.h"
 #import "MSLoginSafariViewController.h"
 #import "MSLoginSafariViewControllerUtilities.h"
-#import "MSPkceState.h"
+#import "MSAuthState.h"
 #import "MSClientConnection.h"
 #import "MSLoginSerializer.h"
 #import "MSJSONSerializer.h"
@@ -20,11 +18,9 @@
 
 #pragma mark * Private Properties
 
-@property (nonatomic, nullable) MSPkceState *safariLoginFlow;
+@property (nonatomic, nullable) MSAuthState *authState;
 
 @property (nonatomic, nullable) SFSafariViewController *safariViewController;
-
-@property (nonatomic, nullable) MSLogin *webViewLogin;
 
 @end
 
@@ -38,10 +34,6 @@
     
     if (self) {
         _client = client;
-        
-        if ([SFSafariViewController class]) {
-            _webViewLogin = [[MSLogin alloc] initWithClient:_client];
-        }
     }
     
     return self;
@@ -56,35 +48,38 @@
                  animated:(BOOL)animated
                completion:(nullable MSClientLoginBlock)completion
 {
-    // SafariServices API is only available on iOS 9 or later, not iOS 8 or prior.
-    // When SafariServices is not avaiable, fallback to WebView based login in |MSLogin|
-    // for backward compatibility.
-    
-    if ([SFSafariViewController class]) {
-        [self safariViewControllerLoginWithProvider:provider
-                                        urlScheme:urlScheme
-                                         parameters:parameters
-                                         controller:controller
-                                           animated:animated
-                                         completion:completion];
-    }
-    else {
-        [self.webViewLogin loginWithProvider:provider
-                           parameters:parameters
-                           controller:controller
-                             animated:animated
-                           completion:completion];
-    }
+    dispatch_async(dispatch_get_main_queue(),^{
+        [self loginInternalWithProvider:provider
+                          urlScheme:urlScheme
+                         parameters:parameters
+                         controller:controller
+                           animated:animated
+                         completion:completion];
+    });
 }
 
 - (BOOL)resumeWithURL:(NSURL *)URL
 {
-    if (self.safariLoginFlow) {
+    if (self.authState) {
         
         NSURL *codeExchangeRequestURL = [self codeExchangeRequestURLFromRedirectURL:URL];
 
         if (codeExchangeRequestURL) {
-            [self codeExchangeWithURL:codeExchangeRequestURL];
+            [self codeExchangeWithURL:codeExchangeRequestURL completion:^(MSUser *user, NSError *error) {
+                if (self.safariViewController) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.safariViewController dismissViewControllerAnimated:self.authState.animated completion:^{
+                            [self completeLoginWithUser:user responseError:error];
+                        }];
+                    });
+                }
+                else {
+                    // For unit testing purpose only - call the completion
+                    // regardless whether self.safariViewController is null or not
+                    [self completeLoginWithUser:user responseError:error];
+                }
+            }];
+
             return YES;
         }
     }
@@ -92,67 +87,89 @@
     return NO;
 }
 
-
 #pragma mark * Private Login Methods
 
-- (void)safariViewControllerLoginWithProvider:(NSString *)provider
-                                    urlScheme:(NSString *)urlScheme
-                                   parameters:(nullable NSDictionary *)parameters
-                                   controller:(UIViewController *)controller
-                                     animated:(BOOL)animated
-                                   completion:(nullable MSClientLoginBlock)completion
+- (void)loginInternalWithProvider:(NSString *)provider
+                        urlScheme:(NSString *)urlScheme
+                       parameters:(nullable NSDictionary *)parameters
+                       controller:(UIViewController *)controller
+                         animated:(BOOL)animated
+                       completion:(nullable MSClientLoginBlock)completion
 {
-    if (self.safariLoginFlow) {
-        // Only one concurrent safari view controller login is allowed.
-        // Ignore if there is already a pending login flow.
+    if (self.authState) {
+        NSError *error = [self errorWithDescriptionKey:@"Login failed because another login operation in progress."
+                                          andErrorCode:MSLoginOperationInProgress];
+        completion(nil, error);
         return;
     }
     
-    provider = [MSLoginSafariViewControllerUtilities normalizeProvider:provider];
-    
-    NSString *codeVerifier = [MSLoginSafariViewControllerUtilities generateCodeVerifier];
-
-    self.safariLoginFlow = [[MSPkceState alloc] initWithProvider:provider
-                                                                loginCompletion:completion
-                                                                codeVerifier:codeVerifier
-                                                                urlScheme:urlScheme
-                                                                animated:animated];
+    self.authState = [[MSAuthState alloc] initWithProvider:[MSLoginSafariViewControllerUtilities normalizeProvider:provider]
+                                           loginCompletion:completion
+                                              codeVerifier:[MSLoginSafariViewControllerUtilities generateCodeVerifier]
+                                                 urlScheme:urlScheme
+                                                  animated:animated];
     
     NSURL *loginURL = [MSLoginSafariViewControllerUtilities loginURLFromApplicationURL:self.client.applicationURL
-                                                           provider:provider
-                                                           urlScheme:urlScheme
-                                                           parameters:parameters
-                                                           codeVerifier:codeVerifier
-                                                           codeChallengeMethod:@"S256"];
-
-    self.safariViewController = [[SFSafariViewController alloc] initWithURL:loginURL entersReaderIfAvailable:NO];
+                                                                              provider:self.authState.provider
+                                                                             urlScheme:urlScheme
+                                                                            parameters:parameters
+                                                                          codeVerifier:self.authState.codeVerifier
+                                                                   codeChallengeMethod:@"S256"];
     
-    self.safariViewController.delegate = self;
+    // SFSafariViewController is part of SafariServices API, where as
+    // SafariServices API is only available on iOS 9 or later, not iOS 8 or prior.
+    // When SafariServices is not avaiable, fallback to browser to open the URL.
     
-    dispatch_async(dispatch_get_main_queue(),^{
+    if ([SFSafariViewController class]) {
+        
+        self.safariViewController = [[SFSafariViewController alloc] initWithURL:loginURL entersReaderIfAvailable:NO];
+        
+        self.safariViewController.delegate = self;
+        
         [controller presentViewController:self.safariViewController animated:animated completion:nil];
-    });
+    }
+    else {
+        
+        // Fallback to browser can only happen on older platforms (iOS 8 or prior)
+        // where SFSafariViewController is not available.
+        // Suppress compiler deprecation warning as openURL method is only used
+        // in the context of iOS 8, despite it's already deprecated in iOS 10.
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+        BOOL openedSafari = [[UIApplication sharedApplication] openURL:loginURL];
+#pragma clang diagnostic pop
+        
+        if (!openedSafari) {
+            NSError *error = [self errorWithDescriptionKey:@"Browser cannot be opened." andErrorCode:MSLoginCanceled];
+            completion(nil, error);
+        }
+    }
 }
 
 - (NSURL *)codeExchangeRequestURLFromRedirectURL:(NSURL *)URL
 {
-    NSURL *requestURL = nil;
+    NSURL *codeExchangeURL = nil;
     
-    BOOL isRedirectURLValid = [MSLoginSafariViewControllerUtilities isRedirectURLValid:URL withUrlScheme:self.safariLoginFlow.urlScheme];
+    BOOL isRedirectURLValid = [MSLoginSafariViewControllerUtilities isRedirectURLValid:URL withUrlScheme:self.authState.urlScheme];
     
     if (isRedirectURLValid) {
         NSString *authorizationCode = [MSLoginSafariViewControllerUtilities authorizationCodeFromRedirectURL:URL];
         
-        requestURL = [MSLoginSafariViewControllerUtilities codeExchangeURLFromApplicationURL:self.client.applicationURL
-                                                         provider:self.safariLoginFlow.provider
-                                                         authorizationCode:authorizationCode
-                                                        codeVerifier:self.safariLoginFlow.codeVerifier];
+        if (authorizationCode) {
+            
+            codeExchangeURL = [MSLoginSafariViewControllerUtilities codeExchangeURLFromApplicationURL:self.client.applicationURL
+                                                                     provider:self.authState.provider
+                                                                     authorizationCode:authorizationCode
+                                                                codeVerifier:self.authState.codeVerifier];
+        }
     }
     
-    return requestURL;
+    return codeExchangeURL;
 }
 
 - (void)codeExchangeWithURL:(NSURL *)URL
+                 completion:(MSClientLoginBlock)completion
 {
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
@@ -164,30 +181,42 @@
     // Ignore 400 error. It means something wrong with code exchange, could be a malicious caller
     // with a bogus code verifier.
     
-    MSResponseBlock responseCompletion = ^(NSHTTPURLResponse *response, NSData *data, NSError *responseError) {
+    MSResponseBlock responseCompletion = nil;
+    
+    if (completion) {
         
-        if (!responseError) {
-            if (response.statusCode == 200) {
-                
-                MSUser *user = [[MSLoginSerializer loginSerializer] userFromData:data orError:&responseError];
-                
-                if (user && !responseError) {
-                    self.client.currentUser = user;
+        responseCompletion = ^(NSHTTPURLResponse *response, NSData *data, NSError *responseError) {
+        
+            if (!responseError) {
+                if (response.statusCode == 200) {
                     
-                    [self dismissSafariViewControllerAndCallbackWithUser:user responseError:nil];
+                    MSUser *user = [[MSLoginSerializer loginSerializer] userFromData:data orError:&responseError];
+                    
+                    if (user && !responseError) {
+                        self.client.currentUser = user;
+                        completion(user, responseError);
+                    }
+                }
+                else if (response.statusCode == 400) {
+                    
+                    // A 400 error can be due to an malformed request to the server by the SDK OR a malicious caller
+                    // with an invalid auth code. At this point the server intentionally omit the detailed reason
+                    // of the 400. We always assume the 400 is caused by a malicious caller and ignore it silently.
+                    // Handling 400 error and notifying the user would mess up the auth flow and make the app
+                    // less secure.
+                    
+                }
+                else if (response.statusCode > 400) {
+                    
+                    // A non-400 error is unlikely to be caused by a malicious caller with an invalid auth code.
+                    // So we don't ignore such error.
+                    
+                    responseError = [[MSJSONSerializer JSONSerializer] errorFromData:data MIMEType:response.MIMEType];
+                    completion(nil, responseError);
                 }
             }
-            else if (response.statusCode == 400) {
-                // Do nothing
-            }
-            else if (response.statusCode > 400) {
-                
-                responseError = [[MSJSONSerializer JSONSerializer] errorFromData:data MIMEType:response.MIMEType];
-                
-                [self dismissSafariViewControllerAndCallbackWithUser:nil responseError:responseError];
-            }
-        }
-    };
+        };
+    }
     
     // Create the connection and start it
     MSClientConnection *connection = [[MSClientConnection alloc] initWithRequest:request
@@ -196,22 +225,17 @@
     [connection start];
 }
 
-- (void)dismissSafariViewControllerAndCallbackWithUser:(MSUser *)user
-                                         responseError:(NSError *)responseError
+- (void)completeLoginWithUser:(MSUser *)user
+                responseError:(NSError *)responseError
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.safariViewController dismissViewControllerAnimated:self.safariLoginFlow.animated completion:^{
-            
-            // Saving the loginCompletion callback before resetting safariLoginFlow to nil.
-            // Call the loginCompletion at the end.
-            
-            MSClientLoginBlock loginCompletion = [self.safariLoginFlow.loginCompletion copy];
-            
-            self.safariLoginFlow = nil;
-            
-            loginCompletion(user, responseError);
-        }];
-    });
+    // Saving the loginCompletion callback before resetting safariLoginFlow to nil.
+    // Call the loginCompletion at the end.
+    
+    MSClientLoginBlock loginCompletion = [self.authState.loginCompletion copy];
+    
+    self.authState = nil;
+    
+    loginCompletion(user, responseError);
 }
 
 #pragma mark * SFSafariViewControllerDelegate Private Implementation
@@ -223,14 +247,14 @@
         return;
     }
     
-    if (!self.safariLoginFlow) {
+    if (!self.authState) {
         // Ignore this call if there is no pending login flow
         return;
     }
     
-    MSClientLoginBlock loginCompletion = [self.safariLoginFlow.loginCompletion copy];
+    MSClientLoginBlock loginCompletion = [self.authState.loginCompletion copy];
 
-    self.safariLoginFlow = nil;
+    self.authState = nil;
     
     NSError *error = [self errorWithDescriptionKey:@"The login operation was canceled." andErrorCode:MSLoginCanceled];
     

@@ -7,6 +7,8 @@
 #import "ZumoTestStore.h"
 #import "ZumoTestGlobals.h"
 
+NSString *const ZUMO_E2E_TEST_APP_NAME = @"zumoe2etestapp";
+
 @implementation ZumoAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -36,13 +38,22 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
-    if ([[url.scheme lowercaseString] isEqualToString:@"zumoe2etestapp"]) {
+    if ([[url.scheme lowercaseString] isEqualToString:ZUMO_E2E_TEST_APP_NAME]) {
         // Resume login process from ZumoSafariLoginTests
         return [[ZumoTestGlobals sharedInstance].client resumeWithURL:url];
     }
     else {
         return NO;
     }
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    // This method is deprecated in iOS 10.
+    // But it is still the entry point of openURL in iOS 8 and iOS 9.
+    return [self application:application
+                     openURL:url
+                     options:@{}];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

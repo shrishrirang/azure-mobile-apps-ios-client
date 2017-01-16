@@ -101,9 +101,7 @@
         _push = [[MSPush alloc] initWithClient:self];
         _connectionDelegate = [[MSConnectionDelegate alloc] initWithClient:self];
         
-        if ([SFSafariViewController class]) {
-            _loginSafariViewController = [[MSLoginSafariViewController alloc] initWithClient:self];
-        }
+        _loginSafariViewController = [[MSLoginSafariViewController alloc] initWithClient:self];
         
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         _urlSession = [NSURLSession sessionWithConfiguration:configuration

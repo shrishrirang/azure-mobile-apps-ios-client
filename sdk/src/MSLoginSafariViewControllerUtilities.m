@@ -96,18 +96,14 @@ NSUInteger const ByteLength = 32;
                            authorizationCode:(NSString *)authorizationCode
                                 codeVerifier:(NSString *)codeVerifier
 {
-    NSURL *codeExchangeURL = nil;
+    NSURL *codeExchangeURL = [applicationURL URLByAppendingPathComponent:[NSString stringWithFormat:@".auth/login/%@/token", provider]];
+
+    NSMutableString *codeExchangeString = [[NSString stringWithFormat:@"%@?authorization_code=%@", codeExchangeURL.absoluteString, authorizationCode] mutableCopy];
     
-    if (applicationURL && provider && authorizationCode && codeVerifier) {
-        
-        codeExchangeURL = [applicationURL URLByAppendingPathComponent:[NSString stringWithFormat:@".auth/login/%@/token", provider]];
+    [MSURLBuilder appendParameterName:@"code_verifier" andValue:codeVerifier toQueryString:codeExchangeString];
     
-        NSMutableString *codeExchangeString = [[NSString stringWithFormat:@"%@?authorization_code=%@", codeExchangeURL.absoluteString, authorizationCode] mutableCopy];
-        
-        [MSURLBuilder appendParameterName:@"code_verifier" andValue:codeVerifier toQueryString:codeExchangeString];
-        
-        codeExchangeURL = [NSURL URLWithString:codeExchangeString];
-    }
+    codeExchangeURL = [NSURL URLWithString:codeExchangeString];
+
     return codeExchangeURL;
 }
 
@@ -134,27 +130,14 @@ NSUInteger const ByteLength = 32;
 
 + (NSString *)normalizeProvider:(NSString *)provider
 {
-    if ([[provider lowercaseString] isEqualToString:@"windowsazureactivedirectory"]
-        || [[provider lowercaseString] isEqualToString:@"aad"]) {
-        // Microsoft Azure Active Directory can be specified either in
-        // full or with the 'aad' abbreviation. The service REST API
-        // expects 'aad' only.
+    // Microsoft Azure Active Directory can be specified either in
+    // full or with the 'aad' abbreviation. The service REST API
+    // expects 'aad' only.
+    if ([[provider lowercaseString] isEqualToString:@"windowsazureactivedirectory"]) {
         return @"aad";
+    } else {
+        return provider;
     }
-    else if ([[provider lowercaseString] isEqualToString:@"google"]){
-        return @"google";
-    }
-    else if ([[provider lowercaseString] isEqualToString:@"facebook"]){
-        return @"facebook";
-    }
-    else if ([[provider lowercaseString] isEqualToString:@"microsoftaccount"]){
-        return @"microsoftaccount";
-    }
-    else if ([[provider lowercaseString] isEqualToString:@"twitter"]){
-        return @"twitter";
-    }
-    
-    return nil;
 }
 
 + (NSString *)generateCodeVerifier

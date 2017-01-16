@@ -127,24 +127,30 @@ DEPRECATED_MSG_ATTRIBUTE("Deprecated. Use SFSafariViewController-based login met
 /// end user with the given provider.
 -(nonnull MSLoginController *)loginViewControllerWithProvider:(nonnull NSString *)provider
                                                    completion:(nullable MSClientLoginBlock)completion
-DEPRECATED_MSG_ATTRIBUTE("Deprecated. Use SFSafariViewController-based login method loginSafariViewControllerWithProvider:provider:urlScheme:completion instead");
+DEPRECATED_MSG_ATTRIBUTE("Deprecated. Use SFSafariViewController-based login method loginWithProvider:provider:urlScheme:controller:animated:completion instead");
 
+/// Thread-safe login method which can be called from any thread.
 /// Logs in the current end user with given provider by presenting the
 /// SFSafariViewController with the given controller. The URL scheme of
 /// the current application is required for completing login.
 /// As SFSafariViewController is only available on iOS 9 or later, on old platforms,
-/// fallback to WebView based login in |MSLogin| for backward compatibility.
+/// fallback to browser login. Note that there can be various reasons causing browser
+/// fail to complete the login flow (on older platforms) and login flow won't work anymore.
+/// In this case, kill & restart the application should make it work again.
 -(void)loginWithProvider:(nonnull NSString *)provider
                urlScheme:(nonnull NSString *)urlScheme
               controller:(nonnull UIViewController *)controller
                 animated:(BOOL)animated
               completion:(nullable MSClientLoginBlock)completion;
 
-/// Logs in the current end user with given provider and given parameters by presenting the
+/// Thread-safe login method which can be called from any thread.
+/// Logs in the current end user with given provider and given login parameters by presenting the
 /// SFSafariViewController with the given controller. The URL scheme of
 /// the current application is required for completing login.
 /// As SFSafariViewController is only available on iOS 9 or later, on old platforms,
-/// fallback to WebView based login in |MSLogin| for backward compatibility.
+/// fallback to browser login. Note that there can be various reasons causing browser
+/// fail to complete the login flow (on older platforms) and login flow won't work anymore.
+/// In this case, kill & restart the application should make it work again.
 -(void)loginWithProvider:(nonnull NSString *)provider
                urlScheme:(nonnull NSString *)urlScheme
               parameters:(nullable NSDictionary *)parameters
@@ -152,7 +158,7 @@ DEPRECATED_MSG_ATTRIBUTE("Deprecated. Use SFSafariViewController-based login met
                 animated:(BOOL)animated
               completion:(nullable MSClientLoginBlock)completion;
 
-/// Resume login process with redirect URL
+/// Resume login process with the specified URL
 -(BOOL)resumeWithURL:(NSURL *)URL;
 #endif
 

@@ -3,9 +3,9 @@
 // ----------------------------------------------------------------------------
 
 #import <Foundation/Foundation.h>
-#import "MSPkceState.h"
+#import "MSAuthState.h"
 
-@implementation MSPkceState
+@implementation MSAuthState
 
 - (instancetype)initWithProvider:(NSString *)provider
                  loginCompletion:(nullable MSClientLoginBlock)loginCompletion

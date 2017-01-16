@@ -192,6 +192,10 @@ extern NSString *const MSErrorPushResultKey;
 /// was invalid.
 #define MSLoginInvalidURL                       -1506
 
+/// Indicates that the login operation failed because
+/// there's another login operation already in progress
+#define MSLoginOperationInProgress              -1507
+
 /// Indicates that the refresh user operation failed because the identity provider
 /// does not support refresh token or user is not logged in with sufficient permission
 #define MSRefreshBadRequest                     -1511

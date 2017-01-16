@@ -166,6 +166,7 @@
     // Invoke the API
     [filterClient refreshUserWithCompletion:
      ^(MSUser *user, NSError *error) {
+         XCTAssertNil(user);
          XCTAssertNotNil(error);
          XCTAssertEqual(error.code, errorCode);
          

@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
                completion:(nullable MSClientLoginBlock)completion;
 
 
-/// Resume login process with an URL
+/// Resume login process with the specified URL
 - (BOOL)resumeWithURL:(NSURL *)URL;
 
 @end
