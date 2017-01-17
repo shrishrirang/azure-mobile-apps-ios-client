@@ -112,7 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
               controller:(nonnull UIViewController *)controller
                 animated:(BOOL)animated
               completion:(nullable MSClientLoginBlock)completion
-DEPRECATED_MSG_ATTRIBUTE("Deprecated. Use SFSafariViewController-based login method loginWithProvider:provider:urlScheme:controller:animated:completion instead");
+DEPRECATED_MSG_ATTRIBUTE("Deprecated. Use SFSafariViewController-based login method loginWithProvider:urlScheme:controller:animated:completion instead");
 
 /// Logs in the current end user with the given provider by presenting the
 /// MSLoginController with the given controller.
@@ -121,18 +121,19 @@ DEPRECATED_MSG_ATTRIBUTE("Deprecated. Use SFSafariViewController-based login met
               controller:(nonnull UIViewController *)controller
                 animated:(BOOL)animated
               completion:(nullable MSClientLoginBlock)completion
-DEPRECATED_MSG_ATTRIBUTE("Deprecated. Use SFSafariViewController-based login method loginWithProvider:provider:urlScheme:parameters:controller:animated:completion instead");
+DEPRECATED_MSG_ATTRIBUTE("Deprecated. Use SFSafariViewController-based login method loginWithProvider:urlScheme:parameters:controller:animated:completion instead");
 
 /// Returns an MSLoginController that can be used to log in the current
 /// end user with the given provider.
 -(nonnull MSLoginController *)loginViewControllerWithProvider:(nonnull NSString *)provider
                                                    completion:(nullable MSClientLoginBlock)completion
-DEPRECATED_MSG_ATTRIBUTE("Deprecated. Use SFSafariViewController-based login method loginWithProvider:provider:urlScheme:controller:animated:completion instead");
+DEPRECATED_MSG_ATTRIBUTE("Deprecated. Use SFSafariViewController-based login method loginWithProvider:urlScheme:controller:animated:completion instead");
 
 /// Thread-safe login method which can be called from any thread.
 /// Logs in the current end user with given provider by presenting the
 /// SFSafariViewController with the given controller. The URL scheme of
 /// the current application is required for completing login.
+/// Login completion will always be called from the main thread.
 /// As SFSafariViewController is only available on iOS 9 or later, on old platforms,
 /// fallback to browser login. Note that there can be various reasons causing browser
 /// fail to complete the login flow (on older platforms) and login flow won't work anymore.
@@ -147,6 +148,7 @@ DEPRECATED_MSG_ATTRIBUTE("Deprecated. Use SFSafariViewController-based login met
 /// Logs in the current end user with given provider and given login parameters by presenting the
 /// SFSafariViewController with the given controller. The URL scheme of
 /// the current application is required for completing login.
+/// Login completion will always be called from the main thread.
 /// As SFSafariViewController is only available on iOS 9 or later, on old platforms,
 /// fallback to browser login. Note that there can be various reasons causing browser
 /// fail to complete the login flow (on older platforms) and login flow won't work anymore.
@@ -158,7 +160,8 @@ DEPRECATED_MSG_ATTRIBUTE("Deprecated. Use SFSafariViewController-based login met
                 animated:(BOOL)animated
               completion:(nullable MSClientLoginBlock)completion;
 
-/// Resume login process with the specified URL
+/// Thread-safe method which should only be called from the main thread.
+/// Resume login process with the specified URL.
 -(BOOL)resumeWithURL:(NSURL *)URL;
 #endif
 

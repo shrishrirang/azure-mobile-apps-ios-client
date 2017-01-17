@@ -60,30 +60,30 @@
 
 - (BOOL)resumeWithURL:(NSURL *)URL
 {
-    if (self.authState) {
+    if ([NSThread isMainThread]) {
         
-        NSURL *codeExchangeRequestURL = [self codeExchangeRequestURLFromRedirectURL:URL];
+        if (self.authState) {
+            
+            NSURL *codeExchangeRequestURL = [self codeExchangeRequestURLFromRedirectURL:URL];
 
-        if (codeExchangeRequestURL) {
-            [self codeExchangeWithURL:codeExchangeRequestURL completion:^(MSUser *user, NSError *error) {
-                if (self.safariViewController) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
+            if (codeExchangeRequestURL) {
+                [self codeExchangeWithURL:codeExchangeRequestURL completion:^(MSUser *user, NSError *error) {
+                    if (self.safariViewController) {
                         [self.safariViewController dismissViewControllerAnimated:self.authState.animated completion:^{
                             [self completeLoginWithUser:user responseError:error];
                         }];
-                    });
-                }
-                else {
-                    // For unit testing purpose only - call the completion
-                    // regardless whether self.safariViewController is null or not
-                    [self completeLoginWithUser:user responseError:error];
-                }
-            }];
+                    }
+                    else {
+                        // For unit testing purpose only - call the completion
+                        // regardless whether self.safariViewController is null or not
+                        [self completeLoginWithUser:user responseError:error];
+                    }
+                }];
 
-            return YES;
+                return YES;
+            }
         }
     }
-
     return NO;
 }
 
@@ -252,13 +252,7 @@
         return;
     }
     
-    MSClientLoginBlock loginCompletion = [self.authState.loginCompletion copy];
-
-    self.authState = nil;
-    
-    NSError *error = [self errorWithDescriptionKey:@"The login operation was canceled." andErrorCode:MSLoginCanceled];
-    
-    loginCompletion(nil, error);
+    [self completeLoginWithUser:nil responseError:[self errorWithDescriptionKey:@"The login operation was canceled." andErrorCode:MSLoginCanceled]];
 }
 
 #pragma mark * Private NSError Generation Methods
