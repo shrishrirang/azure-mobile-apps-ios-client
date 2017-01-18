@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "MicrosoftAzureMobile"
-  s.version      = "4.0.0"
+  s.version      = "3.3.0"
   s.summary      = "Client SDK for working with Azure Mobile Apps."
   s.homepage     = "http://azure.github.io/azure-mobile-apps-ios-client"
   s.license      = "Apache License, Version 2.0"
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.frameworks = "WebKit"
   s.source       = {
     :git => "https://github.com/Azure/azure-mobile-apps-ios-client.git",
-    :tag => "4.0.0"
+    :tag => "3.3.0"
   }
   s.source_files  = "sdk/src"
   s.exclude_files = "Classes/Exclude"
