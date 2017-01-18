@@ -28,8 +28,8 @@
 #import "MSTableOperationError.h"
 #import "MSUser.h"
 
-#define MicrosoftAzureMobileSdkMajorVersion 3
-#define MicrosoftAzureMobileSdkMinorVersion 2
+#define MicrosoftAzureMobileSdkMajorVersion 4
+#define MicrosoftAzureMobileSdkMinorVersion 0
 #define MicrosoftAzureMobileSdkBuildVersion 0
 
 #endif
