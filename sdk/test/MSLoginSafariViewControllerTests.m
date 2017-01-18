@@ -33,8 +33,8 @@
 
 - (NSURL *)codeExchangeRequestURLFromRedirectURL:(NSURL *)URL;
 
-- (void)codeExchangeWithURL:(NSURL *)URL;
-
+- (void)codeExchangeWithURL:(NSURL *)URL
+                 completion:(MSClientLoginBlock)completion;
 @end
 
 @implementation MSLoginSafariViewControllerTests
@@ -126,7 +126,7 @@
                                            codeVerifier:@"67890"
                                            urlScheme:@"com.example.ZumoE2ETest" animated:YES];
     
-    [loginSafariViewController codeExchangeWithURL:[[NSURL alloc] initWithString:@"https://ZumoE2ETest.example.com/.auth/login/google/token?authorization_code=12345&code_verifier=67890"]];
+    [loginSafariViewController codeExchangeWithURL:[[NSURL alloc] initWithString:@"https://ZumoE2ETest.example.com/.auth/login/google/token?authorization_code=12345&code_verifier=67890"] completion:loginCompletion];
     
     [self waitForExpectationsWithTimeout:1.0 handler:nil];
 }
@@ -139,14 +139,17 @@
     MSClient *filterClient = [client clientWithFilter:testFilter];
     
     MSLoginSafariViewController *loginSafariViewController = [[MSLoginSafariViewController alloc] initWithClient:filterClient];
-
+    MSClientLoginBlock loginCompletion = ^(MSUser *user, NSError *error) { };
+    
     loginSafariViewController.authState = [[MSAuthState alloc]
                                            initWithProvider:@"google"
-                                           loginCompletion:nil
+                                           loginCompletion:loginCompletion
                                            codeVerifier:@"67890"
                                            urlScheme:@"com.example.ZumoE2ETest" animated:YES];
     
-    [loginSafariViewController codeExchangeWithURL:[[NSURL alloc] initWithString:@"https://ZumoE2ETest.example.com/.auth/login/google/token?authorization_code=12345&code_verifier=67890"]];
+    [loginSafariViewController codeExchangeWithURL:[[NSURL alloc] initWithString:@"https://ZumoE2ETest.example.com/.auth/login/google/token?authorization_code=12345&code_verifier=67890"] completion:loginCompletion];
+    
+    XCTAssertFalse([self waitForTest:3.0], @"codeExchangeWithURL:completion should hang forever and never finish in the event of 400 error response.");
 }
 
 - (void)testCodeExchangeWithURLFailedWith500Error
@@ -171,7 +174,7 @@
                                            codeVerifier:@"67890"
                                            urlScheme:@"com.example.ZumoE2ETest" animated:YES];
     
-    [loginSafariViewController codeExchangeWithURL:[[NSURL alloc] initWithString:@"https://ZumoE2ETest.example.com/.auth/login/google/token?authorization_code=12345&code_verifier=67890"]];
+    [loginSafariViewController codeExchangeWithURL:[[NSURL alloc] initWithString:@"https://ZumoE2ETest.example.com/.auth/login/google/token?authorization_code=12345&code_verifier=67890"] completion:loginCompletion];
     
     [self waitForExpectationsWithTimeout:1.0 handler:nil];
 }
@@ -228,6 +231,23 @@
     NSURL *requestURL = [loginSafariViewController codeExchangeRequestURLFromRedirectURL:redirectURL];
     
     XCTAssertNil(requestURL);
+}
+
+#pragma mark * Async Test Helper Method
+
+- (BOOL)waitForTest:(NSTimeInterval)testDuration
+{
+    NSDate *timeoutAt = [NSDate dateWithTimeIntervalSinceNow:testDuration];
+    
+    BOOL done = NO;
+    while (!done) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:timeoutAt];
+        if([timeoutAt timeIntervalSinceNow] <= 0.0) {
+            break;
+        }
+    }
+    
+    return done;
 }
 
 @end
