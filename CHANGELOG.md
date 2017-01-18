@@ -1,5 +1,9 @@
 # Azure Mobile Apps iOS SDK Change Log
 
+### Version 4.0.0
+- Support server login flow using SafariViewController. Google recently [announced](https://developers.googleblog.com/2016/08/modernizing-oauth-interactions-in-native-apps.html) the deprecation of webview OAuth login. Going forward, all server login flow should use SafariViewController instead of webview.
+- Official support of Swift 3.0
+
 ### Version 3.2.0
 - Support Refresh Token
 - Reuse NSURLSession instance [#88](https://github.com/Azure/azure-mobile-apps-ios-client/pull/88)
