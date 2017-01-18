@@ -33,6 +33,7 @@
 		87FA8406174FE58A0089EDEA /* ZumoCustomApiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 87FA8405174FE58A0089EDEA /* ZumoCustomApiTests.m */; };
 		87FA840B17569AB90089EDEA /* TestLoggingFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 87FA840A17569AB90089EDEA /* TestLoggingFilter.m */; };
 		9C7466F11DD2B35600F6BB5F /* ZumoLoginSafariViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C7466F01DD2B35600F6BB5F /* ZumoLoginSafariViewControllerTests.m */; };
+		9C9E224F1E2E980700EC3A91 /* ZumoLoginSafariViewControllerSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E224E1E2E980700EC3A91 /* ZumoLoginSafariViewControllerSwiftTests.swift */; };
 		A20EF08A1993F1F000C64641 /* ZumoBlobConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A20EF0891993F1F000C64641 /* ZumoBlobConnection.m */; };
 		A2B509DD199ABF1A00A914CF /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2B509DC199ABF1A00A914CF /* MessageUI.framework */; };
 		A2B509E0199B376C00A914CF /* ZumoTestResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2B509DF199B376C00A914CF /* ZumoTestResultViewController.m */; };
@@ -93,6 +94,8 @@
 		87FA840A17569AB90089EDEA /* TestLoggingFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestLoggingFilter.m; sourceTree = "<group>"; };
 		9C7466F01DD2B35600F6BB5F /* ZumoLoginSafariViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZumoLoginSafariViewControllerTests.m; sourceTree = "<group>"; };
 		9C7466F21DD2B39700F6BB5F /* ZumoLoginSafariViewControllerTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZumoLoginSafariViewControllerTests.h; sourceTree = "<group>"; };
+		9C9E224D1E2E980700EC3A91 /* ZumoE2ETestApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZumoE2ETestApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		9C9E224E1E2E980700EC3A91 /* ZumoLoginSafariViewControllerSwiftTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZumoLoginSafariViewControllerSwiftTests.swift; sourceTree = "<group>"; };
 		A20EF0881993F1F000C64641 /* ZumoBlobConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZumoBlobConnection.h; sourceTree = "<group>"; };
 		A20EF0891993F1F000C64641 /* ZumoBlobConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZumoBlobConnection.m; sourceTree = "<group>"; };
 		A2B509DC199ABF1A00A914CF /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -170,6 +173,7 @@
 				A2EB9E3F199543E30032B8BC /* ZumoConfigurationViewController.m */,
 				A2B509DE199B376C00A914CF /* ZumoTestResultViewController.h */,
 				A2B509DF199B376C00A914CF /* ZumoTestResultViewController.m */,
+				9C9E224D1E2E980700EC3A91 /* ZumoE2ETestApp-Bridging-Header.h */,
 			);
 			path = ZumoE2ETestApp;
 			sourceTree = "<group>";
@@ -248,6 +252,7 @@
 				8757386918A40C2A0025024F /* ZumoTestRunSetup.m */,
 				9C7466F21DD2B39700F6BB5F /* ZumoLoginSafariViewControllerTests.h */,
 				9C7466F01DD2B35600F6BB5F /* ZumoLoginSafariViewControllerTests.m */,
+				9C9E224E1E2E980700EC3A91 /* ZumoLoginSafariViewControllerSwiftTests.swift */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -283,6 +288,7 @@
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					872B02B91672A73B003613A1 = {
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -332,6 +338,7 @@
 				872B02ED1673EE91003613A1 /* ZumoTestHelpViewController.m in Sources */,
 				A2B509E0199B376C00A914CF /* ZumoTestResultViewController.m in Sources */,
 				872B02FE1673F4CF003613A1 /* ZumoMainTableViewController.m in Sources */,
+				9C9E224F1E2E980700EC3A91 /* ZumoLoginSafariViewControllerSwiftTests.swift in Sources */,
 				872B03031673F9D4003613A1 /* ZumoTestGlobals.m in Sources */,
 				872B030D16758058003613A1 /* ZumoTestGroupTableViewController.m in Sources */,
 				8757386A18A40C2A0025024F /* ZumoTestRunSetup.m in Sources */,
@@ -401,6 +408,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -435,6 +443,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -443,7 +452,9 @@
 		872B02D91672A73B003613A1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -454,8 +465,12 @@
 				GCC_PREFIX_HEADER = "ZumoE2ETestApp/ZumoE2ETestApp-Prefix.pch";
 				INFOPLIST_FILE = "ZumoE2ETestApp/ZumoE2ETestApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.azure.test.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ZumoE2ETestApp/ZumoE2ETestApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -464,7 +479,9 @@
 		872B02DA1672A73B003613A1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -475,8 +492,11 @@
 				GCC_PREFIX_HEADER = "ZumoE2ETestApp/ZumoE2ETestApp-Prefix.pch";
 				INFOPLIST_FILE = "ZumoE2ETestApp/ZumoE2ETestApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.azure.test.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ZumoE2ETestApp/ZumoE2ETestApp-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
