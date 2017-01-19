@@ -15,9 +15,8 @@ Apps cloud backend to [iOS apps](https://azure.microsoft.com/en-us/documentation
 
 The current release of the iOS SDK for Azure Mobile Apps supports:
 
-* iOS versions 8.0 through 10.1.1
+* iOS versions 8.0 through 10.2
 * Objective-C Projects
-* Swift 2.3 Projects
 * Swift 3.0 Projects (with XCode 8.1)
 
 Other platforms may work, but have not been tested.
@@ -49,7 +48,7 @@ The SDK requires XCode 7.0 or greater.
 
 1. Add the following to your podfile to include MicrosoftAzureMobile:
 
-    `pod 'MicrosoftAzureMobile', '~> 3.2.0'`
+    `pod 'MicrosoftAzureMobile', '~> 3.3.0'`
 
 2. You can install the dependencies in your project: 
 
