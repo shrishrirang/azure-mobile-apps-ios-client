@@ -3,6 +3,8 @@
 ### Version 3.3.0
 - Support server login flow using SafariViewController. Google recently [announced](https://developers.googleblog.com/2016/08/modernizing-oauth-interactions-in-native-apps.html) the deprecation of webview OAuth login. Going forward, all server login flow should use loginWithProvider:urlScheme:controller:animated:completion that uses SafariViewController instead of loginWithProvider:controller:animated:completion that uses webview.
 - Added support for Swift 3.0
+- Specify WebKit as depended framework in podspec [6523404](https://github.com/Azure/azure-mobile-apps-ios-client/commit/6523404f5fe7239ed6e23eeb53c58e4a1c2d9f62)
+- (Code cleanup) Use Xcode auto synthesize of properties instead of explicit synthesized properties [#117](https://github.com/Azure/azure-mobile-apps-ios-client/pull/117) 
 
 ### Version 3.2.0
 - Support Refresh Token
