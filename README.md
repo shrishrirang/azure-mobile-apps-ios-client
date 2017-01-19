@@ -30,7 +30,7 @@ To get the source code of our SDKs and samples via **git** just type:
 
 ## Reference Documentation
 
-* [Client SDK](http://azure.github.io/azure-mobile-services/iOS/v3)
+* [Client SDK](http://cocoadocs.org/docsets/MicrosoftAzureMobile/)
 
 * [Change log](CHANGELOG.md)
 
