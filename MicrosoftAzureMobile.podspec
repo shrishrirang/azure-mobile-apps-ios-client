@@ -7,7 +7,6 @@ Pod::Spec.new do |s|
   s.author             = "Microsoft"
   s.social_media_url   = "http://twitter.com/AzureMobile"
   s.ios.deployment_target = "8.0"
-  s.osx.deployment_target = "10.10"
   s.frameworks = "WebKit"
   s.source       = {
     :git => "https://github.com/Azure/azure-mobile-apps-ios-client.git",
@@ -15,7 +14,6 @@ Pod::Spec.new do |s|
   }
   s.source_files  = "sdk/src"
   s.exclude_files = "Classes/Exclude"
-  s.osx.exclude_files = "sdk/src/MSLoginController.{h,m}", "sdk/src/MSLoginView.{h,m}"
   s.public_header_files = [
     "sdk/src/MicrosoftAzureMobile.h",
     "sdk/src/MSBlockDefinitions.h",
